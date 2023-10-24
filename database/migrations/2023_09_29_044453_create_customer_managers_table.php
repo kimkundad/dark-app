@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('codeuser')->nullable();
             $table->string('nickname')->nullable();
             $table->string('phone')->nullable();
+            $table->string('phone2')->nullable();
             $table->string('sex')->nullable();
             $table->string('hbd')->nullable();
             $table->string('email')->nullable();
@@ -32,6 +33,7 @@ return new class extends Migration
             $table->string('zip_code')->nullable();
             $table->string('district')->nullable();
             $table->string('avatar')->nullable();
+            $table->integer('channels')->default('0');
             $table->integer('status')->default('0');
             $table->integer('lock_avatar')->default('0');
             $table->timestamps();

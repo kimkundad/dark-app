@@ -6,6 +6,7 @@
 <!--end::Global Javascript Bundle-->
 <!--begin::Vendors Javascript(used for this page only)-->
 <script src="{{ url('admin/assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
+<script src="{{ url('admin/assets/plugins/custom/formrepeater/formrepeater.bundle.js') }}"></script>
 <!--end::Vendors Javascript-->
 <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
 		<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>

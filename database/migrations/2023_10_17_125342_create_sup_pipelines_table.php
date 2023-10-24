@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('transports', function (Blueprint $table) {
+        Schema::create('sup_pipelines', function (Blueprint $table) {
             $table->id();
-            $table->string('transportname')->nullable();
-            $table->string('transport_img')->nullable();
-            $table->integer('status')->default('0');
+            $table->string('name')->nullable();
+            $table->integer('sort')->default('0');
+            $table->integer('pipe_id')->default('0');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transports');
+        Schema::dropIfExists('sup_pipelines');
     }
 };

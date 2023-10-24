@@ -105,7 +105,7 @@
                                             </div>
                                         </td>
                                         <td >
-                                            <a href="#" class="text-dark fw-bold text-hover-primary d-block mb-1 fs-6">0</a>
+                                            <a href="#" class="text-dark fw-bold text-hover-primary d-block mb-1 fs-6">{{ $item->option }}</a>
                                         </td>
                                         <td >
                                             @if($item->status == 1)

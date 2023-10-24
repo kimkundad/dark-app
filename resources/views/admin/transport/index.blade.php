@@ -44,7 +44,7 @@
                     
                     <div class="m-0">
                         <!--begin::Menu toggle-->
-                        <a href="#" class="btn btn-sm btn-success btn-flex" >
+                        <a href="{{ url('admin/transport/create') }}" class="btn btn-sm btn-success btn-flex" >
                         <!--begin::Svg Icon | path: icons/duotune/general/gen031.svg-->
                         <span class="svg-icon svg-icon-1">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -90,29 +90,35 @@
                                 <!--end::Table head-->
                                 <!--begin::Table body-->
                                 <tbody >
+                                    @isset($objs)
+                                    @foreach($objs as $item)
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 <div class="symbol symbol-45px me-5">
-                                                    <img alt="Pic" src="assets/media/product/kerryexpress.png">
+                                                    <img src="{{ url('images/dark-app/transport/'.$item->transport_img) }}" alt="{{ $item->transportname }}">
                                                 </div>
                                                 <!--begin::Name-->
                                                 <div class="d-flex justify-content-start flex-column">
-                                                    <a href="#" class="text-dark fw-bold text-hover-primary mb-1 fs-6">Kerry Express</a>
+                                                    <a href="#" class="text-dark fw-bold text-hover-primary mb-1 fs-6">{{ $item->transportname }}</a>
                                                 </div>
                                                 <!--end::Name-->
                                             </div>
                                         </td>
                                         
                                         <td >
+                                            @if($item->status == 1)
                                             <span class="badge badge-light-success">เปิดใช้งาน</span>
+                                            @else
+                                            <span class="badge badge-light-danger">ปิดใช้งาน</span>
+                                            @endif
                                         </td>
                                        
                                        
-                                        <td class="text-muted ">2023-09-21 23:01:50</td>
+                                        <td class="text-muted ">{{ $item->created_at }}</td>
                                         <td class="text-end">
                                             
-                                            <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                            <a href="{{url('admin/transport/'.$item->id.'/edit')}}" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                                 <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                                 <span class="svg-icon svg-icon-3">
                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -122,7 +128,7 @@
                                                 </span>
                                                 <!--end::Svg Icon-->
                                             </a>
-                                            <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
+                                            <a href="{{ url('api/del_transport/'.$item->id) }}" onclick="return confirm('คุณต้องการลบข้อมูลนี้ใช่ไหม?')" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
                                                 <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                                 <span class="svg-icon svg-icon-3">
                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -135,11 +141,14 @@
                                             </a>
                                         </td>
                                     </tr>
+                                    @endforeach
+                                    @endisset
                                 </tbody>
                                 <!--end::Table body-->
                             </table>
                             <!--end::Table-->
                         </div>
+                        @include('admin.pagination.default', ['paginator' => $objs])
                     </div>
                 </div>
                 

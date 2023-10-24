@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\customer_manager;
+use App\Models\sale_contact;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -23,7 +24,10 @@ class CustomerController extends Controller
             'customer_managers.*',
             'customer_managers.id as id_q',
             'customer_managers.created_at as created_ats',
+            'sale_contacts.sale_img',
+            'sale_contacts.salename'
             )
+            ->leftjoin('sale_contacts', 'sale_contacts.id',  'customer_managers.channels')
             ->orderby('customer_managers.created_at', 'desc')
             ->paginate(15);
 
@@ -40,6 +44,8 @@ class CustomerController extends Controller
     public function create()
     {
         //
+        $cat = sale_contact::where('status', 1)->get();
+        $data['cat'] = $cat;
         $data['method'] = "post";
         $data['url'] = url('admin/customer_manager');
         return view('admin.customer_manager.create', $data);
@@ -86,6 +92,7 @@ class CustomerController extends Controller
            $objs->fullname = $request['fullname'];
            $objs->codeuser = $codeuser;
            $objs->phone = $request['phone'];
+           $objs->phone2 = $request['phone2'];
            $objs->sex = $request['sex'];
            $objs->type_address = $request['type_address'];
            $objs->address = $request['address'];
@@ -117,6 +124,7 @@ class CustomerController extends Controller
            $objs->fullname = $request['fullname'];
            $objs->codeuser = $codeuser;
            $objs->phone = $request['phone'];
+           $objs->phone2 = $request['phone2'];
            $objs->sex = $request['sex'];
            $objs->type_address = $request['type_address'];
            $objs->address = $request['address'];
@@ -160,6 +168,8 @@ class CustomerController extends Controller
     public function edit($id)
     {
         //
+        $cat = sale_contact::where('status', 1)->get();
+        $data['cat'] = $cat;
         $objs = customer_manager::find($id);
         $data['url'] = url('admin/customer_manager/'.$id);
         $data['method'] = "put";
@@ -208,6 +218,7 @@ class CustomerController extends Controller
            $objs = customer_manager::find($id);
            $objs->fullname = $request['fullname'];
            $objs->phone = $request['phone'];
+           $objs->phone2 = $request['phone2'];
            $objs->sex = $request['sex'];
            $objs->type_address = $request['type_address'];
            $objs->address = $request['address'];
@@ -249,6 +260,7 @@ class CustomerController extends Controller
                 $objs = customer_manager::find($id);
                 $objs->fullname = $request['fullname'];
                 $objs->phone = $request['phone'];
+                $objs->phone2 = $request['phone2'];
                 $objs->sex = $request['sex'];
                 $objs->type_address = $request['type_address'];
                 $objs->address = $request['address'];

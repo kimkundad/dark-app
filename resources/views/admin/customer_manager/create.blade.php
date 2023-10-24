@@ -111,8 +111,8 @@
                                         @endif
                                     </div>
                                     <div class="col-lg-6 fv-row fv-plugins-icon-container">
-                                        <label class="col-lg-4 col-form-label fw-semibold fs-6">ชื่อเล่น</label>
-                                        <input type="text" name="nickname" class="form-control form-control-lg form-control-solid" placeholder="กรุณากรอกชื่อเล่น..." value="{{old('nickname') ? old('nickname') : ''}}">
+                                        <label class="col-lg-4 col-form-label fw-semibold fs-6">ชื่อโซเชียล</label>
+                                        <input type="text" name="nickname" class="form-control form-control-lg form-control-solid" placeholder="กรุณากรอกชื่อโซเชียล..." value="{{old('nickname') ? old('nickname') : ''}}">
                                     
                                     </div>
                                  
@@ -130,11 +130,14 @@
                                             </div>
                                         @endif
                                     </div>
+
                                     <div class="col-lg-6 fv-row fv-plugins-icon-container">
-                                        <label class="col-lg-4 col-form-label fw-semibold fs-6">อีเมล</label>
-                                        <input type="text" name="email" class="form-control form-control-lg form-control-solid" placeholder="กรุณากรอกอีเมล..." value="{{old('email') ? old('email') : ''}}">
+                                        <label class="col-lg-4 col-form-label fw-semibold fs-6">เบอร์โทรศัพท์ 2</label>
+                                        <input type="text" name="phone2" class="form-control form-control-lg form-control-solid" placeholder="กรุณากรอกเบอร์ติดต่อ..." value="{{old('phone2') ? old('phone2') : ''}}">
                                     
                                     </div>
+
+                                    
                                  
                                 </div>
 
@@ -169,6 +172,28 @@
                                     
                                     </div>
                                  
+                                </div>
+
+
+                                <div class="row mb-6">
+
+                                    <div class="col-lg-6 fv-row fv-plugins-icon-container">
+                                        <label class="col-lg-4 col-form-label fw-semibold fs-6">อีเมล</label>
+                                        <input type="text" name="email" class="form-control form-control-lg form-control-solid" placeholder="กรุณากรอกอีเมล..." value="{{old('email') ? old('email') : ''}}">
+                                    
+                                    </div>
+
+                                    <div class="col-lg-6 fv-row fv-plugins-icon-container">
+                                        <label class="col-lg-4 col-form-label required fw-semibold fs-6">ช่องทางการขาย </label>
+                                        <select class="form-select" name="channels">
+                                            @isset($cat)
+                                            @foreach($cat as $u)
+                                            <option value="{{$u->id}}">{{$u->salename}}</option>
+                                            @endforeach
+                                            @endisset
+                                        </select>
+                                    </div>
+
                                 </div>
 
 
@@ -223,6 +248,7 @@
                                         <label class="col-lg-4 col-form-label required fw-semibold fs-6">ประเภทที่อยู่อาศัย </label>
                                         <select class="form-select" name="type_address" aria-label="Select example">
                                             <option>กรุณาเลือกประเภทที่อยู่...</option>
+                                            <option value="ไม่ระบุ">ไม่ระบุ</option>
                                             <option value="บ้านเดี่ยว">บ้านเดี่ยว</option>
                                             <option value="อาคารพาณิชย์ ">อาคารพาณิชย์ </option>
                                             <option value="ทาวน์เฮาส์ ">ทาวน์เฮาส์ </option>

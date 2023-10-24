@@ -5,6 +5,11 @@ use App\Http\Controllers\MyUserController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SaleContactController;
+use App\Http\Controllers\TransportController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PipeLineController;
+use App\Http\Controllers\LeadImportController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,9 +45,11 @@ Route::group(['middleware' => ['UserRole:superadmin|admin']], function() {
 
     Route::get('/admin/dashboard', [App\Http\Controllers\DashboardController::class, 'index']);
 
-    Route::get('/admin/pipeline', function () {
-    return view('admin.pipeline.index');
-    });
+    Route::post('file-import', [LeadImportController::class, 'fileImport'])->name('file-import');
+
+    Route::resource('/admin/pipeline', PipeLineController::class);
+    Route::post('/api/api_post_status_pipeline', [App\Http\Controllers\PipeLineController::class, 'api_post_status_pipeline']);
+    Route::get('api/del_pipeline/{id}', [App\Http\Controllers\PipeLineController::class, 'del_pipeline']);
 
     Route::get('/admin/create_lead', function () {
         return view('admin.create_lead.index');
@@ -74,9 +81,10 @@ Route::group(['middleware' => ['UserRole:superadmin|admin']], function() {
     Route::post('/api/api_post_status_customer', [App\Http\Controllers\CustomerController::class, 'api_post_status_customer']);
     Route::get('api/del_customer/{id}', [App\Http\Controllers\CustomerController::class, 'del_MyUser']);
 
-    Route::get('/admin/product_manager', function () {
-        return view('admin.product_manager.index');
-    });
+
+    Route::resource('/admin/product_manager', ProductController::class);
+    Route::post('/api/api_post_status_product_manager', [App\Http\Controllers\ProductController::class, 'api_post_status_product_manager']);
+    Route::get('api/del_product_manager/{id}', [App\Http\Controllers\ProductController::class, 'del_product_manager']);
 
     Route::resource('/admin/category', CategoryController::class);
     Route::post('/api/api_post_status_category', [App\Http\Controllers\CategoryController::class, 'api_post_status_category']);
@@ -85,11 +93,9 @@ Route::group(['middleware' => ['UserRole:superadmin|admin']], function() {
     Route::resource('/admin/sale_contact', SaleContactController::class);
     Route::post('/api/api_post_status_sale_contact', [App\Http\Controllers\SaleContactController::class, 'api_post_status_sale_contact']);
     Route::get('api/del_sale_contact/{id}', [App\Http\Controllers\SaleContactController::class, 'del_sale_contact']);
-    
 
-
-    Route::get('/admin/transport', function () {
-        return view('admin.transport.index');
-    });
+    Route::resource('/admin/transport', TransportController::class);
+    Route::post('/api/api_post_status_transport', [App\Http\Controllers\TransportController::class, 'api_post_status_transport']);
+    Route::get('api/del_transport/{id}', [App\Http\Controllers\TransportController::class, 'del_transport']);
 
 });

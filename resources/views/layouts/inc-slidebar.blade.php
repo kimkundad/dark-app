@@ -273,7 +273,7 @@
                 </div>
                 <div class="menu-item">
                     <!--begin:Menu link-->
-                    <a class="menu-link {{ (request()->is('admin/product_manager')) ? 'active' : '' }}" href="{{ url('/admin/product_manager')}}">
+                    <a class="menu-link {{ (request()->is('admin/product_manager*')) ? 'active' : '' }}" href="{{ url('/admin/product_manager')}}">
                         <span class="menu-icon">
                             <!--begin::Svg Icon | path: icons/duotune/general/gen014.svg-->
                             <span class="svg-icon svg-icon-2"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -325,7 +325,7 @@
                 </div>
                 <div class="menu-item">
                     <!--begin:Menu link-->
-                    <a class="menu-link {{ (request()->is('admin/transport')) ? 'active' : '' }}" href="{{ url('/admin/transport')}}">
+                    <a class="menu-link {{ (request()->is('admin/transport*')) ? 'active' : '' }}" href="{{ url('/admin/transport')}}">
                         <span class="menu-icon">
                             <!--begin::Svg Icon | path: icons/duotune/general/gen014.svg-->
                             <span class="svg-icon svg-icon-2">

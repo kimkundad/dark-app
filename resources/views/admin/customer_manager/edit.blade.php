@@ -111,8 +111,8 @@
                                         @endif
                                     </div>
                                     <div class="col-lg-6 fv-row fv-plugins-icon-container">
-                                        <label class="col-lg-4 col-form-label fw-semibold fs-6">ชื่อเล่น</label>
-                                        <input type="text" name="nickname" class="form-control form-control-lg form-control-solid" placeholder="กรุณากรอกชื่อเล่น..." value="{{ $objs->nickname }}"">
+                                        <label class="col-lg-4 col-form-label fw-semibold fs-6">ชื่อโซเชียล</label>
+                                        <input type="text" name="nickname" class="form-control form-control-lg form-control-solid" placeholder="กรุณากรอกชื่อโซเชียล..." value="{{ $objs->nickname }}"">
                                     
                                     </div>
                                  
@@ -130,9 +130,11 @@
                                             </div>
                                         @endif
                                     </div>
+
+
                                     <div class="col-lg-6 fv-row fv-plugins-icon-container">
-                                        <label class="col-lg-4 col-form-label fw-semibold fs-6">อีเมล</label>
-                                        <input type="text" name="email" class="form-control form-control-lg form-control-solid" placeholder="กรุณากรอกอีเมล..." value="{{ $objs->email }}">
+                                        <label class="col-lg-4 col-form-label required fw-semibold fs-6">เบอร์โทรศัพท์ </label>
+                                        <input type="text" name="phone2" class="form-control form-control-lg form-control-solid" placeholder="กรุณากรอกเบอร์ติดต่อ..." value="{{ $objs->phone2 }}">
                                     
                                     </div>
                                  
@@ -169,6 +171,30 @@
                                     
                                     </div>
                                  
+                                </div>
+
+                                <div class="row mb-6">
+
+                                    <div class="col-lg-6 fv-row fv-plugins-icon-container">
+                                        <label class="col-lg-4 col-form-label fw-semibold fs-6">อีเมล</label>
+                                        <input type="text" name="email" class="form-control form-control-lg form-control-solid" placeholder="กรุณากรอกอีเมล..." value="{{ $objs->email }}">
+                                    
+                                    </div>
+
+
+                                    <div class="col-lg-6 fv-row fv-plugins-icon-container">
+                                        <label class="col-lg-4 col-form-label required fw-semibold fs-6">ช่องทางการขาย </label>
+                                        <select class="form-select" name="channels">
+                                            @isset($cat)
+                                            @foreach($cat as $u)
+                                            <option value="{{$u->id}}" @if( $objs->channels == $u->id)
+                                                selected='selected'
+                                                @endif>{{$u->salename}}</option>
+                                            @endforeach
+                                            @endisset
+                                        </select>
+                                    </div>
+
                                 </div>
 
 

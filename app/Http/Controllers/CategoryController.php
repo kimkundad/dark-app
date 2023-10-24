@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\category;
+use App\Models\product;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -19,6 +20,14 @@ class CategoryController extends Controller
     {
         //
         $objs = category::paginate(30);
+
+        if(isset($objs)){
+            foreach($objs as $u){
+                $count = product::where('cat_id', $u->id)->count();
+                $u->option = $count;
+            }
+        }
+
         $objs->setPath('');
         $data['objs'] = $objs;
         return view('admin.category_manager.index', compact('objs'));

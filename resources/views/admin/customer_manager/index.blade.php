@@ -5,6 +5,17 @@
 @stop
 @section('stylesheet')
 
+<style>
+    .symbol.symbol-50px .symbol-label {
+    width: 30px;
+    height: 30px;
+}
+.symbol.symbol-45px>img {
+    width: 30px;
+    height: 30px;
+}
+</style>
+
 @stop('stylesheet')
 
 @section('content')
@@ -120,7 +131,18 @@
                                 @if(isset($objs))
                                 @foreach($objs as $u)
                                 <tr id="{{$u->id_q}}">
-                                    <td></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="symbol symbol-45px me-5">
+                                                <img src="{{ url('images/dark-app/saleContact/'.$u->sale_img) }}" alt="{{ $u->salename }}">
+                                            </div>
+                                            <!--begin::Name-->
+                                            <div class="d-flex justify-content-start flex-column">
+                                                <a href="#" class="text-dark fw-bold text-hover-primary mb-1 fs-6">{{ $u->salename }}</a>
+                                            </div>
+                                            <!--end::Name-->
+                                        </div>
+                                    </td>
                                     <td>
                                         {{ $u->codeuser }}
                                     </td>

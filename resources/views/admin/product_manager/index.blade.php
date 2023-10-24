@@ -44,7 +44,7 @@
                     
                     <div class="m-0">
                         <!--begin::Menu toggle-->
-                        <a href="#" class="btn btn-sm btn-success btn-flex" >
+                        <a href="{{ url('admin/product_manager/create') }}" class="btn btn-sm btn-success btn-flex" >
                         <!--begin::Svg Icon | path: icons/duotune/general/gen031.svg-->
                         <span class="svg-icon svg-icon-1">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -118,37 +118,43 @@
                                 <!--end::Table head-->
                                 <!--begin::Table body-->
                                 <tbody >
+                                    @if(isset($objs))
+                                    @foreach($objs as $u)
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 <!--begin::Avatar-->
                                                 <div class="symbol symbol-45px me-5">
-                                                    <img alt="Pic" src="assets/media/products/8.png">
+                                                    <img src="{{ url('images/dark-app/product/'.$u->pro_img) }}">
                                                 </div>
                                                 <!--end::Avatar-->
                                                 <!--begin::Name-->
                                                 <div class="d-flex justify-content-start flex-column">
-                                                    <a href="#" class="text-dark fw-bold text-hover-primary mb-1 fs-6">สเปรย์หลั่งช้า เพิ่มความแข็ง</a>
+                                                    <a href="#" class="text-dark fw-bold text-hover-primary mb-1 fs-6">{{ $u->pro_name }}</a>
                                                     <a href="#" class="text-muted text-hover-primary fw-semibold text-muted d-block fs-7">
-                                                    <span class="text-dark">รหัสสินค้า</span>: 9767050093</a>
+                                                    <span class="text-dark">รหัสสินค้า</span>: {{ $u->pro_code }}</a>
                                                 </div>
                                                 <!--end::Name-->
                                             </div>
                                         </td>
                                         <td >
-                                            <a href="#" class="text-dark fw-bold text-hover-primary d-block mb-1 fs-6">560,000</a>
+                                            <a href="#" class="text-dark fw-bold text-hover-primary d-block mb-1 fs-6">{{ number_format($u->price,2) }}</a>
                                         </td>
                                         <td >
+                                            @if($u->status1 == 1)
                                             <span class="badge badge-light-success">เปิดใช้งาน</span>
+                                            @else
+                                            <span class="badge badge-light-danger">ปิดใช้งาน</span>
+                                            @endif
                                         </td>
-                                        <td class="text-muted fw-semibold ">สินค้าแบบตัวเลือก</td>
+                                        <td class="text-muted fw-semibold ">{{ $u->catname }}</td>
                                         <td >
-                                            <a href="#" class="text-dark fw-bold text-hover-primary d-block mb-1 fs-6">450</a>
+                                            <a href="#" class="text-dark fw-bold text-hover-primary d-block mb-1 fs-6">{{ $u->total }}</a>
                                         </td>
-                                        <td class="text-muted ">2023-09-21 23:01:50</td>
+                                        <td class="text-muted ">{{ $u->created_at }}</td>
                                         <td class="text-end">
                                             
-                                            <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                            <a href="{{url('admin/product_manager/'.$u->id_q.'/edit')}}" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                                 <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                                 <span class="svg-icon svg-icon-3">
                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -158,7 +164,7 @@
                                                 </span>
                                                 <!--end::Svg Icon-->
                                             </a>
-                                            <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
+                                            <a href="{{ url('api/del_product_manager/'.$u->id_q) }}" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
                                                 <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                                 <span class="svg-icon svg-icon-3">
                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -171,6 +177,8 @@
                                             </a>
                                         </td>
                                     </tr>
+                                    @endforeach
+                                    @endif
                                 </tbody>
                                 <!--end::Table body-->
                             </table>
