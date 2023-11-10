@@ -108,6 +108,7 @@ class CustomerController extends Controller
            $objs->hbd = $request['hbd'];
            $objs->email = $request['email'];
            $objs->line = $request['line'];
+           $objs->channels = $request['channels'];
            $objs->save();
 
         }else{
@@ -140,6 +141,7 @@ class CustomerController extends Controller
            $objs->hbd = $request['hbd'];
            $objs->email = $request['email'];
            $objs->line = $request['line'];
+           $objs->channels = $request['channels'];
            $objs->save();
 
         }
@@ -232,6 +234,7 @@ class CustomerController extends Controller
            $objs->hbd = $request['hbd'];
            $objs->email = $request['email'];
            $objs->line = $request['line'];
+           $objs->channels = $request['channels'];
            $objs->save();
 
             }else{
@@ -275,6 +278,7 @@ class CustomerController extends Controller
                 $objs->email = $request['email'];
                 $objs->line = $request['line'];
                 $objs->avatar = $image->hashName();
+                $objs->channels = $request['channels'];
                 $objs->save();
 
             }

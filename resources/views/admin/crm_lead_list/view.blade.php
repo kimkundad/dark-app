@@ -34,7 +34,7 @@
                     <!--begin::Filter menu-->
                     <div class="m-0">
                         <!--begin::Menu toggle-->
-                        <a href="#" class="btn btn-sm btn-success btn-flex" >
+                        <a href="{{ url('admin/create_lead') }}" class="btn btn-sm btn-success btn-flex" >
                         <!--begin::Svg Icon | path: icons/duotune/general/gen031.svg-->
                         <span class="svg-icon svg-icon-1">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -148,15 +148,12 @@
                                     </th>
                                     <th class="min-w-175px">ชื่อลูกค้า</th>
                                     <th class="min-w-100px">ช่องทาง</th>
-                                    <th>หมายเลขคำสั่งซื้อ</th>
                                     <th class="text-end min-w-100px">เบอร์ติดต่อ</th>
                                     <th class="text-end min-w-100px">ผู้ดูแล</th>
                                     <th class="text-end min-w-100px">Pipeline</th>
-                                    <th class="text-end min-w-100px">ยอดสุทธิ </th>
-                                    <th>หมายเลขพัสดุ</th>
-                                    <th>จำนวน</th>
-                                    <th class="text-end min-w-100px">สถานะคำสั่งซื้อ</th>
-                                    <th class="text-end min-w-100px">วันที่สั่งซื้อ</th>
+                                    <th class="text-end min-w-100px">สถานะ</th>
+                                    <th class="text-end min-w-100px">วันหมดอายุ</th>
+                                    <th class="text-end min-w-100px">สร้างเมื่อ</th>
                                     <th class="text-end min-w-100px">Actions</th>
                                 </tr>
                                 <!--end::Table row-->
@@ -204,7 +201,6 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td>{{ $u->code_lead_lists }}</td>
                                     <!--begin::Status=-->
                                     <td class="text-end pe-0">
                                         <span >{{ $u->phones }}</span>
@@ -224,26 +220,18 @@
                                         <!--end::Badges-->
                                     </td>
                                     <!--end::Total=-->
-                                    <!--begin::Date Added=-->
-                                    <td class="text-end" >
-                                        {{ number_format($u->sum_price_final,2) }}
-                                    </td>
-                                    <td class="text-end" >
-                                        {{ $u->tracking_no }}
-                                    </td>
-                                    <td class="text-end" >
-                                        {{ $u->total_sale }}
-                                    </td>
-                                    <!--end::Date Added=-->
                                     <!--begin::Date Modified=-->
                                     
                                     <td class="text-end pe-0" data-order="Completed">
                                         <!--begin::Badges-->
-                                        <div class="badge badge-light-primary">{{ $u->lead_lists_status_sale }}</div>
+                                        <div class="badge badge-light-primary">ว่างๆ</div>
                                         <!--end::Badges-->
                                     </td>
                                     <td class="text-end" data-order="2022-10-05">
-                                        <span style="font-size: 12px;">{{ $u->order_date }}</span>
+                                        <span style="font-size: 12px;">{{ $u->end_date }}</span>
+                                    </td>
+                                    <td class="text-end" data-order="2022-10-05">
+                                        <span style="font-size: 12px;">{{ $u->created_ats }}</span>
                                     </td>
                                     <!--end::Date Modified=-->
                                     <!--begin::Action=-->

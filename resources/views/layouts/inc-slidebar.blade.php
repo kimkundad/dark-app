@@ -92,7 +92,7 @@
                 </div>
                 <div class="menu-item">
                     <!--begin:Menu link-->
-                    <a class="menu-link {{ (request()->is('admin/pipeline')) ? 'active' : '' }}" href="{{ url('/admin/pipeline')}}">
+                    <a class="menu-link {{ (request()->is('admin/pipeline*')) ? 'active' : '' }}" href="{{ url('/admin/pipeline')}}">
                         <span class="menu-icon">
                             <!--begin::Svg Icon | path: icons/duotune/general/gen014.svg-->
                             <span class="svg-icon svg-icon-2">
@@ -159,7 +159,7 @@
                 </div>
                 <div class="menu-item">
                     <!--begin:Menu link-->
-                    <a class="menu-link {{ (request()->is('admin/crm_lead_list')) ? 'active' : '' }}" href="{{ url('/admin/crm_lead_list')}}">
+                    <a class="menu-link {{ (request()->is('admin/crm_lead_list*')) ? 'active' : '' }}" href="{{ url('/admin/crm_lead_list')}}">
                         <span class="menu-icon">
                             <!--begin::Svg Icon | path: icons/duotune/general/gen014.svg-->
                             <span class="svg-icon svg-icon-2"><svg width="24" height="24"

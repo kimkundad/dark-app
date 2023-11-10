@@ -165,8 +165,17 @@ class PipeLineController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function del_pipeline($id)
     {
         //
+
+            $objs = DB::table('sup_pipelines')
+            ->where('pipe_id', $id)
+            ->delete();
+
+            $obj = pipeline::find($id);
+            $obj->delete();
+
+            return redirect(url('admin/pipeline/'))->with('del_success','คุณทำการลบอสังหา สำเร็จ');
     }
 }

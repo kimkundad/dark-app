@@ -9,6 +9,7 @@ use App\Http\Controllers\TransportController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PipeLineController;
 use App\Http\Controllers\LeadImportController;
+use App\Http\Controllers\CrmLeadListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,9 @@ Route::group(['middleware' => ['UserRole:superadmin|admin']], function() {
     Route::resource('/admin/pipeline', PipeLineController::class);
     Route::post('/api/api_post_status_pipeline', [App\Http\Controllers\PipeLineController::class, 'api_post_status_pipeline']);
     Route::get('api/del_pipeline/{id}', [App\Http\Controllers\PipeLineController::class, 'del_pipeline']);
+    Route::post('/admin/change_pipe', [App\Http\Controllers\CrmLeadListController::class, 'change_pipe']);
+    Route::post('/admin/add_new_pipeline_edit/{id}', [App\Http\Controllers\CrmLeadListController::class, 'add_new_pipeline_edit']);
+    Route::post('/admin/add_timeline_pipeline/{id}', [App\Http\Controllers\CrmLeadListController::class, 'add_timeline_pipeline']);
 
     Route::get('/admin/create_lead', function () {
         return view('admin.create_lead.index');
@@ -59,9 +63,13 @@ Route::group(['middleware' => ['UserRole:superadmin|admin']], function() {
         return view('admin.lead_import.index');
     });
 
-    Route::get('/admin/crm_lead_list', function () {
-        return view('admin.crm_lead_list.index');
-    });
+    Route::get('/admin/crm_lead_list', [App\Http\Controllers\CrmLeadListController::class, 'view']);
+
+    Route::get('/admin/crm_lead_list_order', [App\Http\Controllers\CrmLeadListController::class, 'index']);
+
+    Route::get('/admin/crm_lead_list_view2/{id}', [App\Http\Controllers\CrmLeadListController::class, 'crm_lead_list_view2']);
+
+    Route::get('/admin/crm_lead_list_view/{id}', [App\Http\Controllers\CrmLeadListController::class, 'crm_lead_list_view']);
 
     Route::get('/admin/crm_lead_follow', function () {
         return view('admin.crm_lead_follow.index');
