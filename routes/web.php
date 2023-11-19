@@ -31,6 +31,8 @@ use App\Http\Controllers\TambonController;
 
 Auth::routes();
 
+Route::get('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+
 Route::get('api/provinces', [App\Http\Controllers\TambonController::class , 'getProvinces' ]);
 Route::get('api/amphoes', [App\Http\Controllers\TambonController::class , 'getAmphoes' ]);
 Route::get('api/tambons', [App\Http\Controllers\TambonController::class , 'getTambons' ]);
