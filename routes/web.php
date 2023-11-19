@@ -10,6 +10,9 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PipeLineController;
 use App\Http\Controllers\LeadImportController;
 use App\Http\Controllers\CrmLeadListController;
+use App\Http\Controllers\crmLeadFollowController;
+use App\Http\Controllers\OrderListController;
+use App\Http\Controllers\TambonController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +30,11 @@ use App\Http\Controllers\CrmLeadListController;
 // });
 
 Auth::routes();
+
+Route::get('api/provinces', [App\Http\Controllers\TambonController::class , 'getProvinces' ]);
+Route::get('api/amphoes', [App\Http\Controllers\TambonController::class , 'getAmphoes' ]);
+Route::get('api/tambons', [App\Http\Controllers\TambonController::class , 'getTambons' ]);
+Route::get('api/zipcodes', [App\Http\Controllers\TambonController::class, 'getZipcodes'] );
 
 Route::get('/images/{file}', function ($file) {
 	$url = Storage::disk('do_spaces')->temporaryUrl(
@@ -55,14 +63,13 @@ Route::group(['middleware' => ['UserRole:superadmin|admin']], function() {
     Route::post('/admin/add_new_pipeline_edit/{id}', [App\Http\Controllers\CrmLeadListController::class, 'add_new_pipeline_edit']);
     Route::post('/admin/add_timeline_pipeline/{id}', [App\Http\Controllers\CrmLeadListController::class, 'add_timeline_pipeline']);
 
-    Route::get('/admin/create_lead', function () {
-        return view('admin.create_lead.index');
-    });
-
     Route::get('/admin/lead_import', function () {
         return view('admin.lead_import.index');
     });
 
+
+    Route::get('/admin/all_orders', [App\Http\Controllers\CrmLeadListController::class, 'all_orders']);
+    Route::get('/admin/waiting_distribute_crm', [App\Http\Controllers\CrmLeadListController::class, 'waiting_distribute_crm']);
     Route::get('/admin/crm_lead_list', [App\Http\Controllers\CrmLeadListController::class, 'view']);
 
     Route::get('/admin/crm_lead_list_order', [App\Http\Controllers\CrmLeadListController::class, 'index']);
@@ -71,13 +78,20 @@ Route::group(['middleware' => ['UserRole:superadmin|admin']], function() {
 
     Route::get('/admin/crm_lead_list_view/{id}', [App\Http\Controllers\CrmLeadListController::class, 'crm_lead_list_view']);
 
-    Route::get('/admin/crm_lead_follow', function () {
-        return view('admin.crm_lead_follow.index');
-    });
+    Route::post('/api/api_post_status_follow', [App\Http\Controllers\crmLeadFollowController::class, 'api_post_status_follow']);
+    Route::post('/admin/add_following_pipe/{id}', [App\Http\Controllers\crmLeadFollowController::class, 'add_following_pipe']);
+    Route::get('/admin/crm_lead_follow/', [App\Http\Controllers\crmLeadFollowController::class, 'crm_lead_follow']);
+    // Route::get('/admin/crm_lead_follow', function () {
+    //     return view('admin.crm_lead_follow.index');
+    // });
 
-    Route::get('/admin/crm_lead_status', function () {
-        return view('admin.crm_lead_status.index');
-    });
+    Route::post('/admin/post_new_lead/', [App\Http\Controllers\OrderListController::class, 'post_new_lead']);
+    Route::get('/admin/create_lead/', [App\Http\Controllers\OrderListController::class, 'create_lead']);
+    Route::post('/admin/post_new_order/{id}', [App\Http\Controllers\OrderListController::class, 'post_new_order']);
+    Route::get('/admin/add_order_list/{id}', [App\Http\Controllers\OrderListController::class, 'add_order_list']);
+
+    Route::get('/admin/crm_lead_status', [App\Http\Controllers\CrmLeadListController::class, 'crm_lead_status']);
+
 
     Route::resource('/admin/user_manager', MyUserController::class);
     Route::post('/api/api_post_status_MyUser', [App\Http\Controllers\MyUserController::class, 'api_post_status_MyUser']);

@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('sup_pipelines', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
+            $table->string('day')->nullable();
             $table->integer('sort')->default('0');
             $table->integer('pipe_id')->default('0');
             $table->timestamps();

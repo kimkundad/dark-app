@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('lead_lists', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id')->default('0'); // user id
+            $table->string('name_customer')->nullable(); // ชื่อลูกค้า
+            $table->string('phone_customer')->nullable(); // ชื่อลูกค้า
             $table->integer('pip_id')->default('0'); // pipeline id
             $table->integer('lead_lists_channels')->default('0'); //ช่องทางการขาย
             $table->string('type_sale_lead_lists')->nullable(); // ประเภทคำสั่งซื้อ
@@ -49,6 +51,7 @@ return new class extends Migration
             $table->integer('upsale_id')->default('0'); // id พนักงานอัพเซล
             $table->integer('lead_main_id')->default('0'); // id พนักงานอัพเซล 
             $table->integer('pro_id')->default('0'); // pro_id
+            $table->integer('lead_lists_statusx')->default('0');
             $table->timestamps();
         });
     }

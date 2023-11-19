@@ -145,6 +145,7 @@
                             </table>
                             <!--end::Table-->
                         </div>
+                        @include('admin.pagination.default', ['paginator' => $objs])
                         <!--end::Table container-->
                     </div>
                     <!--begin::Body-->

@@ -58,7 +58,8 @@
                             
                             <div class="card-body border-top p-9">
 
-                            
+                                
+
                                 <div class="row mb-6">
                                     <!--begin::Label-->
                                     <label class="col-lg-4 col-form-label required fw-semibold fs-6">ชื่อ PipeLine</label>
@@ -77,6 +78,20 @@
                                 </div>
 
                                 <hr>
+                                
+                                <!--begin::Alert-->
+                                <div class="alert alert-primary d-flex align-items-center p-5">
+
+                                    <!--begin::Wrapper-->
+                                    <div class="d-flex flex-column">
+
+                                        <!--begin::Content-->
+                                        <span>ช่องจำนวนห่างของวันอันสุดท้ายไม่ต้องกรอกข้อมูลลงไป</span>
+                                        <!--end::Content-->
+                                    </div>
+                                    <!--end::Wrapper-->
+                                </div>
+                                <!--end::Alert-->
                                 <br>
                                 <div id="kt_docs_repeater_basic" >
                                     <div class="form-group">
@@ -84,14 +99,17 @@
                                             <div data-repeater-item>
                                                 <!--begin::Label-->
                                                 <div class="form-grou row mb-6">
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
                                                         <label class="form-label">ชื่อขั้นตอน:</label>
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
                                                         <input type="text" name="step_pipe" class="form-control mb-2 mb-md-0" placeholder="กรอกชื่อขั้นตอน..." />
                                                     </div>
+                                                    <div class="col-md-3">
+                                                        <input type="text" name="step_day" class="form-control mb-2 mb-md-0" placeholder="จำนวนห่างของวัน..." />
+                                                    </div>
 
-                                                    <div class="col-lg-4">
+                                                    <div class="col-lg-3">
                                                         <a href="javascript:;" data-repeater-delete class="btn btn-light-danger">
                                                             Delete
                                                         </a>

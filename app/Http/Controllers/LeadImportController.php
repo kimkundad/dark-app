@@ -43,7 +43,9 @@ class LeadImportController extends Controller
 
                 foreach ($data as $sale) {
 
-                    $check_lead = lead_list::where('code_lead_lists', $sale[1])->first();
+                    //dd(date('Y-m-d', strtotime($sale[44])));
+
+                    $check_lead = lead_list::where('name_customer', $sale[2])->where('phone_customer', '0'.$sale[3])->where('order_datex', date('Y-m-d', strtotime($sale[44])))->first();
                     
                     if(!$check_lead){
 
@@ -157,6 +159,8 @@ class LeadImportController extends Controller
                    $lead = new lead_list();
                    $lead->user_id = $user_id;
                    $lead->pip_id = $pipeline_id;
+                   $lead->name_customer = $sale[2];
+                   $lead->phone_customer = '0'.$sale[3];
                    $lead->lead_lists_channels = $name_ch;
                    $lead->type_sale_lead_lists = $sale[20];
                    $lead->type_pro_lead_lists = $sale[25]; 
@@ -184,11 +188,18 @@ class LeadImportController extends Controller
                    $lead->sale_employee = $sale[42];
                    $lead->upsale_name = $sale[43];
                    $lead->order_date = $sale[44];
+                   $lead->order_datex = date('Y-m-d', strtotime($sale[44]));
                    $lead->pay_date = $sale[45];
                    $lead->upsale_id = $upsale_id;
                    $lead->lead_main_id = $lead_main_id;
                    $lead->pro_id = $pro_id;
+                   $lead->lead_lists_statusx = 1;
                    $lead->save();
+
+                }else{
+
+                    lead_list::where('name_customer', $sale[2])->where('phone_customer', '0'.$sale[3])->where('order_datex', date('Y-m-d', $sale[44]))
+                    ->update(['lead_lists_statusx' => 1]);
 
                 }
                 // end check_lead

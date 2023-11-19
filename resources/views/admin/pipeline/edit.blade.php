@@ -87,11 +87,14 @@
                                             <div data-repeater-item>
                                                 <!--begin::Label-->
                                                 <div class="form-grou row mb-6">
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
                                                         <label class="form-label">ชื่อขั้นตอน:</label>
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
                                                         <input type="text" name="step_pipe" value="{{ $u->name }}" class="form-control mb-2 mb-md-0" placeholder="กรอกชื่อขั้นตอน..." />
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <input type="text" name="step_day" value="{{ $u->day }}" class="form-control mb-2 mb-md-0" placeholder="จำนวนห่างของวัน..." />
                                                     </div>
 
                                                     {{-- <div class="col-lg-4">

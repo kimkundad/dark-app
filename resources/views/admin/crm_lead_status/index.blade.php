@@ -101,9 +101,9 @@
                             <thead>
                                 <!--begin::Table row-->
                                 <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
-                                    <th>
+                                    {{-- <th>
                                     ลำดับที่
-                                    </th>
+                                    </th> --}}
                                     <th >โดย</th>
                                     <th >ทั้งหมด</th>
                                     <th>ติดตามแล้ว</th>
@@ -115,126 +115,35 @@
                             <!--begin::Table body-->
                             <tbody class="fw-semibold text-gray-600">
                                 <!--begin::Table row-->
+                                @if(isset($objs))
+                                @foreach($objs as $u)
                                 <tr>
-                                    <td>
+                                    {{-- <td>
                                         1
+                                    </td> --}}
+                                    <td>
+                                        <a class="text-success"> {{ $u->name }}</a>
                                     </td>
                                     <td>
-                                        <a class="text-success"> คุณ อ้อม สดใส</a>
+                                        {{ number_format($u->follow_pipe,0) }}
                                     </td>
                                     <td>
-                                        30
+                                        {{ number_format($u->following_pipe,0) }}
                                     </td>
                                     <td>
-                                        10
-                                    </td>
-                                    <td>
-                                        20
+                                        {{ number_format($u->following_piped,0) }}
                                     </td>
                                 </tr>
-                                <!--end::Table row-->
-                                <!--begin::Table row-->
-                                <tr>
-                                    <td>
-                                        2
-                                    </td>
-                                    <td>
-                                        <a class="text-success"> คุณ Mivy App </a>
-                                    </td>
-                                    <td>
-                                        30
-                                    </td>
-                                    <td>
-                                        10
-                                    </td>
-                                    <td>
-                                        20
-                                    </td>
-                                </tr>
-                                <!--end::Table row-->
-                                <!--begin::Table row-->
-                                <tr>
-                                    <td>
-                                        3
-                                    </td>
-                                    <td>
-                                        <a class="text-success"> คุณ Avionica </a>
-                                    </td>
-                                    <td>
-                                        30
-                                    </td>
-                                    <td>
-                                        10
-                                    </td>
-                                    <td>
-                                        20
-                                    </td>
-                                </tr>
-                                <!--end::Table row-->
-                                <!--begin::Table row-->
-                                <tr>
-                                    <td>
-                                        4
-                                    </td>
-                                    <td>
-                                        <a class="text-success"> คุณ Charto CRM </a>
-                                    </td>
-                                    <td>
-                                        30
-                                    </td>
-                                    <td>
-                                        10
-                                    </td>
-                                    <td>
-                                        20
-                                    </td>
-                                </tr>
-                                <!--end::Table row-->
-                                <!--begin::Table row-->
-                                <tr>
-                                    <td>
-                                        5
-                                    </td>
-                                    <td>
-                                        <a class="text-success"> คุณ Tower Hill </a>
-                                    </td>
-                                    <td>
-                                        30
-                                    </td>
-                                    <td>
-                                        10
-                                    </td>
-                                    <td>
-                                        20
-                                    </td>
-                                </tr>
-                                <!--end::Table row-->
-                                <!--begin::Table row-->
-                                <tr>
-                                    <td>
-                                        6
-                                    </td>
-                                    <td>
-                                        <a class="text-success"> คุณ Degree </a>
-                                    </td>
-                                    <td>
-                                        30
-                                    </td>
-                                    <td>
-                                        10
-                                    </td>
-                                    <td>
-                                        20
-                                    </td>
-                                </tr>
-                                <!--end::Table row-->
+                                @endforeach
+                                @endif
+                               
                                 
                             </tbody>
                             <!--end::Table body-->
                         </table>
                         <!--end::Table-->
                     </div>
-                        
+                    @include('admin.pagination.default', ['paginator' => $objs])
                 </div>
                     <!--begin::Body-->
             </div>

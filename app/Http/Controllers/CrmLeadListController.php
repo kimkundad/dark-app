@@ -11,6 +11,8 @@ use App\Models\pipeline;
 use App\Models\sup_pipeline;
 use App\Models\lead_main;
 use App\Models\timeline_pipe;
+use App\Models\follow_pipe;
+use App\Models\User;
 use Response;
 use Auth;
 
@@ -18,16 +20,36 @@ class CrmLeadListController extends Controller
 {
     //
 
+    public function crm_lead_status(){
+
+        $objs = User::paginate(15);
+        if($objs){
+            foreach($objs as $u){
+
+                $count = follow_pipe::where('upsale_idx', $u->id)->count();
+                $u->follow_pipe = $count;
+                $count2 = follow_pipe::where('upsale_idx', $u->id)->where('follow_pipes_status', 1)->count();
+                $u->following_pipe = $count2;
+                $count3 = follow_pipe::where('upsale_idx', $u->id)->where('follow_pipes_status', 0)->count();
+                $u->following_piped = $count3;
+            }
+        }
+
+        return view('admin.crm_lead_status.index', compact('objs'));
+    }
+
     public function view(){
 
         $count = DB::table('lead_mains')->count();
         $objs = DB::table('lead_mains')->select(
             'lead_mains.*',
             'lead_mains.id as id_q',
+            'lead_mains.user_id as user_id_cus',
             'lead_mains.created_at as created_ats',
             'customer_managers.*',
             'customer_managers.avatar as avatars',
             'customer_managers.phone as phones',
+            'customer_managers.address as addressx',
             'sale_contacts.*',
             'pipelines.*',
             'users.*',
@@ -37,6 +59,7 @@ class CrmLeadListController extends Controller
             ->leftjoin('sale_contacts', 'sale_contacts.id',  'lead_mains.lead_lists_channels')
             ->leftjoin('pipelines', 'pipelines.id',  'lead_mains.pip_id')
             ->leftjoin('users', 'users.id',  'lead_mains.upsale_id')
+            ->where('lead_mains.upsale_id', '!=', 5)
             ->orderBy('lead_mains.id', 'desc')
             ->paginate(15);
 
@@ -52,13 +75,51 @@ class CrmLeadListController extends Controller
 
     }
 
+    public function waiting_distribute_crm(){
 
-    public function index(){
+        $count = DB::table('lead_mains')->count();
+        $objs = DB::table('lead_mains')->select(
+            'lead_mains.*',
+            'lead_mains.id as id_q',
+            'lead_mains.user_id as user_id_cus',
+            'lead_mains.created_at as created_ats',
+            'customer_managers.*',
+            'customer_managers.avatar as avatars',
+            'customer_managers.phone as phones',
+            'customer_managers.address as addressx',
+            'sale_contacts.*',
+            'pipelines.*',
+            'users.*',
+            'users.name as names',
+            )
+            ->leftjoin('customer_managers', 'customer_managers.id',  'lead_mains.user_id')
+            ->leftjoin('sale_contacts', 'sale_contacts.id',  'lead_mains.lead_lists_channels')
+            ->leftjoin('pipelines', 'pipelines.id',  'lead_mains.pip_id')
+            ->leftjoin('users', 'users.id',  'lead_mains.upsale_id')
+            ->where('lead_mains.upsale_id', 5)
+            ->orderBy('lead_mains.id', 'desc')
+            ->paginate(15);
+
+           // dd($objs);
+
+            $objs->setPath('');
+            $data['objs'] = $objs;
+
+            $pipe = pipeline::get();
+            
+        
+        return view('admin.waiting_distribute_crm.index', compact('objs', 'count', 'pipe'));
+
+    }
+
+
+    public function all_orders(){
 
         $count = DB::table('lead_lists')->count();
         $objs = DB::table('lead_lists')->select(
             'lead_lists.*',
             'lead_lists.id as id_q',
+            'lead_lists.pro_id as pro_idx',
             'customer_managers.*',
             'customer_managers.avatar as avatars',
             'customer_managers.phone as phones',
@@ -67,11 +128,13 @@ class CrmLeadListController extends Controller
             'transports.*',
             'users.*',
             'users.name as names',
+            'products.*',
             )
             ->leftjoin('customer_managers', 'customer_managers.id',  'lead_lists.user_id')
             ->leftjoin('sale_contacts', 'sale_contacts.id',  'lead_lists.lead_lists_channels')
             ->leftjoin('pipelines', 'pipelines.id',  'lead_lists.pip_id')
             ->leftjoin('transports', 'transports.id',  'lead_lists.tran_id')
+            ->leftjoin('products', 'products.id',  'lead_lists.pro_id')
             ->leftjoin('users', 'users.id',  'lead_lists.upsale_id')
             ->orderBy('lead_lists.id', 'desc')
             ->paginate(15);
@@ -84,7 +147,7 @@ class CrmLeadListController extends Controller
             $pipe = pipeline::get();
             
         
-        return view('admin.crm_lead_list.index', compact('objs', 'count', 'pipe'));
+        return view('admin.all_orders.index', compact('objs', 'count', 'pipe'));
 
     }
 
@@ -94,11 +157,14 @@ class CrmLeadListController extends Controller
         $objs = DB::table('lead_mains')->select(
             'lead_mains.*',
             'lead_mains.id as id_q',
+            'lead_mains.user_id as user_id_cus',
             'lead_mains.created_at as created_ats',
+            'lead_mains.upsale_id as upsale_idx',
             'customer_managers.*',
             'customer_managers.avatar as avatars',
             'customer_managers.phone as phones',
             'customer_managers.email as emails',
+            'customer_managers.address as addressx',
             'sale_contacts.*',
             'pipelines.*',
             'pipelines.id as id_p',
@@ -146,7 +212,19 @@ class CrmLeadListController extends Controller
                 ->orderBy('timeline_pipes.id', 'desc')
                 ->get();
 
-        return view('admin.crm_lead_list.edit', compact('objs', 'sup_pipeline', 'pipe', 'lead_list', 'time_line', 'timeline_check'));
+
+                $follow_pipes = DB::table('follow_pipes')->select(
+                'follow_pipes.*',
+                'follow_pipes.id as id_f',
+                'follow_pipes.created_at as created_ats',
+                'users.*',
+                )
+                ->leftjoin('users', 'users.id',  'follow_pipes.user_id_add')
+                ->where('follow_pipes.read_id', $objs->id_q)
+                ->orderBy('follow_pipes.id', 'desc')
+                ->get();
+
+        return view('admin.crm_lead_list.edit', compact('objs', 'sup_pipeline', 'pipe', 'lead_list', 'time_line', 'timeline_check', 'follow_pipes'));
 
     }
 
@@ -188,12 +266,33 @@ class CrmLeadListController extends Controller
             'sub_pipe_id' => 'required'
         ]);
 
+        $sup_pipeline = sup_pipeline::where('id', $request->sub_pipe_id)->first();
+        $data_sup_pipeline = sup_pipeline::where('id', $sup_pipeline->id+1)->where('sort', $sup_pipeline->sort+1)->first();
+        //dd($data_sup_pipeline);
+        //follow_pipe
+
+
            $objs = new timeline_pipe();
            $objs->user_id = Auth::user()->id;
            $objs->lead_main_id = $id;
            $objs->sub_pipe_id = $request->sub_pipe_id;
            $objs->note = $request->note;
            $objs->save();
+
+           if($data_sup_pipeline){
+
+            $date = strtotime("+".$sup_pipeline->day." day");
+
+            $obj = new follow_pipe();
+            $obj->user_id_add = Auth::user()->id;
+            $obj->upsale_idx = $request->upsale_idx;
+            $obj->read_id = $id;
+            $obj->sub_pipe_id = $data_sup_pipeline->id;
+            $obj->note = $request->note;
+            $obj->cus_id = $request->cus_id;
+            $obj->date_follow = date('Y-m-d' ,$date);
+            $obj->save();
+           }
 
            return redirect(url('admin/crm_lead_list_view/'.$id))->with('add_success','เพิ่ม เสร็จเรียบร้อยแล้ว');
 

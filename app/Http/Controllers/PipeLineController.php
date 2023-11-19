@@ -46,6 +46,7 @@ class PipeLineController extends Controller
      */
     public function store(Request $request)
     {
+      //  dd($request->all());
         //
         // dd($request->kt_docs_repeater_basic[0]['step_pipe']);
         // dd(count($request->kt_docs_repeater_basic));
@@ -70,6 +71,7 @@ class PipeLineController extends Controller
             for ($i = 0; $i < count($request->kt_docs_repeater_basic); $i++) {
               $pipeline[] = [
                   'name' => $request->kt_docs_repeater_basic[$i]['step_pipe'],
+                  'day' => $request->kt_docs_repeater_basic[$i]['step_day'],
                   'sort' => $i,
                   'pipe_id' => $objs->id
               ];
@@ -149,6 +151,7 @@ class PipeLineController extends Controller
             for ($i = 0; $i < count($request->kt_docs_repeater_basic); $i++) {
               $pipeline[] = [
                   'name' => $request->kt_docs_repeater_basic[$i]['step_pipe'],
+                  'day' => $request->kt_docs_repeater_basic[$i]['step_day'],
                   'sort' => $i,
                   'pipe_id' => $id
               ];
