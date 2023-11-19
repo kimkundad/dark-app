@@ -198,7 +198,7 @@ class LeadImportController extends Controller
 
                 }else{
 
-                    lead_list::where('name_customer', $sale[2])->where('phone_customer', '0'.$sale[3])->where('order_datex', date('Y-m-d', $sale[44]))
+                    lead_list::where('name_customer', $sale[2])->where('phone_customer', '0'.$sale[3])->where('order_datex', date('Y-m-d', strtotime($sale[44])))
                     ->update(['lead_lists_statusx' => 1]);
 
                 }
