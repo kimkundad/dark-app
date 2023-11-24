@@ -53,12 +53,14 @@ class CrmLeadListController extends Controller
             'sale_contacts.*',
             'pipelines.*',
             'users.*',
+            'sup_pipelines.name as name_sup_pipe',
             'users.name as names',
             )
             ->leftjoin('customer_managers', 'customer_managers.id',  'lead_mains.user_id')
             ->leftjoin('sale_contacts', 'sale_contacts.id',  'lead_mains.lead_lists_channels')
             ->leftjoin('pipelines', 'pipelines.id',  'lead_mains.pip_id')
             ->leftjoin('users', 'users.id',  'lead_mains.upsale_id')
+            ->leftjoin('sup_pipelines', 'sup_pipelines.id',  'lead_mains.last_sup_pipeline')
             ->where('lead_mains.upsale_id', '!=', 5)
             ->orderBy('lead_mains.id', 'desc')
             ->paginate(15);
@@ -90,12 +92,14 @@ class CrmLeadListController extends Controller
             'sale_contacts.*',
             'pipelines.*',
             'users.*',
+            'sup_pipelines.name as name_sup_pipe',
             'users.name as names',
             )
             ->leftjoin('customer_managers', 'customer_managers.id',  'lead_mains.user_id')
             ->leftjoin('sale_contacts', 'sale_contacts.id',  'lead_mains.lead_lists_channels')
             ->leftjoin('pipelines', 'pipelines.id',  'lead_mains.pip_id')
             ->leftjoin('users', 'users.id',  'lead_mains.upsale_id')
+            ->leftjoin('sup_pipelines', 'sup_pipelines.id',  'lead_mains.last_sup_pipeline')
             ->where('lead_mains.upsale_id', 5)
             ->orderBy('lead_mains.id', 'desc')
             ->paginate(15);
@@ -224,8 +228,25 @@ class CrmLeadListController extends Controller
                 ->orderBy('follow_pipes.id', 'desc')
                 ->get();
 
-        return view('admin.crm_lead_list.edit', compact('objs', 'sup_pipeline', 'pipe', 'lead_list', 'time_line', 'timeline_check', 'follow_pipes'));
+                $user = User::all();
 
+        return view('admin.crm_lead_list.edit', compact('objs', 'sup_pipeline', 'pipe', 'lead_list', 'time_line', 'timeline_check', 'follow_pipes', 'user'));
+
+    }
+
+
+    public function add_change_upsale(Request $request, $id){
+
+        follow_pipe::where('read_id', $id)
+        ->update(['upsale_idx' => $request->upsale_id]);
+
+        lead_list::where('lead_main_id', $id)
+        ->update(['upsale_id' => $request->upsale_id]);
+
+        lead_main::where('id', $id)
+        ->update(['upsale_id' => $request->upsale_id]);
+
+        return redirect(url('admin/crm_lead_list_view/'.$id))->with('edit_success','เพิ่ม เสร็จเรียบร้อยแล้ว');
     }
 
     public function crm_lead_list_view2($id){
@@ -278,6 +299,9 @@ class CrmLeadListController extends Controller
            $objs->sub_pipe_id = $request->sub_pipe_id;
            $objs->note = $request->note;
            $objs->save();
+
+           lead_main::where('id', $id)
+           ->update(['last_sup_pipeline' => $request->sub_pipe_id]);
 
            if($data_sup_pipeline){
 

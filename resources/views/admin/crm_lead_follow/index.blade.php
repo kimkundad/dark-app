@@ -236,7 +236,7 @@
                                         @if($u->date_follow < date('Y-m-d'))
                                             <a href="" class="text-hover-primary text-gray-600"><span class="badge badge-light-danger fs-7 fw-bold">หมดอายุ</span></a>
                                         @else
-                                            <a href="" class="text-hover-primary text-gray-600"><span class="badge badge-light-success fs-7 fw-bold">ยังไม่หมดอายุ</span></a>
+                                            <a href="" class="text-hover-primary text-gray-600"><span class="badge badge-light-success fs-7 fw-bold">ใช้งานได้</span></a>
                                         @endif
                                     </td>
                                     <!--end::Date Modified=-->

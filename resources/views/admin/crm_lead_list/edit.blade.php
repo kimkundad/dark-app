@@ -131,33 +131,81 @@ ol.stepper li.active::after {
             <div id="kt_app_content_container" class="app-container container-fluid">
 
                 <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
-                    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-8 mb-md-5 mb-xl-10">
+                    <div class="col-md-6 col-lg-6 col-xl-8 col-xxl-8 mb-md-5 mb-xl-10">
                         <div class="card mb-5 mb-xl-8 ">
                             <div class="card-body py-3">
                                 <div class="d-flex justify-content-between">
-                                    <div class="card-header">
+                                    <div class="card-header" style="padding: 0 ;">
                                         <h3 class="card-title align-items-start flex-column">
                                             <span class="text-gray-400 mt-1 fw-semibold fs-6">ชื่อ Lead</span>
                                             <span class="card-label fw-bold text-dark fs-5">{{ $objs->lead_name }}</span>
                                         </h3>
                                     </div>
-                                    <div class="card-header">
+                                    <div class="card-header" style="padding: 0 ;">
                                         <h3 class="card-title align-items-start flex-column">
                                             <span class="text-gray-400 mt-1 fw-semibold fs-6">แหล่ะที่มา</span>
                                             <span class="card-label fw-bold text-dark fs-5">{{ $objs->salename }}</span>
                                         </h3>
                                     </div>
-                                    <div class="card-header">
+                                    <div class="card-header" style="padding: 0 ;">
                                         <h3 class="card-title align-items-start flex-column"> 
                                             <span class="text-gray-400 mt-1 fw-semibold fs-6">สร้างเมื่อวันที่</span>
                                             <span class="card-label fw-bold text-dark fs-5">{{ $objs->created_ats }}</span>
                                         </h3>
                                     </div>
-                                    <div class="card-header">
+                                    <div class="card-header" style="padding: 0 ;">
                                         <h3 class="card-title align-items-start flex-column">
                                             <span class="text-gray-400 mt-1 fw-semibold fs-6">ดูแลโดย</span>
                                             <span class="card-label fw-bold text-dark fs-5">{{ $objs->name }}</span>
                                         </h3>
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_change_upsale" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 " style="margin-top: 20px">
+                                            <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
+                                            <span class="svg-icon svg-icon-3">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path opacity="0.3" d="M21.4 8.35303L19.241 10.511L13.485 4.755L15.643 2.59595C16.0248 2.21423 16.5426 1.99988 17.0825 1.99988C17.6224 1.99988 18.1402 2.21423 18.522 2.59595L21.4 5.474C21.7817 5.85581 21.9962 6.37355 21.9962 6.91345C21.9962 7.45335 21.7817 7.97122 21.4 8.35303ZM3.68699 21.932L9.88699 19.865L4.13099 14.109L2.06399 20.309C1.98815 20.5354 1.97703 20.7787 2.03189 21.0111C2.08674 21.2436 2.2054 21.4561 2.37449 21.6248C2.54359 21.7934 2.75641 21.9115 2.989 21.9658C3.22158 22.0201 3.4647 22.0084 3.69099 21.932H3.68699Z" fill="currentColor"></path>
+                                                    <path d="M5.574 21.3L3.692 21.928C3.46591 22.0032 3.22334 22.0141 2.99144 21.9594C2.75954 21.9046 2.54744 21.7864 2.3789 21.6179C2.21036 21.4495 2.09202 21.2375 2.03711 21.0056C1.9822 20.7737 1.99289 20.5312 2.06799 20.3051L2.696 18.422L5.574 21.3ZM4.13499 14.105L9.891 19.861L19.245 10.507L13.489 4.75098L4.13499 14.105Z" fill="currentColor"></path>
+                                                </svg>
+                                            </span>
+                                            <!--end::Svg Icon-->
+                                        </a>
+
+                                        <div class="modal fade" tabindex="-1" id="kt_modal_change_upsale">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h3 class="modal-title">เปลี่ยนผู้ดูแล</h3>
+                                            
+                                                        <!--begin::Close-->
+                                                        <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                                                            <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                                                        </div>
+                                                        <!--end::Close-->
+                                                    </div>
+                                                    <form class="form" method="POST" action="{{ url('admin/add_change_upsale/'.$objs->id_q) }}" enctype="multipart/form-data">
+                                                        {{ csrf_field() }}
+                                                    <div class="modal-body">
+        
+                                            
+                                                        <select class="form-select" aria-label="Select example" name="upsale_id">
+                                                            <option value="">เปลี่ยนผู้ดูแล</option>
+                                                            @if(isset($user))
+                                                                @foreach($user as $u)
+                                                                    <option value="{{ $u->id }}">{{ $u->name }}</option>
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
+                                                        
+        
+                                                    </div>
+                                            
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">ปิดหน้าต่าง</button>
+                                                        <button type="submit" class="btn btn-primary">บันทึกข้อมูล</button>
+                                                    </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            </div>
                                     </div>
                                 </div>
 
@@ -345,7 +393,7 @@ ol.stepper li.active::after {
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-4 mb-md-5 mb-xl-10">
+                    <div class="col-md-6 col-lg-6 col-xl-4 col-xxl-4 mb-md-5 mb-xl-10">
                         <div class="card mb-5 mb-xl-8 ">
                             <div class="card-header pt-5">
                                 <!--begin::Title-->
@@ -427,6 +475,7 @@ ol.stepper li.active::after {
                                                 <th>ชื่อสินค้า</th>
                                                 <th>ราคา</th>
                                                 <th>วันที่</th>
+                                                <th>สถานะ</th>
                                             </tr>
                                         </thead>
                                         <!--end::Thead-->
@@ -446,6 +495,13 @@ ol.stepper li.active::after {
                                                 </td>
                                                 <td class="ps-0">
                                                     <a href="" class="text-hover-primary text-gray-600">{{ $u->created_ats }}</a>
+                                                </td>
+                                                <td class="ps-0">
+                                                    @if($u->lead_lists_statusx == 1)
+                                                    <a href="" class="text-hover-primary text-gray-600"><span class="badge badge-light-success fs-7 fw-bold">สำเร็จ</span></a>
+                                                    @else
+                                                    <a href="" class="text-hover-danger text-gray-600"><span class="badge badge-light-danger fs-7 fw-bold">รอยืนยัน</span></a>
+                                                    @endif
                                                 </td>
                                             </tr>
 

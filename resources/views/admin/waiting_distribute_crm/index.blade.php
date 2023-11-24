@@ -224,7 +224,7 @@
                                     
                                     <td class="text-end pe-0" data-order="Completed">
                                         <!--begin::Badges-->
-                                        <div class="badge badge-light-primary">ว่างๆ</div>
+                                        <div class="badge badge-light-primary">{{ $u->name_sup_pipe }}</div>
                                         <!--end::Badges-->
                                     </td>
                                     <td class="text-end" data-order="2022-10-05">
