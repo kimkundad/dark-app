@@ -148,7 +148,7 @@
                                    
                                     <th class="min-w-175px">พนักงาน sale crm</th>
                                     <th >ชื่อสินค้า</th>
-                                    
+                                    <th class="min-w-100px">สถานะ</th>
                                     <th class="min-w-100px">สถานะคำสั่งซื้อ</th>
                                     
                                     <th>Actions</th>
@@ -220,6 +220,12 @@
                                         @else
                                         <div class="badge badge-light-danger">จับคู่แล้ว</div>
                                         @endif
+                                        
+                                        <!--end::Badges-->
+                                    </td>
+                                    <td class="pe-0" data-order="Completed">
+                                        <!--begin::Badges-->
+                                        <div class="badge badge-light-primary">{{ $u->lead_lists_status_sale }}</div>
                                         
                                         <!--end::Badges-->
                                     </td>

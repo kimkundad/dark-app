@@ -292,6 +292,9 @@ class CrmLeadListController extends Controller
         //dd($data_sup_pipeline);
         //follow_pipe
 
+        follow_pipe::where('read_id', $id)
+        ->update(['follow_pipes_status' => 1]);
+
 
            $objs = new timeline_pipe();
            $objs->user_id = Auth::user()->id;

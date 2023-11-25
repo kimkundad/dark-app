@@ -28,6 +28,7 @@ class crmLeadFollowController extends Controller
             'follow_pipes.note as notes',
             'users.*',
             'lead_mains.*',
+            'lead_mains.id as id_q',
             'pipelines.*',
             'sup_pipelines.*',
             'sup_pipelines.name as sub_namex'

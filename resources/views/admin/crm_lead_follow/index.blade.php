@@ -211,7 +211,7 @@
                                     <!--end::Total=-->
                                     <td class="text-end pe-0">
                                         @if($u->follow_pipes_status == 1)
-                                        <a class="clickme">
+                                        <a>
                                         <span class="badge py-3 px-4 fs-7 badge-light-success">
                                             <span class="svg-icon svg-icon-1 svg-icon-success"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="5" fill="currentColor"/>
@@ -220,7 +220,7 @@
                                             </span> ติดตามแล้ว</span>
                                         </a>
                                         @else
-                                        <a class="clickme">
+                                        <a >
                                         <span class="badge py-3 px-4 fs-7 badge-light-danger">
                                             <span class="svg-icon svg-icon-1 svg-icon-danger"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M14.5 20.7259C14.6 21.2259 14.2 21.826 13.7 21.926C13.2 22.026 12.6 22.0259 12.1 22.0259C9.5 22.0259 6.9 21.0259 5 19.1259C1.4 15.5259 1.09998 9.72592 4.29998 5.82592L5.70001 7.22595C3.30001 10.3259 3.59999 14.8259 6.39999 17.7259C8.19999 19.5259 10.8 20.426 13.4 19.926C13.9 19.826 14.4 20.2259 14.5 20.7259ZM18.4 16.8259L19.8 18.2259C22.9 14.3259 22.7 8.52593 19 4.92593C16.7 2.62593 13.5 1.62594 10.3 2.12594C9.79998 2.22594 9.4 2.72595 9.5 3.22595C9.6 3.72595 10.1 4.12594 10.6 4.02594C13.1 3.62594 15.7 4.42595 17.6 6.22595C20.5 9.22595 20.7 13.7259 18.4 16.8259Z" fill="currentColor"/>
@@ -242,7 +242,7 @@
                                     <!--end::Date Modified=-->
                                     <!--begin::Action=-->
                                     <td class="text-end">
-                                                    <a href="#" class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
+                                                    <a href="{{ url('admin/crm_lead_list_view/'.$u->id_q) }}" class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
                                                         <!--begin::Svg Icon | path: icons/duotune/arrows/arr064.svg-->
                                                         <span class="svg-icon svg-icon-2">
                                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
