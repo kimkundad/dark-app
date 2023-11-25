@@ -217,7 +217,7 @@
                         </table>
                         <!--end::Table-->
                     </div>
-                        
+                    @include('admin.pagination.default', ['paginator' => $objs])
                 </div>
                     <!--begin::Body-->
             </div>

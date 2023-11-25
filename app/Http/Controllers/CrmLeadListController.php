@@ -110,9 +110,11 @@ class CrmLeadListController extends Controller
             $data['objs'] = $objs;
 
             $pipe = pipeline::get();
+
+            $user = User::all();
             
         
-        return view('admin.waiting_distribute_crm.index', compact('objs', 'count', 'pipe'));
+        return view('admin.waiting_distribute_crm.index', compact('objs', 'count', 'pipe', 'user'));
 
     }
 
@@ -234,6 +236,31 @@ class CrmLeadListController extends Controller
 
     }
 
+    public function change_upsale_id_wait(Request $request){
+
+      //  dd(count($request->ids)); upsale
+
+        if(count($request->ids) > 0){
+
+            for ($i = 0; $i < count($request->ids); $i++) {
+                
+               // dd($request->ids[$i]);
+                follow_pipe::where('read_id', $request->ids[$i])
+                ->update(['upsale_idx' => $request->upsale]);
+
+                lead_list::where('lead_main_id', $request->ids[$i])
+                ->update(['upsale_id' => $request->upsale]);
+
+                lead_main::where('id', $request->ids[$i])
+                ->update(['upsale_id' => $request->upsale]);
+
+            }
+
+            return redirect(url('admin/waiting_distribute_crm/'))->with('edit_success','เพิ่ม เสร็จเรียบร้อยแล้ว');
+
+        }
+        
+    }
 
     public function add_change_upsale(Request $request, $id){
 

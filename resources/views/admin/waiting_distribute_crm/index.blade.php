@@ -32,21 +32,46 @@
                 <!--begin::Actions-->
                 <div class="d-flex align-items-center gap-2 gap-lg-3">
                     <!--begin::Filter menu-->
-                    {{-- <div class="m-0">
+                    <div class="m-0">
                         <!--begin::Menu toggle-->
-                        <a href="{{ url('admin/create_lead') }}" class="btn btn-sm btn-success btn-flex" >
-                        <!--begin::Svg Icon | path: icons/duotune/general/gen031.svg-->
-                        <span class="svg-icon svg-icon-1">
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="5" fill="currentColor"></rect>
-                                                    <rect x="10.8891" y="17.8033" width="12" height="2" rx="1" transform="rotate(-90 10.8891 17.8033)" fill="currentColor"></rect>
-                                                    <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="currentColor"></rect>
-                                                </svg>
-                                            </span>
-<!--end::Svg Icon-->
-                        ติดตามลูกค้าใหม่</a>
                         
-                    </div> --}}
+
+                        <div class="modal fade" tabindex="-1" id="kt_modal_change_upsale">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3 class="modal-title">กดแจกจ่ายงาน</h3>
+                            
+                                        <!--begin::Close-->
+                                        <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                                            <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                                        </div>
+                                        <!--end::Close-->
+                                    </div>
+                                    <div class="modal-body">
+
+                            
+                                        <select class="form-select" id="ddlViewBy" aria-label="Select example" name="upsale_id">
+                                            <option value="">เลือกแจกจ่ายงาน</option>
+                                            @if(isset($user))
+                                                @foreach($user as $u)
+                                                    <option value="{{ $u->id }}">{{ $u->name }}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                        
+
+                                    </div>
+                            
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">ปิดหน้าต่าง</button>
+                                        <button type="submit" id="btnSendData" class="btn btn-primary">บันทึกข้อมูล</button>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        
+                    </div>
                     <!--end::Filter menu-->
                     <!--begin::Secondary button-->
                     <!--end::Secondary button-->
@@ -133,7 +158,21 @@
                     </div>
                     
                     <div class="card-body pt-0">
+                        <form id="assign-files">
 
+                            <a data-bs-toggle="modal" data-bs-target="#kt_modal_change_upsale" class="assign btn btn-sm btn-success btn-flex" >
+                                <!--begin::Svg Icon | path: icons/duotune/general/gen031.svg-->
+                                <span class="svg-icon svg-icon-1">
+                                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="5" fill="currentColor"></rect>
+                                                            <rect x="10.8891" y="17.8033" width="12" height="2" rx="1" transform="rotate(-90 10.8891 17.8033)" fill="currentColor"></rect>
+                                                            <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="currentColor"></rect>
+                                                        </svg>
+                                                    </span>
+        <!--end::Svg Icon-->
+                                กดแจกจ่ายงาน</a>
+
+                                
                         <div class="table-responsive">
                         <!--begin::Table-->
                         <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_sales_table">
@@ -168,7 +207,7 @@
                                     <!--begin::Checkbox-->
                                     <td>
                                         <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                            <input class="form-check-input" type="checkbox" value="1" />
+                                            <input class="messageCheckbox form-check-input" name="translation_document_id[]" id="id_main_lead" type="checkbox" value="{{$u->id_q}}" />
                                         </div>
                                     </td>
                                     <!--end::Checkbox-->
@@ -275,6 +314,7 @@
                         </table>
                         <!--end::Table-->
                         </div>
+                        </form>
                         @include('admin.pagination.default', ['paginator' => $objs])
                     </div>
                         
@@ -372,6 +412,47 @@
 @section('scripts')
 
 <script >
+var ids = [];
+
+$('body').on('click', 'a.assign', function() {
+    var atLeastOneIsChecked = $('input[name="translation_document_id[]"]:checked');
+    if( atLeastOneIsChecked.length ) {
+        ids = [];
+        var Selected = $(this).parents('form').find('input[name="translation_document_id[]"]:checked');
+        Selected.each(function(pos,element) {
+            ids.push($(this).val());
+        });
+        console.log('ids-->',ids);
+    } else {
+        alert('select at least one checkbox');
+    }
+});
+
+
+$(document).on('click','#btnSendData',function (event) {
+      event.preventDefault();
+
+      var e = document.getElementById("ddlViewBy");
+      var value = e.value;
+
+    if(ids.length && value){
+        $.ajax({
+            url: "{{url('admin/change_upsale_id_wait')}}",
+            type:"POST",
+            data:{
+                ids:ids,
+                upsale:value,
+                _token:'{{ csrf_token() }}',
+            },
+            success:function(response){
+
+                window.location.reload();
+
+            }
+        });
+    }
+      console.log('value-->',value);
+    });
 
     $(document).on('click', '.openModal', function () {
         var id = $(this).data('id');
