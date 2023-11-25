@@ -31,7 +31,7 @@ class LeadImportController extends Controller
 
             $files = glob("$path/*.csv");
             $header = [];
-            // dd($files);
+             
 
             foreach ($files as $key => $file) {
 
@@ -41,17 +41,19 @@ class LeadImportController extends Controller
                 //     unset($data[0]);
                 // }
 
+                // dd($data);
+
                 foreach ($data as $sale) {
 
-                    //dd(date('Y-m-d', strtotime($sale[44])));
+                    //dd(date('Y-m-d', strtotime($sale[47])));
 
-                    $check_lead = lead_list::where('name_customer', $sale[2])->where('phone_customer', '0'.$sale[3])->where('order_datex', date('Y-m-d', strtotime($sale[44])))->first();
+                    $check_lead = lead_list::where('name_customer', $sale[4])->where('phone_customer', '0'.$sale[5])->where('order_datex', date('Y-m-d', strtotime($sale[47])))->first();
                     
                     if(!$check_lead){
 
-                    $user = customer_manager::where('fullname', $sale[2])->where('phone', '0'.$sale[3])->first();
+                    $user = customer_manager::where('fullname', $sale[4])->where('phone', '0'.$sale[5])->first();
                         
-                    $sale_contact = sale_contact::where('salename', $sale[0])->first();
+                    $sale_contact = sale_contact::where('salename', $sale[1])->first();
                         if($sale_contact){
                             $name_ch = $sale_contact->id;
                         }else{
@@ -59,35 +61,35 @@ class LeadImportController extends Controller
                         }
 
 
-                        $pipeline = pipeline::where('pipe_name', $sale[27])->first();
+                        $pipeline = pipeline::where('pipe_name', $sale[30])->first();
                     if($pipeline){
                         $pipeline_id = $pipeline->id;
                     }else{
                         $pipeline_id = 4;
                     }
 
-                    if($sale[7] == '-'){
+                    if($sale[9] == '-'){
                         $sun_upsale = 0;
                     }else{
 
-                        $sun_upsale = (float)substr($sale[7],2);;
+                        $sun_upsale = (float)substr($sale[9],2);;
                     }
 
-                    $transport = transport::where('transportname', $sale[18])->first();
+                    $transport = transport::where('transportname', $sale[20])->first();
                     if($transport){
                         $tran_id = $transport->id;
                     }else{
                         $tran_id = 7;
                     }
 
-                    $product = product::where('pro_name', $sale[23])->first();
+                    $product = product::where('pro_name', $sale[26])->first();
                     if($product){
                         $pro_id = $product->id;
                     }else{
                         $pro_id = 0;
                     }
 
-                    $user_name = User::where('name', $sale[43])->first();
+                    $user_name = User::where('name', $sale[46])->first();
                     if($user_name){
                         $upsale_id = $user_name->id;
                     }else{
@@ -106,7 +108,7 @@ class LeadImportController extends Controller
                         }else{
 
                             $lead_main2 = new lead_main();
-                            $lead_main2->lead_name = $sale[2];
+                            $lead_main2->lead_name = $sale[4];
                             $lead_main2->user_id = $user_id;
                             $lead_main2->pip_id = $pipeline_id;
                             $lead_main2->lead_lists_channels = $name_ch;
@@ -121,22 +123,22 @@ class LeadImportController extends Controller
 
                         $img_ran = '300-'.rand(1,30).'.jpg';
                         $objs = new customer_manager();
-                        $objs->fullname = $sale[2];
-                        $objs->codeuser = '0'.$sale[3];
-                        $objs->phone = '0'.$sale[3];
-                        $objs->phone2 = '0'.$sale[4];
+                        $objs->fullname = $sale[4];
+                        $objs->codeuser = '0'.$sale[5];
+                        $objs->phone = '0'.$sale[5];
+                        $objs->phone2 = '0'.$sale[6];
                         $objs->sex = 'ไม่ระบุ';
                         $objs->type_address = 'ไม่ระบุ';
-                        $objs->address = $sale[12];
-                        $objs->Subdistrict = $sale[13];
-                        $objs->district = $sale[14];
-                        $objs->province = $sale[15];
-                        $objs->zip_code = $sale[16];
-                        $objs->county = $sale[17];
+                        $objs->address = $sale[14];
+                        $objs->Subdistrict = $sale[15];
+                        $objs->district = $sale[16];
+                        $objs->province = $sale[17];
+                        $objs->zip_code = $sale[18];
+                        $objs->county = $sale[19];
                         $objs->lock_avatar = 1;
                         $objs->avatar = $img_ran;
                         $objs->status = 1;
-                        $objs->nickname = $sale[5];
+                        $objs->nickname = $sale[7];
                         $objs->channels = $name_ch;
                         $objs->save();
 
@@ -144,7 +146,7 @@ class LeadImportController extends Controller
 
                         
                         $lead_main = new lead_main();
-                        $lead_main->lead_name = $sale[2];
+                        $lead_main->lead_name = $sale[4];
                         $lead_main->user_id = $user_id;
                         $lead_main->pip_id = $pipeline_id;
                         $lead_main->lead_lists_channels = $name_ch;
@@ -159,37 +161,37 @@ class LeadImportController extends Controller
                    $lead = new lead_list();
                    $lead->user_id = $user_id;
                    $lead->pip_id = $pipeline_id;
-                   $lead->name_customer = $sale[2];
-                   $lead->phone_customer = '0'.$sale[3];
+                   $lead->name_customer = $sale[4];
+                   $lead->phone_customer = '0'.$sale[5];
                    $lead->lead_lists_channels = $name_ch;
-                   $lead->type_sale_lead_lists = $sale[20];
-                   $lead->type_pro_lead_lists = $sale[25]; 
-                   $lead->code_lead_lists = $sale[1];
+                   $lead->type_sale_lead_lists = $sale[23];
+                   $lead->type_pro_lead_lists = $sale[28]; 
+                   $lead->code_lead_lists = $sale[2];
                    $lead->sun_upsale = $sun_upsale;
-                   $lead->lead_lists_status_sale = $sale[8];
-                   $lead->lead_lists_payment_type = $sale[9];
-                   $lead->lead_lists_payment_status = $sale[10];
-                   $lead->tracking_no = $sale[19];
+                   $lead->lead_lists_status_sale = $sale[10];
+                   $lead->lead_lists_payment_type = $sale[11];
+                   $lead->lead_lists_payment_status = $sale[12];
+                   $lead->tracking_no = $sale[21];
                    $lead->tran_id = $tran_id;
-                   $lead->invoid_no = $sale[11];
-                   $lead->price_pro = $sale[29];
-                   $lead->total_sale = $sale[30];
-                   $lead->discount_pro = $sale[31];
-                   $lead->sum_price_pro = $sale[32];
-                   $lead->sum_order_pro = $sale[33];
-                   $lead->sum_discount_buy_cus = $sale[34];
-                   $lead->sum_price_shipping = $sale[35];
-                   $lead->sum_price_cod = $sale[36];
-                   $lead->sum_price_final = $sale[37];
-                   $lead->sum_tax = $sale[38];
-                   $lead->sum_price_final2 = $sale[39];
-                   $lead->tag = $sale[40];
-                   $lead->note = $sale[41];
-                   $lead->sale_employee = $sale[42];
-                   $lead->upsale_name = $sale[43];
-                   $lead->order_date = $sale[44];
-                   $lead->order_datex = date('Y-m-d', strtotime($sale[44]));
-                   $lead->pay_date = $sale[45];
+                   $lead->invoid_no = $sale[13];
+                   $lead->price_pro = $sale[32];
+                   $lead->total_sale = $sale[33];
+                   $lead->discount_pro = $sale[34];
+                   $lead->sum_price_pro = $sale[35];
+                   $lead->sum_order_pro = $sale[36];
+                   $lead->sum_discount_buy_cus = $sale[37];
+                   $lead->sum_price_shipping = $sale[38];
+                   $lead->sum_price_cod = $sale[39];
+                   $lead->sum_price_final = $sale[40];
+                   $lead->sum_tax = $sale[41];
+                   $lead->sum_price_final2 = $sale[42];
+                   $lead->tag = $sale[43];
+                   $lead->note = $sale[44];
+                   $lead->sale_employee = $sale[45];
+                   $lead->upsale_name = $sale[46];
+                   $lead->order_date = $sale[47];
+                   $lead->order_datex = date('Y-m-d', strtotime($sale[47]));
+                   $lead->pay_date = $sale[48];
                    $lead->upsale_id = $upsale_id;
                    $lead->lead_main_id = $lead_main_id;
                    $lead->pro_id = $pro_id;
@@ -198,7 +200,7 @@ class LeadImportController extends Controller
 
                 }else{
 
-                    lead_list::where('name_customer', $sale[2])->where('phone_customer', '0'.$sale[3])->where('order_datex', date('Y-m-d', strtotime($sale[44])))
+                    lead_list::where('name_customer', $sale[4])->where('phone_customer', '0'.$sale[5])->where('order_datex', date('Y-m-d', strtotime($sale[47])))
                     ->update(['lead_lists_statusx' => 1]);
 
                 }
