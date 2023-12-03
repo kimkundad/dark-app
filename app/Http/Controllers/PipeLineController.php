@@ -132,6 +132,8 @@ class PipeLineController extends Controller
             'pipe_name' => 'required',
         ]);
 
+       // dd($request->kt_docs_repeater_basic);
+
         $status = 0;
         if(isset($request['status'])){
             if($request['status'] == 1){
@@ -149,17 +151,23 @@ class PipeLineController extends Controller
 
         if (count($request->kt_docs_repeater_basic) > 0) {
             for ($i = 0; $i < count($request->kt_docs_repeater_basic); $i++) {
-              $pipeline[] = [
-                  'name' => $request->kt_docs_repeater_basic[$i]['step_pipe'],
-                  'day' => $request->kt_docs_repeater_basic[$i]['step_day'],
-                  'sort' => $i,
-                  'pipe_id' => $id
-              ];
+            //   $pipeline[] = [
+            //       'name' => $request->kt_docs_repeater_basic[$i]['step_pipe'],
+            //       'day' => $request->kt_docs_repeater_basic[$i]['step_day'],
+            //       'sort' => $i,
+            //       'pipe_id' => $id
+            //   ];
+
+            $sub = sup_pipeline::find($request->kt_docs_repeater_basic[$i]['step_id']);
+            $sub->name = $request->kt_docs_repeater_basic[$i]['step_pipe'];
+            $sub->day = $request->kt_docs_repeater_basic[$i]['step_day'];
+            $sub->save();
+
             }
         }
-        sup_pipeline::insert($pipeline);
+        // sup_pipeline::insert($pipeline);
         
-           return redirect(url('admin/pipeline'))->with('add_success','เพิ่ม เสร็จเรียบร้อยแล้ว');
+           return redirect(url('admin/pipeline/'.$id.'/edit'))->with('add_success','เพิ่ม เสร็จเรียบร้อยแล้ว');
     }
 
     /**

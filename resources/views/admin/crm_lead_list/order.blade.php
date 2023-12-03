@@ -94,7 +94,7 @@
                                 </div>
 
 
-                                <div class="row mb-6">
+                                {{-- <div class="row mb-6">
                                     <!--begin::Label-->
                                     <label class="col-lg-4 col-form-label required fw-semibold fs-6">ขนส่ง</label>
                                     <!--end::Label-->
@@ -220,7 +220,7 @@
                                         @endif
                                     </div>
                                     <!--end::Col-->
-                                </div>
+                                </div> --}}
 
 
                                 <div class="row mb-6">
@@ -252,7 +252,7 @@
                                 </div>
 
 
-                                <div class="row mb-6">
+                                {{-- <div class="row mb-6">
                                     <!--begin::Label-->
                                     <label class="col-lg-4 col-form-label required fw-semibold fs-6">วันที่ชำระเงิน</label>
                                     <!--end::Label-->
@@ -302,7 +302,7 @@
                                         <input type="text" name="tracking_no" class="form-control form-control-lg form-control-solid" placeholder="กรุณากรอกหมายเลขพัสดุ..." value="{{old('tracking_no') ? old('tracking_no') : ''}}">
                                     </div>
                                     <!--end::Col-->
-                                </div>
+                                </div> --}}
                               
                              
                                 

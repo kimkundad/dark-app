@@ -105,42 +105,63 @@ class OrderListController extends Controller
 
     }
 
+
     public function post_new_order(Request $request, $id){
+
+        // $this->validate($request, [
+        //     'pro_id' => 'required',
+        //     'tran_id' => 'required',
+        //     'lead_lists_payment_type' => 'required',
+        //     'lead_lists_payment_status' => 'required',
+        //     'total_sale' => 'required',
+        //     'sum_price_final2' => 'required',
+        //     'order_date' => 'required',
+        //     'pay_date' => 'required',
+        // ]);
 
         $this->validate($request, [
             'pro_id' => 'required',
-            'tran_id' => 'required',
-            'lead_lists_payment_type' => 'required',
-            'lead_lists_payment_status' => 'required',
-            'total_sale' => 'required',
-            'sum_price_final2' => 'required',
             'order_date' => 'required',
-            'pay_date' => 'required',
         ]);
 
        $objs = lead_main::where('id', $id)->first();
 
        if($objs){
 
+        $user = customer_manager::where('id', $objs->user_id)->first();
+
             $obj = new lead_list();
             $obj->user_id = $objs->user_id;
             $obj->upsale_id = $objs->upsale_id;
             $obj->pip_id = $objs->pip_id;
+            $obj->order_datex = $request->order_date;
             $obj->lead_lists_channels = $objs->lead_lists_channels;
             $obj->pro_id = $request->pro_id;
-            $obj->tran_id = $request->tran_id;
-            $obj->lead_lists_payment_type = $request->lead_lists_payment_type;
-            $obj->lead_lists_payment_status = $request->lead_lists_payment_status;
-            $obj->total_sale = $request->total_sale;
-            $obj->sum_price_final2 = $request->sum_price_final2;
-            $obj->order_date = $request->order_date;
-            $obj->pay_date = $request->pay_date;
-            $obj->tracking_no = $request->tracking_no;
-            $obj->code_lead_lists = $request->code_lead_lists;
-            $obj->discount_pro = $request->discount_pro;
-            $obj->note = $request->note;
             $obj->lead_main_id = $id;
+            $obj->name_customer = $user->fullname;
+            $obj->phone_customer = $user->phone;
             $obj->save();
+
+
+            // $obj = new lead_list();
+            // $obj->user_id = $objs->user_id;
+            // $obj->upsale_id = $objs->upsale_id;
+            // $obj->pip_id = $objs->pip_id;
+            // $obj->lead_lists_channels = $objs->lead_lists_channels;
+            // $obj->pro_id = $request->pro_id;
+            // $obj->tran_id = $request->tran_id;
+            // $obj->lead_lists_payment_type = $request->lead_lists_payment_type;
+            // $obj->lead_lists_payment_status = $request->lead_lists_payment_status;
+            // $obj->total_sale = $request->total_sale;
+            // $obj->sum_price_final2 = $request->sum_price_final2;
+            // $obj->order_date = $request->order_date;
+            // $obj->pay_date = $request->pay_date;
+            // $obj->tracking_no = $request->tracking_no;
+            // $obj->code_lead_lists = $request->code_lead_lists;
+            // $obj->discount_pro = $request->discount_pro;
+            // $obj->note = $request->note;
+            // $obj->lead_main_id = $id;
+            // $obj->save();
 
        }
 

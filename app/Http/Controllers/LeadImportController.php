@@ -13,13 +13,14 @@ use App\Models\transport;
 use App\Models\User;
 use App\Models\lead_main;
 use App\Models\product;
+use App\Models\follow_pipe;
+use App\Models\sup_pipeline;
 
 class LeadImportController extends Controller
 {
     //
     public function fileImport(Request $request) 
     {
-
 
         $csv = file($request->file);
             $chunks = array_chunk($csv, 1000);
@@ -31,7 +32,7 @@ class LeadImportController extends Controller
 
             $files = glob("$path/*.csv");
             $header = [];
-             
+            
 
             foreach ($files as $key => $file) {
 
@@ -45,9 +46,20 @@ class LeadImportController extends Controller
 
                 foreach ($data as $sale) {
 
+                    if($sale[0] !== ' '){
+
+                    $sup_pipeline_ch = 0;
+
                     //dd(date('Y-m-d', strtotime($sale[47])));
 
-                    $check_lead = lead_list::where('name_customer', $sale[4])->where('phone_customer', '0'.$sale[5])->where('order_datex', date('Y-m-d', strtotime($sale[47])))->first();
+                    $product = product::where('pro_name', $sale[26])->first();
+                    if($product){
+                        $pro_id = $product->id;
+                    }else{
+                        $pro_id = 0;
+                    }
+
+                    $check_lead = lead_list::where('name_customer', $sale[4])->where('pro_id', $pro_id)->where('phone_customer', '0'.$sale[5])->where('order_datex', date('Y-m-d', strtotime($sale[47])))->first();
                     
                     if(!$check_lead){
 
@@ -61,11 +73,17 @@ class LeadImportController extends Controller
                         }
 
 
-                        $pipeline = pipeline::where('pipe_name', $sale[30])->first();
+                    $pipeline = pipeline::where('pipe_name', $sale[30])->first();
                     if($pipeline){
                         $pipeline_id = $pipeline->id;
+                        $sup_pipeline = sup_pipeline::where('pipe_id', $pipeline_id)->where('sort', 0)->first();
+                        $sup_pipeline_ch = 1;
+                       // dd($sup_pipeline);
+                       $date_xx = strtotime("+".$sup_pipeline->day." day");
+
                     }else{
                         $pipeline_id = 4;
+                        $date_xx = strtotime("+3 day");
                     }
 
                     if($sale[9] == '-'){
@@ -82,13 +100,6 @@ class LeadImportController extends Controller
                         $tran_id = 7;
                     }
 
-                    $product = product::where('pro_name', $sale[26])->first();
-                    if($product){
-                        $pro_id = $product->id;
-                    }else{
-                        $pro_id = 0;
-                    }
-
                     $user_name = User::where('name', $sale[46])->first();
                     if($user_name){
                         $upsale_id = $user_name->id;
@@ -96,7 +107,7 @@ class LeadImportController extends Controller
                         $upsale_id = 5;
                     }
 
-                    $date = strtotime("+3 day");
+                    
 
                     if($user){
                         $user_id = $user->id;
@@ -113,7 +124,7 @@ class LeadImportController extends Controller
                             $lead_main2->pip_id = $pipeline_id;
                             $lead_main2->lead_lists_channels = $name_ch;
                             $lead_main2->upsale_id = $upsale_id;
-                            $lead_main2->end_date = date('Y-m-d' ,$date);
+                            $lead_main2->end_date = date('Y-m-d' ,$date_xx);
                             $lead_main2->save();
                             $lead_main_id = $lead_main2->id;
 
@@ -151,61 +162,115 @@ class LeadImportController extends Controller
                         $lead_main->pip_id = $pipeline_id;
                         $lead_main->lead_lists_channels = $name_ch;
                         $lead_main->upsale_id = $upsale_id;
-                        $lead_main->end_date = date('Y-m-d' ,$date);
+                        $lead_main->end_date = date('Y-m-d' ,$date_xx);
                         $lead_main->save();
                         $lead_main_id = $lead_main->id;
 
                     }
                    // dd($sale);
 
-                   $lead = new lead_list();
-                   $lead->user_id = $user_id;
-                   $lead->pip_id = $pipeline_id;
-                   $lead->name_customer = $sale[4];
-                   $lead->phone_customer = '0'.$sale[5];
-                   $lead->lead_lists_channels = $name_ch;
-                   $lead->type_sale_lead_lists = $sale[23];
-                   $lead->type_pro_lead_lists = $sale[28]; 
-                   $lead->code_lead_lists = $sale[2];
-                   $lead->sun_upsale = $sun_upsale;
-                   $lead->lead_lists_status_sale = $sale[10];
-                   $lead->lead_lists_payment_type = $sale[11];
-                   $lead->lead_lists_payment_status = $sale[12];
-                   $lead->tracking_no = $sale[21];
-                   $lead->tran_id = $tran_id;
-                   $lead->invoid_no = $sale[13];
-                   $lead->price_pro = $sale[32];
-                   $lead->total_sale = $sale[33];
-                   $lead->discount_pro = $sale[34];
-                   $lead->sum_price_pro = $sale[35];
-                   $lead->sum_order_pro = $sale[36];
-                   $lead->sum_discount_buy_cus = $sale[37];
-                   $lead->sum_price_shipping = $sale[38];
-                   $lead->sum_price_cod = $sale[39];
-                   $lead->sum_price_final = $sale[40];
-                   $lead->sum_tax = $sale[41];
-                   $lead->sum_price_final2 = $sale[42];
-                   $lead->tag = $sale[43];
-                   $lead->note = $sale[44];
-                   $lead->sale_employee = $sale[45];
-                   $lead->upsale_name = $sale[46];
-                   $lead->order_date = $sale[47];
-                   $lead->order_datex = date('Y-m-d', strtotime($sale[47]));
-                   $lead->pay_date = $sale[48];
-                   $lead->upsale_id = $upsale_id;
-                   $lead->lead_main_id = $lead_main_id;
-                   $lead->pro_id = $pro_id;
-                   $lead->lead_lists_statusx = 1;
-                   $lead->save();
+                        $lead = new lead_list();
+                        $lead->user_id = $user_id;
+                        $lead->pip_id = $pipeline_id;
+                        $lead->name_customer = $sale[4];
+                        $lead->phone_customer = '0'.$sale[5];
+                        $lead->lead_lists_channels = $name_ch;
+                        $lead->type_sale_lead_lists = $sale[23];
+                        $lead->type_pro_lead_lists = $sale[28]; 
+                        $lead->code_lead_lists = $sale[2];
+                        $lead->sun_upsale = $sun_upsale;
+                        $lead->lead_lists_status_sale = $sale[10];
+                        $lead->lead_lists_payment_type = $sale[11];
+                        $lead->lead_lists_payment_status = $sale[12];
+                        $lead->tracking_no = $sale[21];
+                        $lead->tran_id = $tran_id;
+                        $lead->invoid_no = $sale[13];
+                        $lead->price_pro = $sale[32];
+                        $lead->total_sale = $sale[33];
+                        $lead->discount_pro = $sale[34];
+                        $lead->sum_price_pro = $sale[35];
+                        $lead->sum_order_pro = $sale[36];
+                        $lead->sum_discount_buy_cus = $sale[37];
+                        $lead->sum_price_shipping = $sale[38];
+                        $lead->sum_price_cod = $sale[39];
+                        $lead->sum_price_final = $sale[40];
+                        $lead->sum_tax = $sale[41];
+                        $lead->sum_price_final2 = $sale[42];
+                        $lead->tag = $sale[43];
+                        $lead->note = $sale[44];
+                        $lead->sale_employee = $sale[45];
+                        $lead->upsale_name = $sale[46];
+                        $lead->order_date = $sale[47];
+                        $lead->order_datex = date('Y-m-d', strtotime($sale[47]));
+                        $lead->pay_date = $sale[48];
+                        $lead->upsale_id = $upsale_id;
+                        $lead->lead_main_id = $lead_main_id;
+                        $lead->pro_id = $pro_id;
+                        $lead->lead_lists_statusx = 1;
+                        $lead->save();
+
+               
+                        if($sup_pipeline_ch == 1){
+
+                            $follow_pipe = new follow_pipe();
+                            $follow_pipe->read_id = $lead_main_id;
+                            $follow_pipe->upsale_idx = $upsale_id;
+                            $follow_pipe->sub_pipe_id = $sup_pipeline->id;
+                            $follow_pipe->user_id_add = 1;
+                            $follow_pipe->cus_id = $user_id;
+                            $follow_pipe->date_follow = date('Y-m-d' ,$date_xx);
+                            $follow_pipe->note = $sup_pipeline->name;
+                            $follow_pipe->save();
+                        }
 
                 }else{
 
-                    lead_list::where('name_customer', $sale[4])->where('phone_customer', '0'.$sale[5])->where('order_datex', date('Y-m-d', strtotime($sale[47])))
-                    ->update(['lead_lists_statusx' => 1]);
+                    $transportx = transport::where('transportname', $sale[20])->first();
+                    if($transportx){
+                        $tran_idx = $transportx->id;
+                    }else{
+                        $tran_idx = 7;
+                    }
+
+                    lead_list::where('name_customer', $sale[4])->where('pro_id', $pro_id)->where('phone_customer', '0'.$sale[5])->where('order_datex', date('Y-m-d', strtotime($sale[47])))
+                    ->update(
+                        [
+                            'lead_lists_statusx' => 1,
+                            'type_sale_lead_lists' => $sale[23],
+                            'type_pro_lead_lists' => $sale[28],
+                            'code_lead_lists' => $sale[2],
+                            'lead_lists_status_sale' => $sale[10],
+                            'lead_lists_payment_type' => $sale[11],
+                            'lead_lists_payment_status' => $sale[12],
+                            'tracking_no' => $sale[21],
+                            'tran_id' => $tran_idx,
+                            'invoid_no' => $sale[13],
+                            'price_pro' => $sale[32],
+                            'total_sale' => $sale[33],
+                            'discount_pro' => $sale[34],
+                            'sum_price_pro' => $sale[35],
+                            'sum_order_pro' => $sale[36],
+                            'sum_discount_buy_cus' => $sale[37],
+                            'sum_price_shipping' => $sale[38],
+                            'sum_price_cod' => $sale[39],
+                            'sum_price_final' => $sale[40],
+                            'sum_tax' => $sale[41],
+                            'sum_price_final2' => $sale[42],
+                            'tag' => $sale[43],
+                            'note' => $sale[44],
+                            'sale_employee' => $sale[45],
+                            'upsale_name' => $sale[46],
+                            'order_datex' => date('Y-m-d', strtotime($sale[47])),
+                            'order_date' => $sale[47],
+                            'pay_date' => $sale[48],
+                        ]
+                    );
 
                 }
                 // end check_lead
+            }
                 }
+
                 unlink($file);
             }
 

@@ -424,7 +424,7 @@ $('body').on('click', 'a.assign', function() {
         });
         console.log('ids-->',ids);
     } else {
-        alert('select at least one checkbox');
+        alert('กรุณาเลือก CRM ที่รอจ่ายด้วย');
     }
 });
 

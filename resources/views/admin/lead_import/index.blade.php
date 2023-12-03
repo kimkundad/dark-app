@@ -251,6 +251,9 @@ var myDropzone = new Dropzone("#kt_dropzonejs_example_1", {
             done("Naha, you don't.");
         } else {
             done();
+
+            console.log('done-->', done);
+
             const el = document.querySelector('#hidden');
             el.classList.remove("hidden");
 

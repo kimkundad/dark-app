@@ -77,6 +77,19 @@
                                 </div>
 
                                 <hr>
+                                <!--begin::Alert-->
+                                <div class="alert alert-primary d-flex align-items-center p-5">
+
+                                    <!--begin::Wrapper-->
+                                    <div class="d-flex flex-column">
+
+                                        <!--begin::Content-->
+                                        <span>ช่องจำนวนห่างของวันอันสุดท้ายไม่ต้องกรอกข้อมูลลงไป</span>
+                                        <!--end::Content-->
+                                    </div>
+                                    <!--end::Wrapper-->
+                                </div>
+                                <!--end::Alert-->
                                 <br>
                                 <div id="kt_docs_repeater_basic" >
                                     <div class="form-group">
@@ -92,6 +105,7 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         <input type="text" name="step_pipe" value="{{ $u->name }}" class="form-control mb-2 mb-md-0" placeholder="กรอกชื่อขั้นตอน..." />
+                                                        <input type="hidden" name="step_id" value="{{ $u->id }}" />
                                                     </div>
                                                     <div class="col-md-3">
                                                         <input type="text" name="step_day" value="{{ $u->day }}" class="form-control mb-2 mb-md-0" placeholder="จำนวนห่างของวัน..." />
@@ -110,11 +124,11 @@
 
                                         </div>
                                     </div>
-                                    <div class="text-center">
+                                    {{-- <div class="text-center">
                                         <a href="javascript:;" data-repeater-create class="btn btn-light-primary">
                                             Add
                                         </a>
-                                    </div>
+                                    </div> --}}
                                  
                                 </div>
                                 <br>
@@ -140,10 +154,10 @@
                             
 
                             </div>
-                            {{-- <div class="card-footer d-flex justify-content-end py-6 px-9">
+                            <div class="card-footer d-flex justify-content-end py-6 px-9">
                                 <button type="reset" class="btn btn-light btn-active-light-primary me-2">ยกเลิก</button>
                                 <button type="submit" class="btn btn-primary" id="kt_account_profile_details_submit">บันทึกข้อมูล</button>
-                            </div> --}}
+                            </div>
                         </div>
                     </form>
                 </div>

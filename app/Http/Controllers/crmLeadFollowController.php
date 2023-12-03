@@ -19,6 +19,7 @@ class crmLeadFollowController extends Controller
      */
     public function crm_lead_follow()
     {
+
         //
         $count = follow_pipe::count();
         $objs = DB::table('follow_pipes')->select(
@@ -37,7 +38,8 @@ class crmLeadFollowController extends Controller
             ->leftjoin('lead_mains', 'lead_mains.id',  'follow_pipes.read_id')
             ->leftjoin('sup_pipelines', 'sup_pipelines.id',  'follow_pipes.sub_pipe_id')
             ->leftjoin('pipelines', 'pipelines.id',  'sup_pipelines.pipe_id')
-            ->orderBy('follow_pipes.id', 'desc')
+            ->orderBy('follow_pipes.follow_pipes_status', 'asc')
+            ->orderBy('follow_pipes.created_at', 'desc')
             ->paginate(30);
 
            // dd($objs);
