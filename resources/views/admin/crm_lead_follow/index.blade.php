@@ -5,6 +5,12 @@
 @stop
 @section('stylesheet')
 
+<style>
+     .table.gy-5 td, .table.gy-5 th {
+        font-size: 12px;
+}
+</style>
+
 @stop('stylesheet')
 
 @section('content')
@@ -158,8 +164,26 @@
                     </div>
                     
                     <div class="card-body pt-0">
+
+                        <table class="table align-middle table-row-dashed fs-6 gy-5 data-table" id="report-table">
+                            <thead>
+                                <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                    <th>วันที่แจ้งเตือน</th>
+                                    <th>รายการ LEAD</th>
+                                    <th class=" ">Pipeline</th>
+                                    <th class="">สถานะ</th>
+                                    <th class=" min-w-175px">หมายเหตุ</th>
+                                    <th class=" ">สถานะการติดตาม</th>
+                                    <th class=" ">สถานะแจ้งเตือน</th>
+                                    <th class=" ">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+
                         <!--begin::Table-->
-                        <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_sales_table">
+                        {{-- <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_sales_table">
                             <!--begin::Table head-->
                             <thead>
                                 <!--begin::Table row-->
@@ -211,6 +235,7 @@
                                         <span >{{ $u->notes }}</span>
                                         <!--end::Badges-->
                                     </td>
+
                                     <!--end::Total=-->
                                     <td class="text-end pe-0">
                                         @if($u->follow_pipes_status == 1)
@@ -266,7 +291,7 @@
                             </tbody>
                             <!--end::Table body-->
                         </table>
-                        <!--end::Table-->
+                        <!--end::Table--> --}}
                     </div>
                         
                 </div>
@@ -290,8 +315,11 @@ $("#kt_ecommerce_sales_flatpickr").flatpickr();
 
 
 <script type="text/javascript">
-    $(document).ready(function(){
-      $(".clickme").on('click', function() {
+
+        
+
+        $(document).on('click', '.clickme', function() {
+        
         var user_id = $(this).closest('tr').attr('id');
         console.log('user_id', user_id)
         $.ajax({
@@ -334,6 +362,36 @@ $("#kt_ecommerce_sales_flatpickr").flatpickr();
                 }
             });
         });
+
+
+
+    $(function () {
+      
+      var table = $('.data-table').DataTable({
+          processing: true,
+          serverSide: true,
+          ajax: {
+              url: "{{ url('api/get_crm_lead_follow') }}",
+              data:function (d) {
+                //   d.search_name = document.getElementById("search_name").value;
+              }
+          },
+          columns: [
+              {data: 'date_follow', name: 'date_follow'},
+              {data: 'user', name: 'user', orderable: false, searchable: false},
+              {data: 'pipe_name', name: 'pipe_name'},
+              {data: 'sub_namex', name: 'sub_namex'},
+              {data: 'notes', name: 'notes'},
+              {data: 'follow_pipes_status', name: 'follow_pipes_status'},
+              {data: 'date_follow', name: 'date_follow'},
+              {data: 'action', name: 'action', orderable: false, searchable: false},
+          ]
+      });
+    
+      $(".filter").click(function(){
+          table.draw();
+      });
+          
     });
     </script>
 
