@@ -190,8 +190,10 @@
                                     </td>
 
                                     <td>
-                                                    <a href="#" class="text-dark fw-bold text-hover-primary mb-1 fs-6">{{ $u->lead_name }}</a>
-                                                    <span class="text-muted fw-semibold d-block fs-7">โดย {{ $u->name }}</span>
+                                        <div>
+                                            <a href="#" class="text-dark fw-bold text-hover-primary mb-1 fs-6">{{ $u->lead_name }}</a>
+                                            <span class="text-muted fw-semibold d-block fs-7">โดย {{ $u->name }}</span>
+                                        </div>
                                                 </td>
                                     <!--begin::Status=-->
                                     <td class="text-end pe-0">
