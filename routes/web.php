@@ -74,6 +74,8 @@ Route::group(['middleware' => ['UserRole:superadmin|admin']], function() {
     Route::get('/admin/waiting_distribute_crm', [App\Http\Controllers\CrmLeadListController::class, 'waiting_distribute_crm']);
     Route::get('/admin/crm_lead_list', [App\Http\Controllers\CrmLeadListController::class, 'view']);
 
+    Route::get('/api/get_crm_lead_list', [App\Http\Controllers\CrmLeadListController::class, 'get_crm_lead_list']);
+
     Route::post('/admin/change_upsale_id_wait', [App\Http\Controllers\CrmLeadListController::class, 'change_upsale_id_wait']);
 
     Route::post('/admin/add_change_upsale/{id}', [App\Http\Controllers\CrmLeadListController::class, 'add_change_upsale']);
@@ -98,13 +100,13 @@ Route::group(['middleware' => ['UserRole:superadmin|admin']], function() {
 
     Route::get('/admin/crm_lead_status', [App\Http\Controllers\CrmLeadListController::class, 'crm_lead_status']);
 
-
+    Route::get('api/get_user_manager', [App\Http\Controllers\MyUserController::class, 'get_user_manager']);
     Route::resource('/admin/user_manager', MyUserController::class);
     Route::post('/api/api_post_status_MyUser', [App\Http\Controllers\MyUserController::class, 'api_post_status_MyUser']);
     Route::get('api/del_MyUser/{id}', [App\Http\Controllers\MyUserController::class, 'del_MyUser']);
     Route::get('admin/users_search/', [App\Http\Controllers\MyUserController::class, 'users_search']);
 
-
+    Route::get('api/get_customer', [App\Http\Controllers\CustomerController::class, 'get_customer']);
     Route::resource('/admin/customer_manager', CustomerController::class);
     Route::post('/api/api_post_status_customer', [App\Http\Controllers\CustomerController::class, 'api_post_status_customer']);
     Route::get('api/del_customer/{id}', [App\Http\Controllers\CustomerController::class, 'del_MyUser']);

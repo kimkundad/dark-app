@@ -97,17 +97,35 @@
                                     </svg>
                                 </span>
                                 <!--end::Svg Icon-->
-                                <input type="text" data-kt-ecommerce-order-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="ค้นหาจาก ชื่อลูกค้า" />
+                                <input type="text" id="search_name" name="search_name" class="form-control form-control-solid w-250px ps-14" placeholder="ค้นหาจาก ชื่อลูกค้า" />
                             </div>
-                            <a class="btn btn-primary">ค้นหา</a>
+                            <a class="btn btn-primary filter">ค้นหา</a>
                             <!--end::Add product-->
                         </div>
                         <!--end::Card toolbar-->
                     </div>
                     
                     <div class="card-body pt-0">
+
+                        <!--begin::Datatable-->
+                        <table class="table align-middle table-row-dashed fs-6 gy-5 data-table" >
+                            <thead>
+                                <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                    <th >ช่องทาง</th>
+                                    <th >หมายเลขลูกค้า</th>
+                                    <th >ชื่อลูกค้า</th>
+                                    <th >เบอร์ติดต่อ</th>
+                                    <th >จังหวัด</th>
+                                    <th >วันที่สร้าง</th>
+                                    <th class="text-end min-w-100px">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <!--end::Datatable-->
                         
-                        <!--begin::Table-->
+                        {{-- <!--begin::Table-->
                         <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_sales_table">
                             <!--begin::Table head-->
                             <thead>
@@ -215,9 +233,9 @@
                             </tbody>
                             <!--end::Table body-->
                         </table>
-                        <!--end::Table-->
+                        <!--end::Table--> --}}
                     </div>
-                    @include('admin.pagination.default', ['paginator' => $objs])
+                    {{-- @include('admin.pagination.default', ['paginator' => $objs]) --}}
                 </div>
                     <!--begin::Body-->
             </div>
@@ -231,6 +249,39 @@
 @endsection
 
 @section('scripts')
+
+<script type="text/javascript">
+
+
+$(function () {
+      
+  var table = $('.data-table').DataTable({
+      processing: true,
+      serverSide: true,
+      ajax: {
+          url: "{{ url('api/get_customer') }}",
+          data:function (d) {
+              d.search_name = document.getElementById("search_name").value;
+          }
+      },
+      columns: [
+          {data: 'ch', name: 'ch', orderable: false, searchable: false},
+          {data: 'codeuser', name: 'codeuser'},
+          {data: 'fullname', name: 'fullname'},
+          {data: 'phone', name: 'phone'},
+          {data: 'province', name: 'province'},
+          {data: 'created_ats', name: 'created_ats'},
+          {data: 'action', name: 'action', orderable: false, searchable: false},
+      ]
+  });
+
+  $(".filter").click(function(){
+      table.draw();
+  });
+      
+});
+
+  </script>
 
 
 @stop('scripts')

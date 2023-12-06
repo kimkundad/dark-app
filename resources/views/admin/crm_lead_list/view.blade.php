@@ -9,6 +9,9 @@
     .hidden{
         display: none !important;
     }
+    .table.gy-5 td, .table.gy-5 th {
+        font-size: 12px;
+}
 </style>
 
 @stop('stylesheet')
@@ -80,7 +83,7 @@
                                     </svg>
                                 </span>
                                 <!--end::Svg Icon-->
-                                <input type="text" data-kt-ecommerce-order-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="ค้นหาลูกค้า" />
+                                <input type="text" id="search_name" name="search_name" class="form-control form-control-solid w-250px ps-14" placeholder="ค้นหาลูกค้า" />
                             </div>
                             <!--end::Search-->
                         </div>
@@ -90,43 +93,28 @@
                             <!--begin::Flatpickr-->
                             <div class="w-100 mw-150px">
                                 <!--begin::Select2-->
-                                <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="วันหมดอายุ" data-kt-ecommerce-order-filter="status">
-                                    <option></option>
-                                    <option value="all">All</option>
-                                    <option value="Cancelled">Cancelled</option>
-                                    <option value="Completed">Completed</option>
-                                    <option value="Denied">Denied</option>
-                                    <option value="Expired">Expired</option>
-                                    <option value="Failed">Failed</option>
-                                    <option value="Pending">Pending</option>
-                                    <option value="Processing">Processing</option>
-                                    <option value="Refunded">Refunded</option>
-                                    <option value="Delivered">Delivered</option>
-                                    <option value="Delivering">Delivering</option>
+                                <select class="form-select form-select-solid" id="search_end_day" name="search_end_day" data-control="select2" data-placeholder="วันหมดอายุ">
+                                    <option value="">ทั้งหมด</option>
+                                    <option value="1">หมดอายุ</option>
+                                    <option value="2">กำลังใช้งาน</option>
                                 </select>
                                 <!--end::Select2-->
                             </div>
                             <!--end::Flatpickr-->
                             <div class="w-100 mw-150px">
                                 <!--begin::Select2-->
-                                <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="เลือกผู้ดูแล" data-kt-ecommerce-order-filter="status">
-                                    <option></option>
-                                    <option value="all">All</option>
-                                    <option value="Cancelled">Cancelled</option>
-                                    <option value="Completed">Completed</option>
-                                    <option value="Denied">Denied</option>
-                                    <option value="Expired">Expired</option>
-                                    <option value="Failed">Failed</option>
-                                    <option value="Pending">Pending</option>
-                                    <option value="Processing">Processing</option>
-                                    <option value="Refunded">Refunded</option>
-                                    <option value="Delivered">Delivered</option>
-                                    <option value="Delivering">Delivering</option>
+                                <select class="form-select form-select-solid" id="search_upsale" name="search_upsale" data-control="select2" data-placeholder="เลือกผู้ดูแล" >
+                                    <option value="">ทั้งหมด</option>
+                                    @isset($user)
+                                    @foreach($user as $u)
+                                    <option value="{{ $u->id }}">{{ $u->name }}</option>
+                                    @endforeach
+                                    @endisset
                                 </select>
                                 <!--end::Select2-->
                             </div>
                             <!--begin::Add product-->
-                            <a class="btn btn-primary">ค้นหา</a>
+                            <a class="btn btn-primary filter">ค้นหา</a>
                             <!--end::Add product-->
                         </div>
                         <!--end::Card toolbar-->
@@ -135,7 +123,28 @@
                     <div class="card-body pt-0">
 
                         <div class="table-responsive">
-                        <!--begin::Table-->
+
+                            <table class="table align-middle table-row-dashed fs-6 gy-5 data-table" >
+                                <thead>
+                                    <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                    <th class="min-w-50px">ลำดับที่</th>
+                                    <th class="min-w-175px">ชื่อลูกค้า</th>
+                                    <th class="min-w-100px">ช่องทาง</th>
+                                    <th class=" min-w-100px">เบอร์ติดต่อ</th>
+                                    <th class=" min-w-100px">ผู้ดูแล</th>
+                                    <th class=" min-w-100px">Pipeline</th>
+                                    <th class=" min-w-100px">สถานะ</th>
+                                    <th class=" min-w-100px">วันหมดอายุ</th>
+                                    <th class=" min-w-100px">สร้างเมื่อ</th>
+                                    <th class="min-w-100px text-end" style="width:140px">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+
+
+                        {{-- <!--begin::Table-->
                         <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_sales_table">
                             <!--begin::Table head-->
                             <thead>
@@ -273,9 +282,9 @@
                             </tbody>
                             <!--end::Table body-->
                         </table>
-                        <!--end::Table-->
+                        <!--end::Table--> --}}
                         </div>
-                        @include('admin.pagination.default', ['paginator' => $objs])
+                        {{-- @include('admin.pagination.default', ['paginator' => $objs]) --}}
                     </div>
                         
                 </div>
@@ -427,6 +436,42 @@
         
 
     });
+
+
+
+      
+      var table = $('.data-table').DataTable({
+          processing: true,
+          serverSide: true,
+          ajax: {
+              url: "{{ url('api/get_crm_lead_list') }}",
+              data:function (d) {
+                  d.search_name = document.getElementById("search_name").value;
+                  d.search_end_day = document.getElementById("search_end_day").value;
+                  d.search_upsale = document.getElementById("search_upsale").value;
+              }
+          },
+          columns: [
+            { data: 'id', "render": function(data, type, row, meta){
+            return meta.row + 1; // สร้างลำดับตั้งแต่ 1, 2, 3, …
+            }},
+              {data: 'user', name: 'user', orderable: false, searchable: false},
+              {data: 'ch', name: 'ch', orderable: false, searchable: false},
+              {data: 'phones', name: 'phones'},
+              {data: 'names', name: 'names'},
+              {data: 'pipe_name', name: 'pipe_name', orderable: false, searchable: false},
+              {data: 'name_sup_pipe', name: 'name_sup_pipe'}, 
+              {data: 'end_dates', name: 'end_dates'}, 
+              {data: 'created_ats', name: 'created_ats'},
+              {data: 'action', name: 'action', orderable: false, searchable: false},
+          ]
+      });
+    
+      $(".filter").click(function(){
+          table.draw();
+      });
+          
+
 
 </script>
 

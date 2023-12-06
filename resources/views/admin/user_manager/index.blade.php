@@ -75,10 +75,8 @@
                         <!--begin::Card title-->
                         <!--end::Card title-->
                         <!--begin::Card toolbar-->
-                        <div class="d-flex flex-row-fluid justify-content-end">
-                        <form action="{{url('admin/users_search')}}" method="GET" enctype="multipart/form-data">
-                            {{ csrf_field() }}
-                        <div class="card-toolbar gap-5">
+                        <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
+                            <!--begin::Flatpickr-->
                             <div class="d-flex align-items-center position-relative my-1">
                                 <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
                                 <span class="svg-icon svg-icon-1 position-absolute ms-4">
@@ -88,20 +86,36 @@
                                     </svg>
                                 </span>
                                 <!--end::Svg Icon-->
-                                <input type="text" name="search" class="form-control form-control-solid w-250px ps-14" placeholder="ค้นหาจาก ชื่อ-นามสกุล" />
+                                <input type="text" id="search_name" name="search_name" class="form-control form-control-solid w-250px ps-14" placeholder="ค้นหาจาก ชื่อพนักงาน" />
                             </div>
-                            <button type="submit" class="btn btn-primary" >ค้นหา</button>
+                            <a class="btn btn-primary filter">ค้นหา</a>
                             <!--end::Add product-->
-                            
                         </div>
-                    </form>
-                </div>
                         <!--end::Card toolbar-->
                     </div>
                     
                     <div class="card-body pt-0">
+
+
+                        <table class="table align-middle table-row-dashed fs-6 gy-5 data-table" >
+                            <thead>
+                                <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                    <th >ลำดับที่</th>
+                                    <th >ชื่อเข้าใช้งาน</th>
+                                    <th >ชื่อ-นามสกุล</th>
+                                    <th >เบอร์ติดต่อ</th>
+                                    <th >สิทธิ์การใช้งาน</th>
+                                    <th >วันที่เพิ่ม</th>
+                                    <th class="text-end min-w-100px">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+
+
                         <!--begin::Table-->
-                        <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_sales_table">
+                        {{-- <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_sales_table">
                             <!--begin::Table head-->
                             <thead>
                                 <!--begin::Table row-->
@@ -203,7 +217,7 @@
                             <!--end::Table body-->
                         </table>
                         <!--end::Table-->
-                        @include('admin.pagination.default', ['paginator' => $objs])
+                        @include('admin.pagination.default', ['paginator' => $objs]) --}}
                     </div>
                     
                 </div>
@@ -221,6 +235,37 @@
 
 <script >
 $("#kt_datepicker_2").flatpickr();
+
+
+$(function () {
+      
+      var table = $('.data-table').DataTable({
+          processing: true,
+          serverSide: true,
+          ajax: {
+              url: "{{ url('api/get_user_manager') }}",
+              data:function (d) {
+                  d.search_name = document.getElementById("search_name").value;
+              }
+          },
+          columns: [
+            { data: 'id', "render": function(data, type, row, meta){
+            return meta.row + 1; // สร้างลำดับตั้งแต่ 1, 2, 3, …
+            }},
+              {data: 'user', name: 'user', orderable: false, searchable: false},
+              {data: 'fname', name: 'fname'},
+              {data: 'phone', name: 'phone'},
+              {data: 'name1', name: 'name1'},
+              {data: 'created_ats', name: 'created_ats'},
+              {data: 'action', name: 'action', orderable: false, searchable: false},
+          ]
+      });
+    
+      $(".filter").click(function(){
+          table.draw();
+      });
+          
+    });
 
 </script>
 

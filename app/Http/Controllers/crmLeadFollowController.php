@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
 use App\Models\follow_pipe;
+use App\Models\lead_main;
 use Response;
 use Auth;
 
@@ -135,6 +136,10 @@ class crmLeadFollowController extends Controller
             $obj->cus_id = $request->cus_id;
             $obj->date_follow = $request->date_follow;
             $obj->save();
+
+            $objs = lead_main::find($id);
+           $objs->end_date = $request->date_follow;
+           $objs->save();
 
         //
         return redirect(url('admin/crm_lead_list_view/'.$id))->with('add_success','เพิ่ม เสร็จเรียบร้อยแล้ว');
