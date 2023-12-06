@@ -129,7 +129,7 @@
                                     <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                                     <th class="min-w-50px">ลำดับที่</th>
                                     <th class="min-w-175px">ชื่อลูกค้า</th>
-                                    <th class="min-w-100px">ช่องทาง</th>
+                                    <th class="min-w-50px">ช่องทาง</th>
                                     <th class=" min-w-100px">เบอร์ติดต่อ</th>
                                     <th class=" min-w-100px">ผู้ดูแล</th>
                                     <th class=" min-w-100px">Pipeline</th>
@@ -438,7 +438,7 @@
     });
 
 
-
+    $(function () {
       
       var table = $('.data-table').DataTable({
           processing: true,
@@ -470,9 +470,9 @@
       $(".filter").click(function(){
           table.draw();
       });
-          
 
 
+    });
 </script>
 
 

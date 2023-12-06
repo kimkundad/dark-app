@@ -70,11 +70,13 @@ Route::group(['middleware' => ['UserRole:superadmin|admin']], function() {
     });
 
 
+    Route::get('/api/get_all_orders', [App\Http\Controllers\CrmLeadListController::class, 'get_all_orders']);
     Route::get('/admin/all_orders', [App\Http\Controllers\CrmLeadListController::class, 'all_orders']);
     Route::get('/admin/waiting_distribute_crm', [App\Http\Controllers\CrmLeadListController::class, 'waiting_distribute_crm']);
     Route::get('/admin/crm_lead_list', [App\Http\Controllers\CrmLeadListController::class, 'view']);
 
     Route::get('/api/get_crm_lead_list', [App\Http\Controllers\CrmLeadListController::class, 'get_crm_lead_list']);
+    Route::get('/api/get_waiting_distribute_crm', [App\Http\Controllers\CrmLeadListController::class, 'get_waiting_distribute_crm']);
 
     Route::post('/admin/change_upsale_id_wait', [App\Http\Controllers\CrmLeadListController::class, 'change_upsale_id_wait']);
 

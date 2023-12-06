@@ -9,6 +9,9 @@
     .hidden{
         display: none !important;
     }
+    .table.gy-5 td, .table.gy-5 th {
+        font-size: 12px;
+}
 </style>
 
 @stop('stylesheet')
@@ -80,7 +83,7 @@
                                     </svg>
                                 </span>
                                 <!--end::Svg Icon-->
-                                <input type="text" data-kt-ecommerce-order-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="ค้นหาลูกค้า" />
+                                <input type="text" id="search_name" name="search_name" class="form-control form-control-solid w-250px ps-14" placeholder="ค้นหาลูกค้า" />
                             </div>
                             <!--end::Search-->
                         </div>
@@ -90,43 +93,16 @@
                             <!--begin::Flatpickr-->
                             <div class="w-100 mw-150px">
                                 <!--begin::Select2-->
-                                <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="วันหมดอายุ" data-kt-ecommerce-order-filter="status">
+                                <select class="form-select form-select-solid" id="search_status" name="search_status" data-control="select2" data-hide-search="true" data-placeholder="เลือกสถานะ" data-kt-ecommerce-order-filter="status">
                                     <option></option>
-                                    <option value="all">All</option>
-                                    <option value="Cancelled">Cancelled</option>
-                                    <option value="Completed">Completed</option>
-                                    <option value="Denied">Denied</option>
-                                    <option value="Expired">Expired</option>
-                                    <option value="Failed">Failed</option>
-                                    <option value="Pending">Pending</option>
-                                    <option value="Processing">Processing</option>
-                                    <option value="Refunded">Refunded</option>
-                                    <option value="Delivered">Delivered</option>
-                                    <option value="Delivering">Delivering</option>
-                                </select>
-                                <!--end::Select2-->
-                            </div>
-                            <!--end::Flatpickr-->
-                            <div class="w-100 mw-150px">
-                                <!--begin::Select2-->
-                                <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="เลือกผู้ดูแล" data-kt-ecommerce-order-filter="status">
-                                    <option></option>
-                                    <option value="all">All</option>
-                                    <option value="Cancelled">Cancelled</option>
-                                    <option value="Completed">Completed</option>
-                                    <option value="Denied">Denied</option>
-                                    <option value="Expired">Expired</option>
-                                    <option value="Failed">Failed</option>
-                                    <option value="Pending">Pending</option>
-                                    <option value="Processing">Processing</option>
-                                    <option value="Refunded">Refunded</option>
-                                    <option value="Delivered">Delivered</option>
-                                    <option value="Delivering">Delivering</option>
+                                    <option value="3">ทั้งหมด</option>
+                                    <option value="0">รอจับคู่</option>
+                                    <option value="1">จับคู่แล้ว</option>
                                 </select>
                                 <!--end::Select2-->
                             </div>
                             <!--begin::Add product-->
-                            <a class="btn btn-primary">ค้นหา</a>
+                            <a class="btn btn-primary filter">ค้นหา</a>
                             <!--end::Add product-->
                         </div>
                         <!--end::Card toolbar-->
@@ -135,8 +111,29 @@
                     <div class="card-body pt-0">
 
                         <div class="table-responsive">
+
+                            <table class="table align-middle table-row-dashed fs-6 gy-5 data-table" >
+                                <thead>
+                                    <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                        <th class="min-w-50px">ลำดับที่</th>
+                                        <th class="min-w-100px">รวมทั้งสิ้น </th>
+                                        <th class="min-w-175px">วันที่สั่งซื้อ</th>
+                                        <th class="min-w-200px">ชื่อลูกค้า</th>
+                                        <th class="min-w-100px">เบอร์ติดต่อ</th>
+                                        <th class="min-w-175px">พนักงาน sale crm</th>
+                                        <th >ชื่อสินค้า</th>
+                                        <th class="min-w-100px">สถานะ</th>
+                                        <th class="min-w-100px">สถานะคำสั่งซื้อ</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+
+
                         <!--begin::Table-->
-                        <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_sales_table">
+                        {{-- <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_sales_table">
                             <!--begin::Table head-->
                             <thead>
                                 <!--begin::Table row-->
@@ -260,7 +257,7 @@
                                             <!--end::Menu item-->
                                         </div> --}}
                                         <!--end::Menu-->
-                                    </td>
+                                    {{-- </td>
                                     <!--end::Action=-->
                                 </tr>
                                 <!--end::Table row-->
@@ -269,10 +266,10 @@
                                 
                             </tbody>
                             <!--end::Table body-->
-                        </table>
+                        </table> --}} 
                         <!--end::Table-->
                         </div>
-                        @include('admin.pagination.default', ['paginator' => $objs])
+                        {{-- @include('admin.pagination.default', ['paginator' => $objs]) --}}
                     </div>
                         
                 </div>
@@ -286,142 +283,45 @@
 </div>
 
 
-<div class="modal fade" id="kt_modal_view_users" tabindex="-1" aria-hidden="true">
-    <!--begin::Modal dialog-->
-    <div class="modal-dialog mw-650px">
-        <!--begin::Modal content-->
-        <div class="modal-content">
-            <!--begin::Modal header-->
-            <div class="modal-header pb-0 border-0 justify-content-end">
-                <!--begin::Close-->
-                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
-                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-                    <span class="svg-icon svg-icon-1">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="currentColor" />
-                            <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="currentColor" />
-                        </svg>
-                    </span>
-                    <!--end::Svg Icon-->
-                </div>
-                <!--end::Close-->
-            </div>
-            <!--begin::Modal header-->
-            <!--begin::Modal body-->
-            <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
-                <!--begin::Heading-->
-                <div class="text-center mb-13">
-                    <!--begin::Title-->
-                    <h2 class="mb-3">ย้าย Pipline</h2>
-                    <!--end::Title-->
-                    <!--begin::Description-->
-                    
-                    <!--end::Description-->
-                </div>
-                <div>
-                    <input type="hidden" name="idx" id="docterId" />
-                    <div class="text-left">
-                        <div class="fs-3 fw-bold text-dark">ต้นทาง Pipeline</div>
-                        <p class="text-gray-400 fw-semibold fs-5 mt-1 mb-7" id="pipe_name"></p>
-                    </div>
-                    <!--begin::Alert-->
-                    <div class="alert alert-success d-flex align-items-center p-5 hidden" id="el">
-                        <!--begin::Wrapper-->
-                        <div class="d-flex flex-column">
-                            <!--begin::Title-->
-                            <h4 class="mb-1 text-dark">ยินดีด้วย</h4>
-                            <!--end::Title-->
-
-                            <!--begin::Content-->
-                            <span>ระบบได้ทำการอัพเดทข้อมูลของคุณเรียบร้อยแล้วครับ</span>
-                            <!--end::Content-->
-                        </div>
-                        <!--end::Wrapper-->
-                    </div>
-                    <!--end::Alert-->
-                    <div>
-                        <select class="form-select" aria-label="Select example" id="ddlViewBy">
-                            <option value="">เลือก Pipeline</option>
-                                @isset($pipe)
-                                    @foreach($pipe as $u)
-                                    <option value="{{$u->id}}">{{ $u->pipe_name }}</option>
-                                    @endforeach
-                                @endisset
-                        </select>
-                    </div>
-
-                    <br>
-                    <div class="text-center">
-                        <a href="#" id="addAppointment" class="btn btn-sm fw-bold btn-primary">บันทึก</a>
-                    </div>
-                </div>
-                <!--end::Heading-->
-            </div>
-            <!--end::Modal body-->
-        </div>
-        <!--end::Modal content-->
-    </div>
-    <!--end::Modal dialog-->
-</div>
-
 @endsection
 
 @section('scripts')
 
 <script >
 
-    $(document).on('click', '.openModal', function () {
-        var id = $(this).data('id');
-        var pipe_name = $(this).data('pipe');
-        $("#pipe_name").text(pipe_name);
 
-        $('#docterId').val(id);
-         $('#kt_modal_view_users').modal('show');
-    })
+$(function () {
+      
+      var table = $('.data-table').DataTable({
+          processing: true,
+          serverSide: true,
+          ajax: {
+              url: "{{ url('api/get_all_orders') }}",
+              data:function (d) {
+                  d.search_name = document.getElementById("search_name").value;
+                  d.search_status = document.getElementById("search_status").value;
+              }
+          },
+          columns: [
+            { data: 'id_q', "render": function(data, type, row, meta){
+            return meta.row + 1; // สร้างลำดับตั้งแต่ 1, 2, 3, …
+            }},
+              {data: 'sum_price_final', name : 'sum_price_final'},
+              {data: 'order_date', name: 'order_date'},
+              {data: 'user', name: 'user', orderable: false, searchable: false},
+              {data: 'phones', name: 'phones'},
+              {data: 'names', name: 'names'},
+              {data: 'pro_name', name: 'pro_name'}, 
+              {data: 'status_or', name: 'status_or', orderable: false, searchable: false}, 
+              {data: 'status_salexx', name: 'status_salexx', orderable: false, searchable: false},
+              {data: 'action', name: 'action', orderable: false, searchable: false},
+          ]
+      });
+    
+      $(".filter").click(function(){
+          table.draw();
+      });
 
-    $('a#addAppointment').on('click', function(e) {
-        e.preventDefault();
-        var id = $('#docterId').val();
-        var e = document.getElementById("ddlViewBy");
-        var value = e.value;
-
-        if(value){
-            console.log('value', value);
-
-            $.ajax({
-            url: "{{url('admin/change_pipe')}}",
-            type:"POST",
-            data:{
-                pipe:value,
-                id:id,
-                _token:'{{ csrf_token() }}',
-            },
-            success:function(response){
-                if(response){
-                    console.log('response', response);
-                    const el = document.querySelector('#el');
-                    el.classList.remove("hidden");
-
-                    setTimeout(function(){ 
-
-                        var d = document.getElementById("el");
-                        d.className += " hidden";
-
-                     }, 2000);
-
-                     setTimeout(function(){ 
-
-                        window.location.reload();
-
-                    }, 2500);
-
-                     
-                }
-            }
-        });
-        }
-
-        
 
     });
 
