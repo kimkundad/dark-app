@@ -91,6 +91,7 @@ Route::group(['middleware' => ['UserRole:superadmin|admin']], function() {
     Route::post('/api/api_post_status_follow', [App\Http\Controllers\crmLeadFollowController::class, 'api_post_status_follow']);
     Route::post('/admin/add_following_pipe/{id}', [App\Http\Controllers\crmLeadFollowController::class, 'add_following_pipe']);
     Route::get('/admin/crm_lead_follow/', [App\Http\Controllers\crmLeadFollowController::class, 'crm_lead_follow']);
+    Route::get('/api/get_crm_lead_follow/', [App\Http\Controllers\crmLeadFollowController::class, 'get_crm_lead_follow']);
     // Route::get('/admin/crm_lead_follow', function () {
     //     return view('admin.crm_lead_follow.index');
     // });
