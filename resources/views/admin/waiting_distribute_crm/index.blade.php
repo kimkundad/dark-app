@@ -33,6 +33,7 @@
                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                     <!--begin::Title-->
                     <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">รอแจกจ่าย CRM</h1>
+                    
                     <!--end::Title-->
                 </div>
                 <!--end::Page title-->
@@ -41,8 +42,7 @@
                     <!--begin::Filter menu-->
                     <div class="m-0">
                         <!--begin::Menu toggle-->
-                        
-
+                        <a href="#" class="btn btn-sm fw-bold btn-primary" >จำนวนรอจ่ายทั้งหมด {{ number_format($count,0) }}</a>
                         <div class="modal fade" tabindex="-1" id="kt_modal_change_upsale">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
@@ -152,6 +152,7 @@
                     <div class="card-body pt-0">
                         <form id="assign-files">
 
+                            <div class="d-flex">
                             <a data-bs-toggle="modal" data-bs-target="#kt_modal_change_upsale" class="assign btn btn-sm btn-success btn-flex" >
                                 <!--begin::Svg Icon | path: icons/duotune/general/gen031.svg-->
                                 <span class="svg-icon svg-icon-1">
@@ -163,6 +164,10 @@
                                                     </span>
         <!--end::Svg Icon-->
                                 กดแจกจ่ายงาน</a>
+                                
+                                                </div>
+
+                              
 
                                 
                         <div class="table-responsive">

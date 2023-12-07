@@ -216,23 +216,21 @@ class CrmLeadListController extends Controller
                 'pipelines.pipe_name',
                 'sup_pipelines.name as name_sup_pipe',
                 'users.name as names',
-                'lead_lists.code_lead_lists as order_id',
-                'lead_lists.product_name',
-                'lead_lists.sum_price_final2',
-                'lead_lists.note as notex',
-                'lead_lists.sku',
-                'lead_lists.tra_name',
-                'lead_lists.lead_lists_payment_type',
-                'lead_lists.order_datex'
+                DB::raw('(select code_lead_lists from lead_lists where lead_main_id = lead_mains.id order by id desc limit 1) as order_id'),
+                DB::raw('(select product_name from lead_lists where lead_main_id = lead_mains.id order by id desc limit 1) as product_name'),
+                DB::raw('(select sum_price_final2 from lead_lists where lead_main_id = lead_mains.id order by id desc limit 1) as sum_price_final2'),
+                DB::raw('(select note from lead_lists where lead_main_id = lead_mains.id order by id desc limit 1) as notex'),
+                DB::raw('(select sku from lead_lists where lead_main_id = lead_mains.id order by id desc limit 1) as sku'),
+                DB::raw('(select tra_name from lead_lists where lead_main_id = lead_mains.id order by id desc limit 1) as tra_name'),
+                DB::raw('(select lead_lists_payment_type from lead_lists where lead_main_id = lead_mains.id order by id desc limit 1) as lead_lists_payment_type'),
+                DB::raw('(select order_datex from lead_lists where lead_main_id = lead_mains.id order by id desc limit 1) as order_datex'),
                 )
                 ->leftjoin('customer_managers', 'customer_managers.id',  'lead_mains.user_id')
                 ->leftjoin('sale_contacts', 'sale_contacts.id',  'lead_mains.lead_lists_channels')
                 ->leftjoin('pipelines', 'pipelines.id',  'lead_mains.pip_id')
                 ->leftjoin('users', 'users.id',  'lead_mains.upsale_id')
                 ->leftjoin('sup_pipelines', 'sup_pipelines.id',  'lead_mains.last_sup_pipeline')
-                ->leftjoin('lead_lists', 'lead_lists.lead_main_id',  'lead_mains.id')
                 ->where('lead_mains.upsale_id', 5)
-                ->orderBy('lead_lists.id', 'desc')
                 ->orderBy('lead_mains.id', 'desc');
   
             if ($request->filled('search_name')) {
@@ -347,7 +345,7 @@ class CrmLeadListController extends Controller
 
     public function waiting_distribute_crm(){
 
-        $count = DB::table('lead_mains')->count();
+        $count = DB::table('lead_mains')->where('lead_mains.upsale_id', 5)->count();
         $objs = DB::table('lead_mains')->select(
             'lead_mains.*',
             'lead_mains.id as id_q',
@@ -362,20 +360,18 @@ class CrmLeadListController extends Controller
             'users.*',
             'sup_pipelines.name as name_sup_pipe',
             'users.name as names',
-            'lead_lists.code_lead_lists as order_id',
+            DB::raw('(select code_lead_lists from lead_lists where lead_main_id  =  lead_mains.id order by id desc limit 1) as order_id'),
             )
             ->leftjoin('customer_managers', 'customer_managers.id',  'lead_mains.user_id')
             ->leftjoin('sale_contacts', 'sale_contacts.id',  'lead_mains.lead_lists_channels')
             ->leftjoin('pipelines', 'pipelines.id',  'lead_mains.pip_id')
             ->leftjoin('users', 'users.id',  'lead_mains.upsale_id')
             ->leftjoin('sup_pipelines', 'sup_pipelines.id',  'lead_mains.last_sup_pipeline')
-            ->leftjoin('lead_lists', 'lead_lists.lead_main_id',  'lead_mains.id')
             ->where('lead_mains.upsale_id', 5)
             ->orderBy('lead_mains.id', 'desc')
-            ->orderBy('lead_lists.id', 'desc')
             ->paginate(15);
 
-           // dd($objs);
+    
 
             $objs->setPath('');
             $data['objs'] = $objs;
