@@ -54,6 +54,14 @@
                     
                 </div>
                 <!--end::Page title-->
+                <div class="d-flex align-items-center gap-2 gap-lg-3">
+                    <!--begin::Filter menu-->
+                    <div class="m-0">
+                        <!--begin::Menu toggle-->
+                        <a href="#" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-color-primary fw-bold" >รอติดตาม {{$count }}</a>
+                        <a href="#" class="btn btn-sm fw-bold btn-primary">ติดตามแล้ว {{ $count2 }}</a>
+                    </div>
+                </div>
             </div>
             <!--end::Toolbar container-->
         </div>

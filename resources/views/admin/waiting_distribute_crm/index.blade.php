@@ -42,7 +42,7 @@
                     <!--begin::Filter menu-->
                     <div class="m-0">
                         <!--begin::Menu toggle-->
-                        <a href="#" class="btn btn-sm fw-bold btn-primary" >จำนวนรอจ่ายทั้งหมด {{ number_format($count,0) }}</a>
+                        <a href="#" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-color-primary fw-bold" >รอจ่ายทั้งหมด {{ number_format($count,0) }}</a>
                         <div class="modal fade" tabindex="-1" id="kt_modal_change_upsale">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
