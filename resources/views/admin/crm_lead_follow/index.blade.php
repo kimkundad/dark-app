@@ -74,7 +74,7 @@
                         <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
                             <!--begin::Flatpickr-->
                             <div class="input-group w-250px">
-                                <input class="form-control form-control-solid rounded rounded-end-0" placeholder="วันที่เริ่มต้น" id="kt_datepicker_2" />
+                                <input class="form-control form-control-solid rounded rounded-end-0" placeholder="วันที่เริ่มต้น" name="start_date" id="kt_datepicker_2" />
                                 <button class="btn btn-icon btn-light" id="kt_ecommerce_sales_flatpickr_clear">
                                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr088.svg-->
                                     <span class="svg-icon svg-icon-2">
@@ -87,7 +87,7 @@
                                 </button>
                             </div>
                             <div class="input-group w-250px">
-                                <input class="form-control form-control-solid rounded rounded-end-0" placeholder="วันที่สิ้นสุด" id="kt_ecommerce_sales_flatpickr" />
+                                <input class="form-control form-control-solid rounded rounded-end-0" placeholder="วันที่สิ้นสุด" name="end_date" id="kt_ecommerce_sales_flatpickr" />
                                 <button class="btn btn-icon btn-light" id="kt_ecommerce_sales_flatpickr_clear">
                                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr088.svg-->
                                     <span class="svg-icon svg-icon-2">
@@ -101,19 +101,14 @@
                             </div>
                             <div class="w-100 mw-150px">
                                 <!--begin::Select2-->
-                                <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="เลือกผู้ดูแล" data-kt-ecommerce-order-filter="status">
+                                <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" id="upsale_id" name="upsale_id" data-placeholder="เลือกผู้ดูแล" data-kt-ecommerce-order-filter="status">
                                     <option></option>
-                                    <option value="all">All</option>
-                                    <option value="Cancelled">Cancelled</option>
-                                    <option value="Completed">Completed</option>
-                                    <option value="Denied">Denied</option>
-                                    <option value="Expired">Expired</option>
-                                    <option value="Failed">Failed</option>
-                                    <option value="Pending">Pending</option>
-                                    <option value="Processing">Processing</option>
-                                    <option value="Refunded">Refunded</option>
-                                    <option value="Delivered">Delivered</option>
-                                    <option value="Delivering">Delivering</option>
+                                    <option value="0">ทั้งหมด</option>
+                                    @if(isset($user))
+                                    @foreach($user as $u)
+                                    <option value="{{ $u->id }}">{{ $u->name }}</option>
+                                    @endforeach
+                                    @endif
                                 </select>
                                 <!--end::Select2-->
                             </div>
@@ -121,43 +116,27 @@
                             <!--begin::Flatpickr-->
                             <div class="w-100 mw-150px">
                                 <!--begin::Select2-->
-                                <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="สถานะผู้ติดตาม" data-kt-ecommerce-order-filter="status">
+                                <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" id="status_follow" name="status_follow" data-placeholder="สถานะการติดตาม" data-kt-ecommerce-order-filter="status">
                                     <option></option>
-                                    <option value="all">All</option>
-                                    <option value="Cancelled">Cancelled</option>
-                                    <option value="Completed">Completed</option>
-                                    <option value="Denied">Denied</option>
-                                    <option value="Expired">Expired</option>
-                                    <option value="Failed">Failed</option>
-                                    <option value="Pending">Pending</option>
-                                    <option value="Processing">Processing</option>
-                                    <option value="Refunded">Refunded</option>
-                                    <option value="Delivered">Delivered</option>
-                                    <option value="Delivering">Delivering</option>
+                                    <option value="0">ทั้งหมด</option>
+                                    <option value="1">รอติดตาม</option>
+                                    <option value="2">ติดตามแล้ว</option>
                                 </select>
                                 <!--end::Select2-->
                             </div>
                             <!--end::Flatpickr-->
                             <div class="w-100 mw-150px">
                                 <!--begin::Select2-->
-                                <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="สถานะ" data-kt-ecommerce-order-filter="status">
+                                <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" id="status_date" name="status_date" data-placeholder="สถานะ" data-kt-ecommerce-order-filter="status">
                                     <option></option>
-                                    <option value="all">All</option>
-                                    <option value="Cancelled">Cancelled</option>
-                                    <option value="Completed">Completed</option>
-                                    <option value="Denied">Denied</option>
-                                    <option value="Expired">Expired</option>
-                                    <option value="Failed">Failed</option>
-                                    <option value="Pending">Pending</option>
-                                    <option value="Processing">Processing</option>
-                                    <option value="Refunded">Refunded</option>
-                                    <option value="Delivered">Delivered</option>
-                                    <option value="Delivering">Delivering</option>
+                                    <option value="0">ทั้งหมด</option>
+                                    <option value="1">หมดอายุ</option>
+                                    <option value="2">ใช้งานได้</option>
                                 </select>
                                 <!--end::Select2-->
                             </div>
                             <!--begin::Add product-->
-                            <a class="btn btn-primary">ค้นหา</a>
+                            <a class="btn btn-primary filter">ค้นหา</a>
                             <!--end::Add product-->
                         </div>
                         <!--end::Card toolbar-->
@@ -168,6 +147,7 @@
                         <table class="table align-middle table-row-dashed fs-6 gy-5 data-table" id="report-table">
                             <thead>
                                 <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                    <th>ลำดับ</th>
                                     <th>วันที่แจ้งเตือน</th>
                                     <th>รายการ LEAD</th>
                                     <th class=" ">Pipeline</th>
@@ -373,17 +353,25 @@ $("#kt_ecommerce_sales_flatpickr").flatpickr();
           ajax: {
               url: "{{ url('api/get_crm_lead_follow') }}",
               data:function (d) {
-                //   d.search_name = document.getElementById("search_name").value;
+                //status_follow status_date
+                   d.start_date = document.getElementById("kt_datepicker_2").value;
+                   d.end_date = document.getElementById("kt_ecommerce_sales_flatpickr").value;
+                   d.upsale_id = document.getElementById("upsale_id").value; 
+                   d.status_follow = document.getElementById("status_follow").value; 
+                   d.status_date = document.getElementById("status_date").value; 
               }
           },
           columns: [
-              {data: 'date_follow', name: 'date_follow'},
+            { data: 'id_f', "render": function(data, type, row, meta){
+            return meta.row + 1; // สร้างลำดับตั้งแต่ 1, 2, 3, …
+            }},
+              {data: 'date_followc', name: 'date_followc'},
               {data: 'user', name: 'user', orderable: false, searchable: false},
               {data: 'pipe_name', name: 'pipe_name'},
               {data: 'sub_namex', name: 'sub_namex'},
               {data: 'notes', name: 'notes'},
               {data: 'follow_pipes_status', name: 'follow_pipes_status'},
-              {data: 'date_follow', name: 'date_follow'},
+              {data: 'date_follow2', name: 'date_follow2'},
               {data: 'action', name: 'action', orderable: false, searchable: false},
           ]
       });

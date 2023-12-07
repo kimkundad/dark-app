@@ -38,6 +38,8 @@ Route::get('api/amphoes', [App\Http\Controllers\TambonController::class , 'getAm
 Route::get('api/tambons', [App\Http\Controllers\TambonController::class , 'getTambons' ]);
 Route::get('api/zipcodes', [App\Http\Controllers\TambonController::class, 'getZipcodes'] );
 
+Route::get('check_follows', [App\Http\Controllers\TambonController::class, 'check_follows'] );
+
 Route::get('/images/{file}', function ($file) {
 	$url = Storage::disk('do_spaces')->temporaryUrl(
 	  $file,

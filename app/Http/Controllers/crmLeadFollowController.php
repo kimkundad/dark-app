@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
 use App\Models\follow_pipe;
 use App\Models\lead_main;
+use App\Models\User;
 use Response;
 use Auth;
 use DataTables;
@@ -24,12 +25,15 @@ class crmLeadFollowController extends Controller
 
         if ($request->ajax()) {
 
+           
+
             $data = DB::table('follow_pipes')->select(
                 'follow_pipes.id as id_f',
                 'follow_pipes.created_at as created_ats',
                 'follow_pipes.note as notes',
                 'follow_pipes.follow_pipes_status',
                 'follow_pipes.date_follow',
+                'follow_pipes.night_set',
                 'users.name',
                 'lead_mains.lead_name',
                 'lead_mains.id as id_q',
@@ -40,12 +44,45 @@ class crmLeadFollowController extends Controller
                 ->leftjoin('lead_mains', 'lead_mains.id',  'follow_pipes.read_id')
                 ->leftjoin('sup_pipelines', 'sup_pipelines.id',  'follow_pipes.sub_pipe_id')
                 ->leftjoin('pipelines', 'pipelines.id',  'sup_pipelines.pipe_id')
+                ->where('follow_pipes.night_set', 0)
                 ->orderBy('follow_pipes.follow_pipes_status', 'asc')
                 ->orderBy('follow_pipes.created_at', 'desc');
 
-            // if ($request->filled('search_name')) {
+            // if ($request->filled('start_date')) {
             //     $data = $data->where('customer_managers.fullname', 'like', "%" . $request->search_name . "%");
             // }
+
+            if ($request->filled('start_date') && $request->filled('end_date')) {
+                $data = $data->whereBetween('follow_pipes.date_follow', [$request->start_date, $request->end_date]);
+            }
+            if ($request->filled('start_date') && !$request->filled('end_date')) {
+                $data = $data->whereDate('follow_pipes.date_follow', $request->start_date);
+            }
+            if ($request->filled('upsale_id')) {
+                $data = $data->where('users.id', $request->upsale_id);
+            }
+            if ($request->filled('status_follow')) {
+
+                if($request->status_follow == 1){
+                    $data = $data->where('follow_pipes.follow_pipes_status', 0);
+                }
+                if($request->status_follow == 2){
+                    $data = $data->where('follow_pipes.follow_pipes_status', 1);
+                }
+                
+            }
+
+            if ($request->filled('status_date')) {
+
+                if($request->status_date == 1){
+                    $data = $data->whereDate('follow_pipes.date_follow', '<', date('Y-m-d'));
+                }
+                if($request->status_date == 2){
+                    $data = $data->whereDate('follow_pipes.date_follow', '>=', date('Y-m-d'));
+                }
+                
+            }
+
 
             return Datatables::of($data)
                         ->addIndexColumn()
@@ -101,7 +138,7 @@ class crmLeadFollowController extends Controller
   
                         return $btnx;
                 })
-                ->addColumn('date_follow', function($row){
+                ->addColumn('date_follow2', function($row){
 
                     if($row->date_follow < date('Y-m-d')){
                         $btnx = '<a href="" class="text-hover-primary text-gray-600"><span class="badge badge-light-danger fs-7 fw-bold">หมดอายุ</span></a>';
@@ -111,13 +148,23 @@ class crmLeadFollowController extends Controller
 
                     return $btnx;
             })
+            ->addColumn('date_followc', function($row){
+
+                if($row->date_follow < date('Y-m-d')){
+                    $btnx = '<a href="" class="text-hover-primary text-gray-600"><span class="badge badge-light-danger fs-7 fw-bold">'.$row->date_follow.'</span></a>';
+                }else{
+                    $btnx = '<a href="" class="text-hover-primary text-gray-600"><span class="badge badge-light-success fs-7 fw-bold">'.$row->date_follow.'</span></a>';
+                }
+
+                return $btnx;
+        })
             ->addColumn('sub_namex', function($row){
 
                 $btnx = '<div class="badge badge-light-primary">'.$row->sub_namex.'</div>';
 
                 return $btnx;
         })
-                        ->rawColumns(['action', 'follow_pipes_status', 'user', 'date_follow', 'sub_namex'])
+                        ->rawColumns(['action', 'follow_pipes_status', 'user', 'date_follow2', 'sub_namex', 'date_followc'])
                         ->make(true);
         }
         
@@ -153,7 +200,9 @@ class crmLeadFollowController extends Controller
 
            // dd($objs);
 
-        return view('admin.crm_lead_follow.index', compact('objs', 'count'));
+           $user = User::all();
+
+        return view('admin.crm_lead_follow.index', compact('objs', 'count', 'user'));
     }
 
     public function api_post_status_follow(Request $request){
