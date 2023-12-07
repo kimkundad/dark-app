@@ -216,13 +216,23 @@ class CrmLeadListController extends Controller
                 'pipelines.pipe_name',
                 'sup_pipelines.name as name_sup_pipe',
                 'users.name as names',
+                'lead_lists.code_lead_lists as order_id',
+                'lead_lists.product_name',
+                'lead_lists.sum_price_final2',
+                'lead_lists.note as notex',
+                'lead_lists.sku',
+                'lead_lists.tra_name',
+                'lead_lists.lead_lists_payment_type',
+                'lead_lists.order_datex'
                 )
                 ->leftjoin('customer_managers', 'customer_managers.id',  'lead_mains.user_id')
                 ->leftjoin('sale_contacts', 'sale_contacts.id',  'lead_mains.lead_lists_channels')
                 ->leftjoin('pipelines', 'pipelines.id',  'lead_mains.pip_id')
                 ->leftjoin('users', 'users.id',  'lead_mains.upsale_id')
                 ->leftjoin('sup_pipelines', 'sup_pipelines.id',  'lead_mains.last_sup_pipeline')
+                ->leftjoin('lead_lists', 'lead_lists.lead_main_id',  'lead_mains.id')
                 ->where('lead_mains.upsale_id', 5)
+                ->orderBy('lead_lists.id', 'desc')
                 ->orderBy('lead_mains.id', 'desc');
   
             if ($request->filled('search_name')) {
@@ -313,7 +323,19 @@ class CrmLeadListController extends Controller
 
                     return $btnx;
                 })
-                        ->rawColumns(['action', 'ch', 'user', 'pipe_name', 'check'])
+                ->addColumn('name_sup_pipe', function($row){
+       
+                    $btnx = '<div class="badge badge-light-primary">'.$row->name_sup_pipe.'</div>';
+
+                    return $btnx;
+                })
+                ->addColumn('sum_price_final2', function($row){
+       
+                    $btnx = '<div class="badge badge-light-primary">'.number_format($row->sum_price_final2,2).'</div>';
+
+                    return $btnx;
+                })
+                        ->rawColumns(['action', 'ch', 'user', 'pipe_name', 'check', 'name_sup_pipe', 'sum_price_final2'])
                         ->make(true);
 
         }
@@ -321,6 +343,7 @@ class CrmLeadListController extends Controller
         return view('admin.crm_lead_list.view');
 
     }
+
 
     public function waiting_distribute_crm(){
 
@@ -339,14 +362,17 @@ class CrmLeadListController extends Controller
             'users.*',
             'sup_pipelines.name as name_sup_pipe',
             'users.name as names',
+            'lead_lists.code_lead_lists as order_id',
             )
             ->leftjoin('customer_managers', 'customer_managers.id',  'lead_mains.user_id')
             ->leftjoin('sale_contacts', 'sale_contacts.id',  'lead_mains.lead_lists_channels')
             ->leftjoin('pipelines', 'pipelines.id',  'lead_mains.pip_id')
             ->leftjoin('users', 'users.id',  'lead_mains.upsale_id')
             ->leftjoin('sup_pipelines', 'sup_pipelines.id',  'lead_mains.last_sup_pipeline')
+            ->leftjoin('lead_lists', 'lead_lists.lead_main_id',  'lead_mains.id')
             ->where('lead_mains.upsale_id', 5)
             ->orderBy('lead_mains.id', 'desc')
+            ->orderBy('lead_lists.id', 'desc')
             ->paginate(15);
 
            // dd($objs);

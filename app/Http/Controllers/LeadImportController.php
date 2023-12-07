@@ -207,6 +207,9 @@ class LeadImportController extends Controller
                         $lead->lead_main_id = $lead_main_id;
                         $lead->pro_id = $pro_id;
                         $lead->lead_lists_statusx = 1;
+                        $lead->product_name = $sale[26];
+                        $lead->sku = $sale[30];
+                        $lead->tra_name = $sale[20];
                         $lead->save();
 
                
@@ -221,6 +224,11 @@ class LeadImportController extends Controller
                             $follow_pipe->date_follow = date('Y-m-d' ,$date_xx);
                             $follow_pipe->note = $sup_pipeline->name;
                             $follow_pipe->save();
+
+                            lead_main::where('id', $lead_main_id)
+                            ->update([
+                                'last_sup_pipeline' => $sup_pipeline->id
+                                ]);
                         }
 
                 }else{
@@ -263,6 +271,9 @@ class LeadImportController extends Controller
                             'order_datex' => date('Y-m-d', strtotime($sale[47])),
                             'order_date' => $sale[47],
                             'pay_date' => $sale[48],
+                            'product_name' => $sale[26],
+                            'sku' => $sale[30],
+                            'tra_name' => $sale[20],
                         ]
                     );
 

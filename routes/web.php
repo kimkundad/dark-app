@@ -71,7 +71,6 @@ Route::group(['middleware' => ['UserRole:superadmin|admin']], function() {
         return view('admin.lead_import.index');
     });
 
-
     Route::get('/api/get_all_orders', [App\Http\Controllers\CrmLeadListController::class, 'get_all_orders']);
     Route::get('/admin/all_orders', [App\Http\Controllers\CrmLeadListController::class, 'all_orders']);
     Route::get('/admin/waiting_distribute_crm', [App\Http\Controllers\CrmLeadListController::class, 'waiting_distribute_crm']);

@@ -12,6 +12,10 @@
     .table.gy-5 td, .table.gy-5 th {
         font-size: 12px;
 }
+.symbol.symbol-50px .symbol-label {
+    width: 30px;
+    height: 30px;
+}
 </style>
 
 @stop('stylesheet')
@@ -172,14 +176,21 @@
                                                 <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_ecommerce_sales_table .form-check-input" value="1" />
                                             </div>
                                         </th>
+                                        <th class=" min-w-100px">เลขที่คำสั่งซื้อ</th>
+                                        <th class=" min-w-100px">ชื่อสินค้า</th>
+                                        <th class=" min-w-100px">รวมทั้งสิน</th>
                                         <th class="min-w-175px">ชื่อลูกค้า</th>
                                         <th class="min-w-50px">ช่องทาง</th>
                                         <th class="min-w-100px">เบอร์ติดต่อ</th>
+                                        <th class=" min-w-100px">โน๊ต</th>
+                                        <th class=" min-w-100px">รหัสสินค้า (SKU)</th>
+                                        <th class=" min-w-100px">ขนส่ง</th>
+                                        <th class=" min-w-100px">การชำระเงิน</th>
                                         <th class=" min-w-100px">ผู้ดูแล</th>
                                         <th class=" min-w-100px">Pipeline</th>
                                         <th class="min-w-100px">สถานะ</th>
                                         <th class=" min-w-100px">วันหมดอายุ</th>
-                                        <th class="min-w-100px">สร้างเมื่อ</th>
+                                        <th class="min-w-100px">วันที่สั่งซื้อ</th>
                                         <th class="min-w-100px">Actions</th>
                                     </tr>
                                 </thead>
@@ -523,7 +534,7 @@ $(document).on('click','#btnSendData',function (event) {
 
     });
 
-
+//sum_price_final2
     $(function () {
       
       var table = $('.data-table').DataTable({
@@ -539,14 +550,21 @@ $(document).on('click','#btnSendData',function (event) {
           },
           columns: [
               {data: 'check', name: 'check', orderable: false, searchable: false},
+              {data: 'order_id', name: 'order_id'},
+              {data: 'product_name', name: 'product_name'},
+              {data: 'sum_price_final2', name: 'sum_price_final2'},
               {data: 'user', name: 'user', orderable: false, searchable: false},
               {data: 'ch', name: 'ch', orderable: false, searchable: false},
               {data: 'phones', name: 'phones'},
+              {data: 'notex', name: 'notex'},
+              {data: 'sku', name: 'sku'},
+              {data: 'tra_name', name: 'tra_name'},
+              {data: 'lead_lists_payment_type', name: 'lead_lists_payment_type'},
               {data: 'names', name: 'names'},
               {data: 'pipe_name', name: 'pipe_name', orderable: false, searchable: false},
               {data: 'name_sup_pipe', name: 'name_sup_pipe'}, 
               {data: 'end_dates', name: 'end_dates'}, 
-              {data: 'created_ats', name: 'created_ats'},
+              {data: 'order_datex', name: 'order_datex'},
               {data: 'action', name: 'action', orderable: false, searchable: false},
           ]
       });
