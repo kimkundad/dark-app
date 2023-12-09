@@ -203,6 +203,61 @@
                     </div>
                     <!--begin::Body-->
                 </div>
+
+                <br>
+
+                <div class="card mb-5 mb-xl-8 ">
+
+                    <div class="card-header ">
+                        <!--begin::Card title-->
+                        <div class="card-title flex-column">
+                            <h3 class="fw-bold mb-1">ประวัติการนำเข้าข้อมูล</h3>
+                        </div>
+                        <!--end::Card title-->
+                    </div>
+            
+                    <!--begin::Body-->
+                    <div class="card-body py-3" >
+                        <div class="table-responsive">
+
+                            <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_sales_table">
+                                <!--begin::Table head-->
+                                <thead>
+                                    <!--begin::Table row-->
+                                    <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                        <th>ชื่อไฟล์</th>
+                                        <th>ผู้นำเข้า</th>
+                                        <th>วันที่นำเข้า</th>
+                                    </tr>
+                                    <!--end::Table row-->
+                                </thead>
+                                <!--end::Table head-->
+                                <!--begin::Table body-->
+                                <tbody class="fw-semibold text-gray-600">
+                                    <!--begin::Table row-->
+                                    @isset($objs)
+                                    @foreach ($objs as $u)
+                                    <tr >
+                                        <td>
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                    <!--end::Table row-->
+                                    @endforeach
+                                    @endisset
+                                    
+                                </tbody>
+                                <!--end::Table body-->
+                            </table>
+
+                        </div>
+                        {{-- @include('admin.pagination.default', ['paginator' => $objs]) --}}
+                    </div>
+
+                </div>
                 
             </div>
             <!--end::Content container-->
