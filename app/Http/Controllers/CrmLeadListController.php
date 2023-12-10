@@ -39,6 +39,40 @@ class CrmLeadListController extends Controller
         return view('admin.crm_lead_status.index', compact('objs'));
     }
 
+    public function crm_order_view($id){
+
+        $objs = lead_list::select(
+            'lead_lists.*',
+            'lead_lists.id as id_q',
+            'lead_lists.pro_id as pro_idx',
+            'lead_lists.lead_lists_status_sale',
+            'lead_lists.order_date',
+            'lead_lists.sum_price_final',
+            'lead_lists.lead_lists_statusx',
+            'customer_managers.avatar as avatars',
+            'customer_managers.phone as phones',
+            'customer_managers.id as idcus',
+            'customer_managers.fullname',
+            'sale_contacts.salename',
+            'pipelines.pipe_name',
+            'transports.transportname',
+            'users.name as names',
+            'products.pro_name',
+            )
+            ->leftjoin('customer_managers', 'customer_managers.id',  'lead_lists.user_id')
+            ->leftjoin('sale_contacts', 'sale_contacts.id',  'lead_lists.lead_lists_channels')
+            ->leftjoin('pipelines', 'pipelines.id',  'lead_lists.pip_id')
+            ->leftjoin('transports', 'transports.id',  'lead_lists.tran_id')
+            ->leftjoin('products', 'products.id',  'lead_lists.pro_id')
+            ->leftjoin('users', 'users.id',  'lead_lists.upsale_id')
+            ->orderBy('lead_lists.id', 'desc')
+            ->first();
+
+           // dd($objs);
+
+        return view('admin.all_orders.crm_order_view', compact('objs'));
+    }
+
     public function view(){
 
         $count = DB::table('lead_mains')->count();
@@ -399,6 +433,7 @@ class CrmLeadListController extends Controller
                 'lead_lists.lead_lists_statusx',
                 'customer_managers.avatar as avatars',
                 'customer_managers.phone as phones',
+                'customer_managers.id as idcus',
                 'customer_managers.fullname',
                 'sale_contacts.salename',
                 'pipelines.pipe_name',
@@ -455,7 +490,7 @@ class CrmLeadListController extends Controller
                                         </div>
                                 </div>
                                 <div class="ms-5">
-                                    <a class="text-gray-800 text-hover-primary fs-8 fw-bold" >'.$row->fullname.'</a>
+                                    <a href="'.url('admin/customer_manager_his/'.$row->idcus).'" class="text-gray-800 text-hover-primary fs-8 fw-bold" >'.$row->fullname.'</a>
                                 </div>
                             </div>';
   

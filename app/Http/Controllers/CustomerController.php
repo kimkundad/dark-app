@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
 use Response;
 use DataTables;
+use App\Models\pipeline;
+use App\Models\sup_pipeline;
+use App\Models\lead_main;
+use App\Models\timeline_pipe;
+use App\Models\follow_pipe;
+use App\Models\lead_list;
 
 class CustomerController extends Controller
 {
@@ -222,9 +228,122 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function customer_manager_his($id)
     {
         //
+        $objs = customer_manager::find($id);
+        
+        return view('admin.customer_manager.customer_manager_his', compact('objs'));
+    }
+
+    public function get_customer_manager_his(Request $request, $id){
+
+
+        if ($request->ajax()) {
+
+
+            $data = lead_list::select(
+                'lead_lists.id as id_q',
+                'lead_lists.pro_id as pro_idx',
+                'lead_lists.lead_lists_status_sale',
+                'lead_lists.order_date',
+                'lead_lists.sum_price_final',
+                'lead_lists.lead_lists_statusx',
+                'customer_managers.avatar as avatars',
+                'customer_managers.phone as phones',
+                'customer_managers.fullname',
+                'sale_contacts.salename',
+                'pipelines.pipe_name',
+                'transports.transportname',
+                'users.name as names',
+                'products.pro_name',
+                )
+                ->leftjoin('customer_managers', 'customer_managers.id',  'lead_lists.user_id')
+                ->leftjoin('sale_contacts', 'sale_contacts.id',  'lead_lists.lead_lists_channels')
+                ->leftjoin('pipelines', 'pipelines.id',  'lead_lists.pip_id')
+                ->leftjoin('transports', 'transports.id',  'lead_lists.tran_id')
+                ->leftjoin('products', 'products.id',  'lead_lists.pro_id')
+                ->leftjoin('users', 'users.id',  'lead_lists.upsale_id')
+                ->where('customer_managers.id', $id)
+                ->orderBy('lead_lists.id', 'desc');
+
+            if ($request->filled('search_name')) {
+                $data = $data->where('lead_lists.name_customer', 'like', "%" . $request->search_name . "%");
+            }
+
+            if ($request->filled('search_status')) {
+
+                if($request->search_status == 0){
+                    $data = $data->where('lead_lists.lead_lists_statusx', 0);
+                }
+                if($request->search_status == 1){
+                    $data = $data->where('lead_lists.lead_lists_statusx', 1);
+                }
+                
+            }
+
+
+            return Datatables::of($data)
+                        ->addIndexColumn()
+                        ->addColumn('action', function($row){
+
+                                $btn = '<div class="d-flex">
+                                <a href="'.url('admin/crm_order_view/'.$row->id_q).'" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                <span class="svg-icon svg-icon-3">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path opacity="0.3" d="M21.4 8.35303L19.241 10.511L13.485 4.755L15.643 2.59595C16.0248 2.21423 16.5426 1.99988 17.0825 1.99988C17.6224 1.99988 18.1402 2.21423 18.522 2.59595L21.4 5.474C21.7817 5.85581 21.9962 6.37355 21.9962 6.91345C21.9962 7.45335 21.7817 7.97122 21.4 8.35303ZM3.68699 21.932L9.88699 19.865L4.13099 14.109L2.06399 20.309C1.98815 20.5354 1.97703 20.7787 2.03189 21.0111C2.08674 21.2436 2.2054 21.4561 2.37449 21.6248C2.54359 21.7934 2.75641 21.9115 2.989 21.9658C3.22158 22.0201 3.4647 22.0084 3.69099 21.932H3.68699Z" fill="currentColor"></path>
+                                        <path d="M5.574 21.3L3.692 21.928C3.46591 22.0032 3.22334 22.0141 2.99144 21.9594C2.75954 21.9046 2.54744 21.7864 2.3789 21.6179C2.21036 21.4495 2.09202 21.2375 2.03711 21.0056C1.9822 20.7737 1.99289 20.5312 2.06799 20.3051L2.696 18.422L5.574 21.3ZM4.13499 14.105L9.891 19.861L19.245 10.507L13.489 4.75098L4.13499 14.105Z" fill="currentColor"></path>
+                                    </svg>
+                                </span>
+                                </a></div>';
+          
+                                return $btn;
+                        })
+                    ->addColumn('user', function($row){
+       
+                        $btnx = '<div class="d-flex align-items-center">
+                                <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
+                                        <div class="symbol-label">
+                                            <img src="'.url('images/dark-app/avatar/'.$row->avatars).'" alt="'.$row->fullname.'" class="w-100" />
+                                        </div>
+                                </div>
+                                <div class="ms-5">
+                                    <a class="text-gray-800 text-hover-primary fs-8 fw-bold" >'.$row->fullname.'</a>
+                                </div>
+                            </div>';
+  
+                        return $btnx;
+                })
+                ->addColumn('status_or', function($row){
+
+                    if($row->lead_lists_statusx == 0){
+                        $btnx = '<div class="badge badge-light-primary">รอจับคู่</div>';
+                    }else{
+                        $btnx = '<div class="badge badge-light-danger">จับคู่แล้ว</div>';
+                    }
+                    return $btnx;
+                })
+                ->addColumn('pro_name', function($row){
+                    if($row->pro_idx == 0){
+                        $btn = '<div class="badge badge-light-warning">(ยังไม่มีสินค้าในระบบ)</div>';
+                    }else{
+                        $btn = '<div class="badge badge-light-danger">'.$row->pro_name.'</div>';
+                    }
+                    return $btn;
+                })
+                ->addColumn('status_salexx', function($row){
+
+                    $btn = '<div class="badge badge-light-primary">'.$row->lead_lists_status_sale.'</div>';
+                    return $btn;
+                })
+                        ->rawColumns(['action', 'user', 'status_or', 'pro_name', 'status_salexx'])
+                        ->make(true);
+
+        }
+
+        return view('admin.customer_manager.customer_manager_his');
+
+
     }
 
     /**

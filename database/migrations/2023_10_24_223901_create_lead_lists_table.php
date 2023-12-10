@@ -13,6 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
+        
         Schema::create('lead_lists', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id')->default('0'); // user id

@@ -1,7 +1,7 @@
 @extends('layouts.template')
 
 @section('title')
-    <title>รายการติดตามทั้งหมด</title>
+    <title>คำสั่งซื้อทั้งหมด</title>
 @stop
 @section('stylesheet')
 
@@ -11,6 +11,14 @@
     }
     .table.gy-5 td, .table.gy-5 th {
         font-size: 12px;
+}
+.symbol.symbol-50px .symbol-label {
+    width: 30px;
+    height: 30px;
+}
+.symbol.symbol-45px>img {
+    width: 30px;
+    height: 30px;
 }
 </style>
 
@@ -178,7 +186,7 @@
                                             <!--end::Avatar-->
                                             <div>
                                                 <!--begin::Title-->
-                                                <a class="text-gray-800 text-hover-primary fw-bold" style="font-size: 12px;">{{ $u->fullname }}</a>
+                                                <a href="" class="text-gray-800 text-hover-primary fw-bold" style="font-size: 12px;">{{ $u->fullname }}</a>
                                                 <!--end::Title-->
                                             </div>
                                         </div>

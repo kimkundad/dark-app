@@ -218,7 +218,7 @@
                                                         @if( $get_role->role_id == $item->id)
                                                         selected='selected'
                                                         @endif
-                                                        >{{ $item->name }}</option>
+                                                        >{{ $item->description }}</option>
                                                 @endforeach
                                             @endisset
                                             

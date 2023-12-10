@@ -1,11 +1,12 @@
 @extends('layouts.template')
 
 @section('title')
-<title>แก้ไข ข้อมูลพนักงาน ใหม่</title>
+<title>แก้ไข ข้อมูลพนักงาน</title>
 @stop
 @section('stylesheet')
 
 @stop('stylesheet')
+
 
 @section('content')
 
@@ -20,7 +21,7 @@
                     <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                         <!--begin::Title-->
                         <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                            สร้าง ข้อมูลพนักงาน</h1>
+                            แก้ไข ข้อมูลพนักงาน</h1>
                         <!--end::Title-->
                         <!--begin::Breadcrumb-->
                         <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
@@ -41,7 +42,14 @@
                         <!--end::Breadcrumb-->
                     </div>
                     <!--end::Page title-->
-                    
+                    <div class="d-flex align-items-center gap-2 gap-lg-3">
+                        <!--begin::Filter menu-->
+                        <div class="m-0">
+                            <!--begin::Menu toggle-->
+                            <a href="{{ url('admin/customer_manager/'.$c_id.'/edit') }}" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-color-primary fw-bold" > ข้อมูลพนักงาน </a>
+                            <a href="{{ url('admin/customer_manager_his/'.$c_id) }}" class="btn btn-sm fw-bold btn-primary"> ประวัติคำสั่งซื้อทั้งหมด</a>
+                        </div>
+                    </div>
                     
                 </div>
                 <!--end::Toolbar container-->

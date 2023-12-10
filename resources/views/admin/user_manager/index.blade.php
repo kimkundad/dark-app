@@ -5,6 +5,19 @@
 @stop
 @section('stylesheet')
 
+<style>
+    .hidden{
+        display: none !important;
+    }
+    .table.gy-5 td, .table.gy-5 th {
+        font-size: 12px;
+}
+.symbol.symbol-50px .symbol-label {
+    width: 30px;
+    height: 30px;
+}
+</style>
+
 @stop('stylesheet')
 
 @section('content')
@@ -172,7 +185,7 @@
                                     
                                     <td class=" pe-0" data-order="Completed">
                                         <!--begin::Badges-->
-                                        <div class="badge badge-light-warning">{{ $item->name1 }}</div>
+                                        <div class="badge badge-light-warning">{{ $item->description }} .</div>
                                         <!--end::Badges-->
                                     </td>
                                     <!--end::Total=-->

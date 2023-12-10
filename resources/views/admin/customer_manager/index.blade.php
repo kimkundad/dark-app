@@ -14,6 +14,9 @@
     width: 30px;
     height: 30px;
 }
+.table.gy-5 td, .table.gy-5 th {
+        font-size: 12px;
+}
 </style>
 
 @stop('stylesheet')

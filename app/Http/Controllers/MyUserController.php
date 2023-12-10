@@ -81,7 +81,7 @@ class MyUserController extends Controller
                     'users.status as status1',
                     'users.created_at as created_ats',
                     'role_user.role_id',
-                    'roles.name as name1',
+                    'roles.description as name1',
                     )
                     ->leftjoin('role_user', 'role_user.user_id',  'users.id')
                     ->leftjoin('roles', 'roles.id',  'role_user.role_id')
@@ -142,7 +142,7 @@ class MyUserController extends Controller
                                         </div>
                                 </div>
                                 <div class="ms-5">
-                                    <a class="text-gray-800 text-hover-primary fs-5 fw-bold">'.$row->names.'</a>
+                                    <a class="text-gray-800 text-hover-primary fw-bold">'.$row->names.'</a>
                                 </div>
                             </div>';
   
