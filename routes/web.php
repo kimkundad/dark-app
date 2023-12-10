@@ -67,9 +67,8 @@ Route::group(['middleware' => ['UserRole:superadmin|admin']], function() {
     Route::post('/admin/add_new_pipeline_edit/{id}', [App\Http\Controllers\CrmLeadListController::class, 'add_new_pipeline_edit']);
     Route::post('/admin/add_timeline_pipeline/{id}', [App\Http\Controllers\CrmLeadListController::class, 'add_timeline_pipeline']);
 
-    Route::get('/admin/lead_import', function () {
-        return view('admin.lead_import.index');
-    });
+    Route::get('/api/del_fileup/{id}', [App\Http\Controllers\LeadImportController::class, 'del_fileup']);
+    Route::get('/admin/lead_import', [App\Http\Controllers\LeadImportController::class, 'lead_import']);
 
     Route::get('/api/get_all_orders', [App\Http\Controllers\CrmLeadListController::class, 'get_all_orders']);
     Route::get('/admin/all_orders', [App\Http\Controllers\CrmLeadListController::class, 'all_orders']);

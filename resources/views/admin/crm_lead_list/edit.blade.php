@@ -65,7 +65,9 @@ ol.stepper li.active::after {
   width: 100vw;
   background: var(--default-b);
 }
-
+.fs-5{
+    font-size:12px !important;
+}
 </style>
 
 @stop('stylesheet')
@@ -137,25 +139,25 @@ ol.stepper li.active::after {
                                 <div class="d-flex justify-content-between">
                                     <div class="card-header" style="padding: 0 ;">
                                         <h3 class="card-title align-items-start flex-column">
-                                            <span class="text-gray-400 mt-1 fw-semibold fs-6">ชื่อ Lead</span>
+                                            <span class="text-gray-400 mt-1 fw-semibold fs-5">ชื่อ Lead</span>
                                             <span class="card-label fw-bold text-dark fs-5">{{ $objs->lead_name }}</span>
                                         </h3>
                                     </div>
                                     <div class="card-header" style="padding: 0 ;">
                                         <h3 class="card-title align-items-start flex-column">
-                                            <span class="text-gray-400 mt-1 fw-semibold fs-6">แหล่ะที่มา</span>
+                                            <span class="text-gray-400 mt-1 fw-semibold fs-5">แหล่ะที่มา</span>
                                             <span class="card-label fw-bold text-dark fs-5">{{ $objs->salename }}</span>
                                         </h3>
                                     </div>
                                     <div class="card-header" style="padding: 0 ;">
                                         <h3 class="card-title align-items-start flex-column"> 
-                                            <span class="text-gray-400 mt-1 fw-semibold fs-6">สร้างเมื่อวันที่</span>
+                                            <span class="text-gray-400 mt-1 fw-semibold fs-5">สร้างเมื่อวันที่</span>
                                             <span class="card-label fw-bold text-dark fs-5">{{ $objs->created_ats }}</span>
                                         </h3>
                                     </div>
                                     <div class="card-header" style="padding: 0 ;">
                                         <h3 class="card-title align-items-start flex-column">
-                                            <span class="text-gray-400 mt-1 fw-semibold fs-6">ดูแลโดย</span>
+                                            <span class="text-gray-400 mt-1 fw-semibold fs-5">ดูแลโดย</span>
                                             <span class="card-label fw-bold text-dark fs-5">{{ $objs->name }}</span>
                                         </h3>
                                         <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_change_upsale" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 " style="margin-top: 20px">
@@ -398,7 +400,7 @@ ol.stepper li.active::after {
                             <div class="card-header pt-5">
                                 <!--begin::Title-->
                                 <h3 class="card-title align-items-start flex-column">
-                                    <span class="card-label fw-bold text-dark fs-6">ข้อมูลลูกค้า</span>
+                                    <span class="card-label fw-bold text-dark fs-5">ข้อมูลลูกค้า</span>
                                 </h3>
                                 <!--end::Title-->
                                 <!--begin::Toolbar-->
@@ -414,7 +416,7 @@ ol.stepper li.active::after {
                                     <!--end::Label-->
                                     <!--begin::Col-->
                                     <div class="col-lg-8">
-                                        <span class="fw-bold fs-6 text-gray-800">{{ $objs->fullname }}</span>
+                                        <span class="fw-bold fs-5 text-gray-800">{{ $objs->fullname }}</span>
                                     </div>
                                     <!--end::Col-->
                                 </div>
@@ -424,7 +426,7 @@ ol.stepper li.active::after {
                                     <!--end::Label-->
                                     <!--begin::Col-->
                                     <div class="col-lg-8">
-                                        <span class="fw-bold fs-6 text-gray-800">{{ $objs->phones }}</span>
+                                        <span class="fw-bold fs-5 text-gray-800">{{ $objs->phones }}</span>
                                     </div>
                                     <!--end::Col-->
                                 </div>
@@ -434,7 +436,7 @@ ol.stepper li.active::after {
                                     <!--end::Label-->
                                     <!--begin::Col-->
                                     <div class="col-lg-8">
-                                        <span class="fw-bold fs-6 text-gray-800">{{ $objs->emails }}</span>
+                                        <span class="fw-bold fs-5 text-gray-800">{{ $objs->emails }}</span>
                                     </div>
                                     <!--end::Col-->
                                 </div>
@@ -444,7 +446,7 @@ ol.stepper li.active::after {
                                     <!--end::Label-->
                                     <!--begin::Col-->
                                     <div class="col-lg-8">
-                                        <span class="fw-bold fs-6 text-gray-800">{{ $objs->addressx }} {{ $objs->Subdistrict }} {{ $objs->district }} {{ $objs->province }} {{ $objs->county }} {{ $objs->zip_code }}</span>
+                                        <span class="fw-bold fs-5 text-gray-800">{{ $objs->addressx }} {{ $objs->Subdistrict }} {{ $objs->district }} {{ $objs->province }} {{ $objs->county }} {{ $objs->zip_code }}</span>
                                     </div>
                                     <!--end::Col-->
                                 </div>
@@ -455,7 +457,7 @@ ol.stepper li.active::after {
                             <div class="card-header pt-5">
                                 <!--begin::Title-->
                                 <h3 class="card-title align-items-start flex-column">
-                                    <span class="card-label fw-bold text-dark fs-6">ประวัติการสั่งซื้อ</span>
+                                    <span class="card-label fw-bold text-dark fs-5">ประวัติการสั่งซื้อ</span>
                                 </h3>
                                 <!--end::Title-->
                                 <!--begin::Toolbar-->
@@ -467,14 +469,14 @@ ol.stepper li.active::after {
                             <div class="card-body py-3">
                                 <div class="table-responsive">
                                     <!--begin::Table-->
-                                    <table class="table table-flush align-middle table-row-bordered table-row-solid gy-4" id="kt_security_license_usage_table">
+                                    <table class="table align-middle table-row-dashed fs-5 gy-5" id="kt_security_license_usage_table">
                                         <!--begin::Thead-->
                                         <thead class="border-gray-200 fs-5 fw-semibold bg-lighten">
                                             <tr>
                                                 <th>เลขที่</th>
-                                                <th>ชื่อสินค้า</th>
+                                                <th class="min-w-100px">ชื่อสินค้า</th>
                                                 <th>ราคา</th>
-                                                <th>วันที่</th>
+                                                <th class="min-w-100px">วันที่</th>
                                                 <th>สถานะ</th>
                                             </tr>
                                         </thead>
@@ -485,22 +487,22 @@ ol.stepper li.active::after {
                                             @foreach($lead_list as $u)
                                             <tr>
                                                 <td class="ps-0">
-                                                    <a href="" data-bs-toggle="modal" data-bs-target="#kt_modal_stacked_{{ $u->id }}" class="text-hover-primary text-gray-600">{{ $u->code_lead_lists }} </a>
+                                                    <a href="" data-bs-toggle="modal" data-bs-target="#kt_modal_stacked_{{ $u->id }}" class="text-hover-primary text-gray-600 fs-5">{{ $u->code_lead_lists }} </a>
                                                 </td>
                                                 <td class="ps-0">
-                                                    <a href="" class="text-hover-primary text-gray-600">{{ $u->pro_name }}</a>
+                                                    <a href="" class="text-hover-primary text-gray-600 fs-5">{{ $u->pro_name }}</a>
                                                 </td>
                                                 <td class="ps-0">
-                                                    <a href="" class="text-hover-primary text-gray-600">{{ number_format($u->sum_price_final,2) }}</a>
+                                                    <a href="" class="text-hover-primary text-gray-600 fs-5">{{ number_format($u->sum_price_final,2) }}</a>
                                                 </td>
                                                 <td class="ps-0">
-                                                    <a href="" class="text-hover-primary text-gray-600">{{ $u->created_ats }}</a>
+                                                    <a href="" class="text-hover-primary text-gray-600 fs-5">{{ $u->created_ats }}</a>
                                                 </td>
                                                 <td class="ps-0">
                                                     @if($u->lead_lists_statusx == 1)
-                                                    <a href="" class="text-hover-primary text-gray-600"><span class="badge badge-light-success fs-7 fw-bold">สำเร็จ</span></a>
+                                                    <a href="" class="text-hover-primary text-gray-600 fs-5"><span class="badge badge-light-success fs-7 fw-bold">สำเร็จ</span></a>
                                                     @else
-                                                    <a href="" class="text-hover-danger text-gray-600"><span class="badge badge-light-danger fs-7 fw-bold">รอยืนยัน</span></a>
+                                                    <a href="" class="text-hover-danger text-gray-600 fs-5"><span class="badge badge-light-danger fs-7 fw-bold">รอยืนยัน</span></a>
                                                     @endif
                                                 </td>
                                             </tr>
@@ -523,55 +525,55 @@ ol.stepper li.active::after {
                                                             <div class="row mb-7">
                                                                 <label class="col-lg-4 fw-semibold text-muted">สถานะคำสั่งซื้อ</label>
                                                                 <div class="col-lg-8">
-                                                                    <span class="fw-bold fs-6 text-gray-800">{{ $u->lead_lists_status_sale }}</span>
+                                                                    <span class="fw-bold fs-5 text-gray-800">{{ $u->lead_lists_status_sale }}</span>
                                                                 </div>
                                                             </div>
                                                             <div class="row mb-7">
                                                                 <label class="col-lg-4 fw-semibold text-muted">การชำระเงิน</label>
                                                                 <div class="col-lg-8">
-                                                                    <span class="fw-bold fs-6 text-gray-800">{{ $u->lead_lists_payment_type }}</span>
+                                                                    <span class="fw-bold fs-5 text-gray-800">{{ $u->lead_lists_payment_type }}</span>
                                                                 </div>
                                                             </div>
                                                             <div class="row mb-7">
                                                                 <label class="col-lg-4 fw-semibold text-muted">สถานะการชำระเงิน</label>
                                                                 <div class="col-lg-8">
-                                                                    <span class="fw-bold fs-6 text-gray-800">{{ $u->lead_lists_payment_status }}</span>
+                                                                    <span class="fw-bold fs-5 text-gray-800">{{ $u->lead_lists_payment_status }}</span>
                                                                 </div>
                                                             </div>
                                                             <div class="row mb-7">
                                                                 <label class="col-lg-4 fw-semibold text-muted">หมายเลขพัสดุ</label>
                                                                 <div class="col-lg-8">
-                                                                    <span class="fw-bold fs-6 text-gray-800">{{ $u->tracking_no }}</span>
+                                                                    <span class="fw-bold fs-5 text-gray-800">{{ $u->tracking_no }}</span>
                                                                 </div>
                                                             </div>
                                                             <div class="row mb-7">
                                                                 <label class="col-lg-4 fw-semibold text-muted">เลขที่ใบแจ้งหนี้</label>
                                                                 <div class="col-lg-8">
-                                                                    <span class="fw-bold fs-6 text-gray-800">{{ $u->invoid_no }}</span>
+                                                                    <span class="fw-bold fs-5 text-gray-800">{{ $u->invoid_no }}</span>
                                                                 </div>
                                                             </div>
                                                             <div class="row mb-7">
                                                                 <label class="col-lg-4 fw-semibold text-muted">จำนวนสินค้า</label>
                                                                 <div class="col-lg-8">
-                                                                    <span class="fw-bold fs-6 text-gray-800">{{ $u->total_sale }}</span>
+                                                                    <span class="fw-bold fs-5 text-gray-800">{{ $u->total_sale }}</span>
                                                                 </div>
                                                             </div>
                                                             <div class="row mb-7">
                                                                 <label class="col-lg-4 fw-semibold text-muted">รวมทั้งสิ้น</label>
                                                                 <div class="col-lg-8">
-                                                                    <span class="fw-bold fs-6 text-gray-800">{{ number_format($u->sum_price_final,2) }}</span>
+                                                                    <span class="fw-bold fs-5 text-gray-800">{{ number_format($u->sum_price_final,2) }}</span>
                                                                 </div>
                                                             </div>
                                                             <div class="row mb-7">
                                                                 <label class="col-lg-4 fw-semibold text-muted">พนักงานขาย</label>
                                                                 <div class="col-lg-8">
-                                                                    <span class="fw-bold fs-6 text-gray-800">{{ $u->sale_employee }}</span>
+                                                                    <span class="fw-bold fs-5 text-gray-800">{{ $u->sale_employee }}</span>
                                                                 </div>
                                                             </div>
                                                             <div class="row mb-7">
                                                                 <label class="col-lg-4 fw-semibold text-muted">พนักงานอัพเซล</label>
                                                                 <div class="col-lg-8">
-                                                                    <span class="fw-bold fs-6 text-gray-800">{{ $u->upsale_name }}</span>
+                                                                    <span class="fw-bold fs-5 text-gray-800">{{ $u->upsale_name }}</span>
                                                                 </div>
                                                             </div>
 
@@ -598,7 +600,7 @@ ol.stepper li.active::after {
                             <div class="card-header pt-5">
                                 <!--begin::Title-->
                                 <h3 class="card-title align-items-start flex-column">
-                                    <span class="card-label fw-bold text-dark fs-6">กำหนดการติดตาม</span>
+                                    <span class="card-label fw-bold text-dark fs-5">กำหนดการติดตาม</span>
                                 </h3>
                                 <!--end::Title-->
                                 <!--begin::Toolbar-->
@@ -623,7 +625,7 @@ ol.stepper li.active::after {
                                             <div class="modal-body">
 
                                                 <div class="d-flex flex-column mb-8">
-                                                    <label class="fs-6 fw-semibold mb-2">คำอธิบาย</label>
+                                                    <label class="fs-5 fw-semibold mb-2">คำอธิบาย</label>
                                                     <textarea class="form-control form-control-solid" rows="3" name="note" placeholder="คำอธิบาย..."></textarea>
                                                     <input type="hidden" name="cus_id" value="{{ $objs->user_id_cus }}" />
                                                     <input type="hidden" name="upsale_idx" value="{{ $objs->upsale_idx }}" />
@@ -672,10 +674,10 @@ ol.stepper li.active::after {
                                         <!--begin::Thead-->
                                         <thead class="border-gray-200 fs-5 fw-semibold bg-lighten">
                                             <tr>
-                                                <th>เลขที่</th>
-                                                <th>แจ้งเตือนวันที่</th>
+                                                <th class="min-w-50px">เลขที่</th>
+                                                <th class="min-w-100px">แจ้งเตือนวันที่</th>
                                                 <th>การติดตาม</th>
-                                                <th>สถานะ</th>
+                                                <th class="min-w-100px">สถานะ</th>
                                                 <th>เพิ่มโดย</th>
                                             </tr>
                                         </thead>

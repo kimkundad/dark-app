@@ -142,7 +142,7 @@
                                     <th class="min-w-175px">วันที่สั่งซื้อ</th>
                                     <th class="min-w-200px">ชื่อลูกค้า</th>
                                     <th class="min-w-100px">เบอร์ติดต่อ</th>
-                                   
+                                
                                     <th class="min-w-175px">พนักงาน sale crm</th>
                                     <th >ชื่อสินค้า</th>
                                     <th class="min-w-100px">สถานะ</th>

@@ -15,14 +15,63 @@ use App\Models\lead_main;
 use App\Models\product;
 use App\Models\follow_pipe;
 use App\Models\sup_pipeline;
+use App\Models\fileup;
+use Auth;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManagerStatic as Image;
+use Illuminate\Support\Facades\DB;
 
 class LeadImportController extends Controller
 {
     //
+
+    public function lead_import(){
+
+        $objs = fileup::select(
+            'fileups.*',
+            'fileups.id as id_q',
+            'fileups.created_at as created_ats',
+            'users.*',
+            )
+            ->leftjoin('users', 'users.id',  'fileups.user_id')
+            ->orderby('fileups.id', 'desc')->paginate(15);
+
+        $objs->setPath('');
+
+        return view('admin.lead_import.index', compact('objs'));
+    }
+
+    public function del_fileup($id){
+
+        $objs = DB::table('fileups')
+            ->where('id', $id)
+            ->first();
+
+            if(isset($objs->file_name)){
+              $file_path = 'import/csv/'.$objs->file_name;
+               unlink($file_path);
+            }
+
+        $obj = fileup::find($id);
+        $obj->delete();
+
+        return redirect(url('admin/lead_import/'))->with('del_success','คุณทำการลบอสังหา สำเร็จ');
+
+    }
+
+
+    public function download($file)
+{
+    $downloadLink = Storage::disk('do_spaces')->url($file);
+
+    // Redirect or return a response with the link
+    return redirect($downloadLink);
+}
+
     public function fileImport(Request $request) 
     {
 
-        $csv = file($request->file);
+            $csv = file($request->file);
             $chunks = array_chunk($csv, 1000);
             $path = resource_path('temp');
             foreach ($chunks as $key => $chunk) {
@@ -33,6 +82,7 @@ class LeadImportController extends Controller
             $files = glob("$path/*.csv");
             $header = [];
             
+            $num = 0;
 
             foreach ($files as $key => $file) {
 
@@ -62,6 +112,8 @@ class LeadImportController extends Controller
                     $check_lead = lead_list::where('name_customer', $sale[4])->where('pro_id', $pro_id)->where('phone_customer', '0'.$sale[5])->where('order_datex', date('Y-m-d', strtotime($sale[47])))->first();
                     
                     if(!$check_lead){
+
+                        $num++;
 
                                 $user = customer_manager::where('fullname', $sale[4])->where('phone', '0'.$sale[5])->first();
                                     
@@ -290,6 +342,21 @@ class LeadImportController extends Controller
                 }
 
                 unlink($file);
+            }
+
+            if($num > 0){
+            $image = $request->file('file');
+
+            $path = 'import/csv/';
+            $filename = time()."-".$image->getClientOriginalName();
+            $image->move($path, $filename);
+
+            $objs = new fileup();
+            $objs->file_name = $filename;
+            $objs->user_id = Auth::user()->id;
+            $objs->success_num = $num;
+            $objs->save();
+
             }
 
             return redirect()->back()->with('success','Data Imported Successfully');
