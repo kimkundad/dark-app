@@ -1,7 +1,7 @@
 @extends('layouts.template')
 
 @section('title')
-<title>แก้ไข ข้อมูลพนักงาน</title>
+<title>สร้าง ข้อมูลพนักงาน</title>
 @stop
 @section('stylesheet')
 
@@ -20,7 +20,7 @@
                     <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                         <!--begin::Title-->
                         <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                            แก้ไข ข้อมูลพนักงาน</h1>
+                            สร้าง ข้อมูลพนักงาน</h1>
                         <!--end::Title-->
                         <!--begin::Breadcrumb-->
                         <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
@@ -35,7 +35,7 @@
                             </li>
                             <!--end::Item-->
                             <!--begin::Item-->
-                            <li class="breadcrumb-item text-muted">แก้ไข ข้อมูลพนักงาน</li>
+                            <li class="breadcrumb-item text-muted">สร้าง ข้อมูลพนักงาน ใหม่</li>
                             <!--end::Item-->
                         </ul>
                         <!--end::Breadcrumb-->
@@ -62,21 +62,13 @@
                                 <div class="row mb-5" data-kt-buttons="true" data-kt-buttons-target=".form-check-image, .form-check-input">
                                     <!--begin::Col-->
                                     <div class="col-3">
-                                        <label class="form-check-image 
-                                        @if ($objs->avatar == '300-2.jpg')
-                                        active
-                                                @endif
-                                                ">
+                                        <label class="form-check-image active">
                                             <div class="form-check-wrapper">
                                                 <img src="{{ url('admin/assets/media/avatars/300-2.jpg') }}"/>
                                             </div>
 
                                             <div class="form-check form-check-custom form-check-solid">
-                                                <input class="form-check-input" type="radio" 
-                                                @if ($objs->avatar == '300-2.jpg')
-                                                    checked
-                                                @endif
-                                                value="300-2.jpg" name="option2"/>
+                                                <input class="form-check-input" type="radio" checked value="300-2.jpg" name="option2"/>
                                                 <div class="form-check-label">
                                                     Avatar 1
                                                 </div>
@@ -87,19 +79,13 @@
 
                                     <!--begin::Col-->
                                     <div class="col-3">
-                                        <label class="form-check-image @if ($objs->avatar == '300-1.jpg')
-                                            active
-                                                    @endif">
+                                        <label class="form-check-image">
                                             <div class="form-check-wrapper">
                                                 <img src="{{ url('admin/assets/media/avatars/300-1.jpg') }}"/>
                                             </div>
 
                                             <div class="form-check form-check-custom form-check-solid me-10">
-                                                <input class="form-check-input" type="radio" value="300-1.jpg" 
-                                                @if ($objs->avatar == '300-1.jpg')
-                                                    checked
-                                                @endif
-                                                 name="option2" id="text_wow"/>
+                                                <input class="form-check-input" type="radio" value="300-1.jpg" name="option2" id="text_wow"/>
                                                 <div class="form-check-label">
                                                     Avatar 2
                                                 </div>
@@ -110,19 +96,13 @@
 
                                     <!--begin::Col-->
                                     <div class="col-3">
-                                        <label class="form-check-image @if ($objs->avatar == '300-16.jpg')
-                                            active
-                                                    @endif">
+                                        <label class="form-check-image">
                                             <div class="form-check-wrapper">
                                                 <img src="{{ url('admin/assets/media/avatars/300-16.jpg') }}"/>
                                             </div>
 
                                             <div class="form-check form-check-custom form-check-solid me-10">
-                                                <input class="form-check-input" type="radio" 
-                                                @if ($objs->avatar == '300-16.jpg')
-                                                    checked
-                                                @endif
-                                                 value="300-16.jpg" name="option2"/>
+                                                <input class="form-check-input" type="radio" value="300-16.jpg" name="option2"/>
                                                 <div class="form-check-label">
                                                     Avatar 3
                                                 </div>
@@ -133,19 +113,13 @@
 
                                     <!--begin::Col-->
                                     <div class="col-3">
-                                        <label class="form-check-image @if ($objs->avatar == '300-9.jpg')
-                                            active
-                                                    @endif">
+                                        <label class="form-check-image">
                                             <div class="form-check-wrapper">
                                                 <img src="{{ url('admin/assets/media/avatars/300-9.jpg') }}"/>
                                             </div>
 
                                             <div class="form-check form-check-custom form-check-solid me-10">
-                                                <input class="form-check-input" type="radio" 
-                                                @if ($objs->avatar == '300-9.jpg')
-                                                    checked
-                                                @endif
-                                                value="300-9.jpg" name="option2"/>
+                                                <input class="form-check-input" type="radio" value="300-9.jpg" name="option2"/>
                                                 <div class="form-check-label">
                                                     Avatar 4
                                                 </div>
@@ -159,12 +133,12 @@
 
                                 <div class="row mb-6">
                                     <!--begin::Label-->
-                                    <label class="col-lg-4 col-form-label required fw-semibold fs-6">UserName </label>
+                                    <label class="col-lg-4 col-form-label required fw-semibold fs-6">ชื่อเข้าใช้งาน</label>
                                     <!--end::Label-->
                                     <!--begin::Col-->
                                     <div class="col-lg-8 fv-row fv-plugins-icon-container">
-                                        <input type="text" name="name" class="form-control form-control-lg form-control-solid" placeholder="Sangsom, Hongthong" value="{{ $objs->name }}">
-                                    
+                                        <input type="text" name="name" class="form-control form-control-lg form-control-solid" placeholder="Sangsom, Hongthong" value="{{old('name') ? old('name') : ''}}">
+                                        <input type="hidden" name="ids" value="{{ $ids }}">
                                         @if ($errors->has('name'))
                                             <div class="fv-plugins-message-container invalid-feedback">
                                                 <div>{{ $errors->first('name') }}</div>
@@ -174,13 +148,14 @@
                                     <!--end::Col-->
                                 </div>
 
+
                                 <div class="row mb-6">
                                     <!--begin::Label-->
                                     <label class="col-lg-4 col-form-label required fw-semibold fs-6">ชื่อ - นามสกุล</label>
                                     <!--end::Label-->
                                     <!--begin::Col-->
                                     <div class="col-lg-8 fv-row fv-plugins-icon-container">
-                                        <input type="text" name="fname" class="form-control form-control-lg form-control-solid" placeholder="ชื่อ - นามสกุล" value="{{ $objs->fname }}">
+                                        <input type="text" name="fname" class="form-control form-control-lg form-control-solid" placeholder="ชื่อ - นามสกุล" value="{{old('fname') ? old('fname') : ''}}">
                                     
                                         @if ($errors->has('fname'))
                                             <div class="fv-plugins-message-container invalid-feedback">
@@ -197,11 +172,12 @@
                                     <!--end::Label-->
                                     <!--begin::Col-->
                                     <div class="col-lg-8 fv-row fv-plugins-icon-container">
-                                        <input type="email" name="email" class="form-control form-control-lg form-control-solid" value="{{ $objs->email }}">
+                                        <input type="email" name="email" class="form-control form-control-lg form-control-solid"  value="{{old('email') ? old('email') : ''}}">
                                     
                                     </div>
                                     <!--end::Col-->
                                 </div>
+
 
                                 <div class="row mb-6">
                                     <!--begin::Label-->
@@ -209,70 +185,18 @@
                                     <!--end::Label-->
                                     <!--begin::Col-->
                                     <div class="col-lg-8 fv-row fv-plugins-icon-container">
-                                        <input type="text" name="phone" class="form-control form-control-lg form-control-solid" placeholder="0958254752" value="{{ $objs->phone }}">
+                                        <input type="text" name="phone" class="form-control form-control-lg form-control-solid" placeholder="0958254752" value="{{old('phone') ? old('phone') : ''}}">
                                     
                                     </div>
                                     <!--end::Col-->
                                 </div>
 
-                                @if(Auth::user()->roles[0]['name'] === 'superadmin')
-                                <div class="row mb-6">
-                                    <!--begin::Label-->
-                                    <label class="col-lg-4 col-form-label fw-semibold fs-6">Role User</label>
-                                    <!--end::Label-->
-                                    <!--begin::Col-->
-                                    <div class="col-lg-8 fv-row fv-plugins-icon-container">
-                                        <select class="form-select" name="role" aria-label="Select example">
-                                            <option> -- กำหนด Role User -- </option>
-                                            @isset($Role)
-                                                @foreach ($Role as $item)
-                                                    <option value="{{ $item->id }}" 
-                                                        @if( $get_role->role_id == $item->id)
-                                                        selected='selected'
-                                                        @endif
-                                                        >{{ $item->description }}</option>
-                                                @endforeach
-                                            @endisset
-                                            
-                                        </select>
-                                        @if ($errors->has('email'))
-                                            <div class="fv-plugins-message-container invalid-feedback">
-                                                <div>กรุณากำหนด Role User</div>
-                                            </div>
-                                        @endif
-                                    </div>
-                                    <!--end::Col-->
-                                </div>
-                                @endif
+                                <input type="hidden" name="role" value="3">
                                 
-
 
                                 <div class="row mb-6">
                                     <!--begin::Label-->
                                     <label class="col-lg-4 col-form-label fw-semibold fs-6">password</label>
-                                    <!--end::Label-->
-                                    <!--begin::Col-->
-                                    <div class="col-lg-8 fv-row fv-plugins-icon-container">
-                                        <div class="input-group">
-                                            <!--begin::Input-->
-                                            <input id="kt_clipboard_1" type="text" class="form-control" placeholder="name@example.com" value="{{ $objs->code_user }}" />
-                                            <!--end::Input-->
-                                
-                                            <!--begin::Button-->
-                                            <a class="btn btn-light-primary" data-clipboard-target="#kt_clipboard_1">
-                                                Copy
-                                            </a>
-                                            <!--end::Button-->
-                                        </div>
-                                    </div>
-                                    <!--end::Col-->
-                                </div>
-                                <br>
-                                <hr>
-                                <br>
-                                <div class="row mb-6">
-                                    <!--begin::Label-->
-                                    <label class="col-lg-4 col-form-label fw-semibold fs-6">กรอกเมื่อจะเปลี่ยน password</label>
                                     <!--end::Label-->
                                     <!--begin::Col-->
                                     <div class="col-lg-8 fv-row fv-plugins-icon-container">
@@ -341,6 +265,7 @@
 <!-- Tempus Dominus Styles -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.7.7/dist/css/tempus-dominus.min.css" crossorigin="anonymous">
 
+
 <script>
     
     new tempusDominus.TempusDominus(document.getElementById("kt_td_picker_custom_icons"), {
@@ -369,37 +294,7 @@
     }
 });
 
-    const target = document.getElementById('kt_clipboard_1');
-const button = target.nextElementSibling;
-
-// Init clipboard -- for more info, please read the offical documentation: https://clipboardjs.com/
-var clipboard = new ClipboardJS(button, {
-    target: target,
-    text: function() {
-        return target.value;
-    }
-});
-
-// Success action handler
-clipboard.on('success', function(e) {
-    const currentLabel = button.innerHTML;
-
-    // Exit label update when already in progress
-    if(button.innerHTML === 'Copied!'){
-        return;
-    }
-
-    // Update button label
-    button.innerHTML = 'Copied!';
-
-    // Revert button label after 3 seconds
-    setTimeout(function(){
-        button.innerHTML = currentLabel;
-    }, 3000)
-});
 </script>
-
-
 
 
 @stop('scripts')

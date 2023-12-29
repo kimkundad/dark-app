@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('end_date')->nullable(); // วันที่หมดอายุ
             $table->text('note')->nullable(); // โน๊ต
             $table->integer('lead_mains_status')->default('0');
+            $table->integer('last_sup_pipeline')->default('0');
             $table->timestamps();
         });
     }

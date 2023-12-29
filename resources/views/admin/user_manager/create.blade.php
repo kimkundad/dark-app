@@ -166,7 +166,17 @@
                                     <!--end::Col-->
                                 </div>
 
-                          
+                                <div class="row mb-6">
+                                    <!--begin::Label-->
+                                    <label class="col-lg-4 col-form-label fw-semibold fs-6">อีเมล</label>
+                                    <!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-8 fv-row fv-plugins-icon-container">
+                                        <input type="email" name="email" class="form-control form-control-lg form-control-solid"  value="{{old('email') ? old('email') : ''}}">
+                                    
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
 
 
                                 <div class="row mb-6">

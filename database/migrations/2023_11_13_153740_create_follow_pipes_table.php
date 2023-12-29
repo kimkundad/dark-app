@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('sub_pipe_id')->default('0');
             $table->integer('user_id_add')->default('0');
             $table->integer('cus_id')->default('0');
+            $table->integer('night_set')->default('0');
             $table->string('date_follow')->nullable();
             $table->text('note')->nullable();
             $table->timestamps();

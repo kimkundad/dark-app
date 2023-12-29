@@ -96,7 +96,7 @@ Route::group(['middleware' => ['UserRole:superadmin|admin']], function() {
     // Route::get('/admin/crm_lead_follow', function () {
     //     return view('admin.crm_lead_follow.index');
     // });
-
+      
     Route::post('/admin/post_new_lead/', [App\Http\Controllers\OrderListController::class, 'post_new_lead']);
     Route::get('/admin/create_lead/', [App\Http\Controllers\OrderListController::class, 'create_lead']);
     Route::post('/admin/post_new_order/{id}', [App\Http\Controllers\OrderListController::class, 'post_new_order']);
@@ -104,10 +104,16 @@ Route::group(['middleware' => ['UserRole:superadmin|admin']], function() {
     
     Route::get('/admin/crm_lead_status', [App\Http\Controllers\CrmLeadListController::class, 'crm_lead_status']);
 
+
+    Route::post('/admin/post_user_employee_create', [App\Http\Controllers\MyUserController::class, 'post_user_employee_create']);
+    Route::get('admin/user_employee_create/{id}', [App\Http\Controllers\MyUserController::class, 'user_employee_create']);
+    Route::get('api/get_employee_manager/{id}', [App\Http\Controllers\MyUserController::class, 'get_employee_manager']);
     Route::get('api/get_user_manager', [App\Http\Controllers\MyUserController::class, 'get_user_manager']);
     Route::resource('/admin/user_manager', MyUserController::class);
     Route::post('/api/api_post_status_MyUser', [App\Http\Controllers\MyUserController::class, 'api_post_status_MyUser']);
     Route::get('api/del_MyUser/{id}', [App\Http\Controllers\MyUserController::class, 'del_MyUser']);
+    Route::get('admin/employee/{id}', [App\Http\Controllers\MyUserController::class, 'employee']);
+
     Route::get('admin/users_search/', [App\Http\Controllers\MyUserController::class, 'users_search']);
 
     Route::get('api/get_customer', [App\Http\Controllers\CustomerController::class, 'get_customer']);
