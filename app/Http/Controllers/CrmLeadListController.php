@@ -21,7 +21,6 @@ use DataTables;
 class CrmLeadListController extends Controller
 {
     //
-
     public function crm_lead_status(){
 
         $objs = User::paginate(15);
@@ -30,9 +29,9 @@ class CrmLeadListController extends Controller
 
                 $count = follow_pipe::where('upsale_idx', $u->id)->count();
                 $u->follow_pipe = $count;
-                $count2 = follow_pipe::where('upsale_idx', $u->id)->where('follow_pipes_status', 1)->count();
+                $count2 = follow_pipe::where('upsale_idx', $u->id)->where('follow_pipes_status', 1)->where('follow_pipes.night_set', 0)->count();
                 $u->following_pipe = $count2;
-                $count3 = follow_pipe::where('upsale_idx', $u->id)->where('follow_pipes_status', 0)->count();
+                $count3 = follow_pipe::where('upsale_idx', $u->id)->where('follow_pipes_status', 0)->where('follow_pipes.night_set', 0)->count();
                 $u->following_piped = $count3;
             }
         }
