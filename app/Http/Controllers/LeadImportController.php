@@ -68,6 +68,15 @@ class LeadImportController extends Controller
     return redirect($downloadLink);
 }
 
+public function cleanData($a) {
+
+
+        $a = floatval(preg_replace('/[^\d.]/', '', $a));
+   
+        return $a;
+
+}
+
     public function fileImport(Request $request) 
     {
 
@@ -111,7 +120,22 @@ class LeadImportController extends Controller
 
                     $check_lead = lead_list::where('name_customer', $sale[4])->where('pro_id', $pro_id)->where('phone_customer', '0'.$sale[5])->where('order_datex', date('Y-m-d', strtotime($sale[47])))->first();
                     
+
+                    $price_pro = $this->cleanData($sale[32]);
+                    $discount_pro = $this->cleanData($sale[34]);
+                    $sum_discount_buy_cus = $this->cleanData($sale[37]);
+                    $sum_price_shipping = $this->cleanData($sale[38]);
+                    $sum_price_cod = $this->cleanData($sale[39]);
+                    $sum_price_final = $this->cleanData($sale[40]);
+                    $sum_tax = $this->cleanData($sale[41]);
+                    $sum_price_final2 = $this->cleanData($sale[42]);
+                    $sum_price_pro = $this->cleanData($sale[35]);
+                    $sum_order_pro = $this->cleanData($sale[36]);
+
+
                     if(!$check_lead){
+
+                    
 
                         $num++;
 
@@ -219,7 +243,6 @@ class LeadImportController extends Controller
                                     $lead_main_id = $lead_main->id;
 
                                 }
-                            // dd($sale);
 
                                     $lead = new lead_list();
                                     $lead->user_id = $user_id;
@@ -237,17 +260,17 @@ class LeadImportController extends Controller
                                     $lead->tracking_no = $sale[21];
                                     $lead->tran_id = $tran_id;
                                     $lead->invoid_no = $sale[13];
-                                    $lead->price_pro = $sale[32];
+                                    $lead->price_pro = $price_pro;
                                     $lead->total_sale = $sale[33];
-                                    $lead->discount_pro = $sale[34];
-                                    $lead->sum_price_pro = $sale[35];
-                                    $lead->sum_order_pro = $sale[36];
-                                    $lead->sum_discount_buy_cus = $sale[37];
-                                    $lead->sum_price_shipping = $sale[38];
-                                    $lead->sum_price_cod = $sale[39];
-                                    $lead->sum_price_final = $sale[40];
-                                    $lead->sum_tax = $sale[41];
-                                    $lead->sum_price_final2 = $sale[42];
+                                    $lead->discount_pro = $discount_pro;
+                                    $lead->sum_price_pro = $sum_price_pro;
+                                    $lead->sum_order_pro = $sum_order_pro;
+                                    $lead->sum_discount_buy_cus = $sum_discount_buy_cus;
+                                    $lead->sum_price_shipping = $sum_price_shipping;
+                                    $lead->sum_price_cod = $sum_price_cod;
+                                    $lead->sum_price_final = $sum_price_final;
+                                    $lead->sum_tax = $sum_tax;
+                                    $lead->sum_price_final2 = $sum_price_final2;
                                     $lead->tag = $sale[43];
                                     $lead->note = $sale[44];
                                     $lead->sale_employee = $sale[45];
@@ -299,6 +322,7 @@ class LeadImportController extends Controller
                         $tran_idx = 7;
                     }
 
+
                     lead_list::where('name_customer', $sale[4])->where('pro_id', $pro_id)->where('phone_customer', '0'.$sale[5])->where('order_datex', date('Y-m-d', strtotime($sale[47])))
                     ->update(
                         [
@@ -312,17 +336,17 @@ class LeadImportController extends Controller
                             'tracking_no' => $sale[21],
                             'tran_id' => $tran_idx,
                             'invoid_no' => $sale[13],
-                            'price_pro' => $sale[32],
+                            'price_pro' => $price_pro,
                             'total_sale' => $sale[33],
-                            'discount_pro' => $sale[34],
-                            'sum_price_pro' => $sale[35],
-                            'sum_order_pro' => $sale[36],
-                            'sum_discount_buy_cus' => $sale[37],
-                            'sum_price_shipping' => $sale[38],
-                            'sum_price_cod' => $sale[39],
-                            'sum_price_final' => $sale[40],
-                            'sum_tax' => $sale[41],
-                            'sum_price_final2' => $sale[42],
+                            'discount_pro' => $discount_pro,
+                            'sum_price_pro' => $sum_price_pro,
+                            'sum_order_pro' => $sum_order_pro,
+                            'sum_discount_buy_cus' => $sum_discount_buy_cus,
+                            'sum_price_shipping' => $sum_price_shipping,
+                            'sum_price_cod' => $sum_price_cod,
+                            'sum_price_final' => $sum_price_final,
+                            'sum_tax' => $sum_tax,
+                            'sum_price_final2' => $sum_price_final2,
                             'tag' => $sale[43],
                             'note' => $sale[44],
                             'sale_employee' => $sale[45],
