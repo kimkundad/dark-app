@@ -105,7 +105,7 @@ public function cleanData($a) {
 
                 foreach ($data as $sale) {
 
-                    if($sale[0] !== ' '){
+                    if($sale[0] !== '' || $sale[1] !== ' '){
 
                     $sup_pipeline_ch = 0;
 
