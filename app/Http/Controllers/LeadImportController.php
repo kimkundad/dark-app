@@ -117,7 +117,7 @@ class LeadImportController extends Controller
 
                                 $user = customer_manager::where('fullname', $sale[4])->where('phone', '0'.$sale[5])->first();
                                     
-                                $sale_contact = sale_contact::where('salename', $sale[1])->first();
+                                $sale_contact = sale_contact::where('salename', $sale[0])->first();
                                     if($sale_contact){
                                         $name_ch = $sale_contact->id;
                                     }else{

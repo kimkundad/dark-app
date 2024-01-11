@@ -12,6 +12,9 @@
     .hidden{
         display: none !important;
     }
+    .dropzone .dz-preview.dz-success .dz-success-mark{
+        color: aqua;
+    }
 </style>
 
 @stop('stylesheet')
