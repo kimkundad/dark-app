@@ -49,10 +49,10 @@ class LoginController extends Controller
      return redirect('/admin/dashboard');
      }
      if($request->user()->hasRole('admin')){
-     return redirect('/admin/dashboard');
+     return redirect('/admin/head_dashboard');
      }
      if($request->user()->hasRole('user')){
-       return redirect('/');
+      return redirect('/admin/employee_dashboard');
      }
 
      //return redirect('/');

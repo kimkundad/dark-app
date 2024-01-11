@@ -554,7 +554,7 @@ class MyUserController extends Controller
     {
         //
 
-        if($id !== '1'){
+        if($id !== '1' || $id !== '5'){
 
             $obj = User::find($id);
             $obj->delete();

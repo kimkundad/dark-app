@@ -6,10 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\lead_list;
 
-class DashboardController extends Controller
+class HeDashboardController extends Controller
 {
     //
-
     public function index(){
       
         $sum_price_final2 = lead_list::sum('sum_price_final2');
@@ -21,8 +20,6 @@ class DashboardController extends Controller
         $sum = lead_list::count();
         $data['sum'] = $sum;
 
-        return view('admin.dashboard.index', $data);
+        return view('admin.head.dashboard.index', $data);
     }
-
-
 }

@@ -18,7 +18,7 @@ use Response;
 use Auth;
 use DataTables;
 
-class CrmLeadListController extends Controller
+class CrmLeadListHeController extends Controller
 {
     //
 
@@ -37,7 +37,7 @@ class CrmLeadListController extends Controller
             }
         }
 
-        return view('admin.crm_lead_status.index', compact('objs'));
+        return view('admin.head.crm_lead_status.index', compact('objs'));
     }
 
     public function crm_order_view($id){
@@ -71,54 +71,28 @@ class CrmLeadListController extends Controller
 
            // dd($objs);
 
-        return view('admin.all_orders.crm_order_view', compact('objs'));
+        return view('admin.head.all_orders.crm_order_view', compact('objs'));
     }
 
     public function view(){
 
-        $count = DB::table('lead_mains')->count();
-        $objs = DB::table('lead_mains')->select(
-            'lead_mains.*',
-            'lead_mains.id as id_q',
-            'lead_mains.user_id as user_id_cus',
-            'lead_mains.created_at as created_ats',
-            'lead_mains.end_date as end_dates',
-            'customer_managers.*',
-            'customer_managers.avatar as avatars',
-            'customer_managers.phone as phones',
-            'customer_managers.address as addressx',
-            'sale_contacts.*',
-            'pipelines.*',
-            'users.*',
-            'sup_pipelines.name as name_sup_pipe',
-            'users.name as names',
-            )
-            ->leftjoin('customer_managers', 'customer_managers.id',  'lead_mains.user_id')
-            ->leftjoin('sale_contacts', 'sale_contacts.id',  'lead_mains.lead_lists_channels')
-            ->leftjoin('pipelines', 'pipelines.id',  'lead_mains.pip_id')
-            ->leftjoin('users', 'users.id',  'lead_mains.upsale_id')
-            ->leftjoin('sup_pipelines', 'sup_pipelines.id',  'lead_mains.last_sup_pipeline')
-            ->where('lead_mains.upsale_id', '!=', 5)
-            ->orderBy('lead_mains.id', 'desc')
-            ->paginate(15);
-
            // dd($objs);
-           
-           $user = User::all();
 
-            $objs->setPath('');
-            $data['objs'] = $objs;
-
-            $pipe = pipeline::get();
+           $myuser = User::where('main_id', Auth::user()->id)->pluck('id')->toArray();
+           $user = User::whereIn('id', $myuser)->get();
+           $pipe = pipeline::get();
             
         
-        return view('admin.crm_lead_list.view', compact('objs', 'count', 'pipe', 'user'));
+        return view('admin.head.crm_lead_list.view', compact( 'pipe', 'user'));
 
     }
 
     public function get_crm_lead_list(Request $request){
 
         if ($request->ajax()) {
+
+            $myuser = User::where('main_id', Auth::user()->id)->pluck('id')->toArray();
+            // $user = User::whereIn('id', $myuser)->get();
 
             $data = lead_main::select(
                 'lead_mains.id as id_q',
@@ -140,7 +114,7 @@ class CrmLeadListController extends Controller
                 ->leftjoin('pipelines', 'pipelines.id',  'lead_mains.pip_id')
                 ->leftjoin('users', 'users.id',  'lead_mains.upsale_id')
                 ->leftjoin('sup_pipelines', 'sup_pipelines.id',  'lead_mains.last_sup_pipeline')
-                ->where('lead_mains.upsale_id', '!=', 5)
+                ->whereIn('lead_mains.upsale_id', $myuser)
                 ->orderBy('lead_mains.id', 'desc');
   
             if ($request->filled('search_name')) {
@@ -172,7 +146,7 @@ class CrmLeadListController extends Controller
                                             </svg>
                                         </span>
                                     </a>
-                                    <a href="'.url('admin/crm_lead_list_view/'.$row->id_q).'" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                    <a href="'.url('admin/crm_lead_list_view_he/'.$row->id_q).'" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
 										<span class="svg-icon svg-icon-3">
 											<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 												<path opacity="0.3" d="M21.4 8.35303L19.241 10.511L13.485 4.755L15.643 2.59595C16.0248 2.21423 16.5426 1.99988 17.0825 1.99988C17.6224 1.99988 18.1402 2.21423 18.522 2.59595L21.4 5.474C21.7817 5.85581 21.9962 6.37355 21.9962 6.91345C21.9962 7.45335 21.7817 7.97122 21.4 8.35303ZM3.68699 21.932L9.88699 19.865L4.13099 14.109L2.06399 20.309C1.98815 20.5354 1.97703 20.7787 2.03189 21.0111C2.08674 21.2436 2.2054 21.4561 2.37449 21.6248C2.54359 21.7934 2.75641 21.9115 2.989 21.9658C3.22158 22.0201 3.4647 22.0084 3.69099 21.932H3.68699Z" fill="currentColor"></path>
@@ -228,7 +202,7 @@ class CrmLeadListController extends Controller
 
         }
 
-        return view('admin.crm_lead_list.view');
+        return view('admin.head.crm_lead_list.view');
 
     }
 
@@ -236,6 +210,9 @@ class CrmLeadListController extends Controller
     public function get_waiting_distribute_crm(Request $request){
 
         if ($request->ajax()) {
+
+            $myuser = User::where('main_id', Auth::user()->id)->pluck('id')->toArray();
+            // $user = User::whereIn('id', $myuser)->get();
 
             $data = lead_main::select(
                 'lead_mains.id as id_q',
@@ -265,7 +242,7 @@ class CrmLeadListController extends Controller
                 ->leftjoin('pipelines', 'pipelines.id',  'lead_mains.pip_id')
                 ->leftjoin('users', 'users.id',  'lead_mains.upsale_id')
                 ->leftjoin('sup_pipelines', 'sup_pipelines.id',  'lead_mains.last_sup_pipeline')
-                ->where('lead_mains.upsale_id', 5)
+                ->where('lead_mains.upsale_id', Auth::user()->id)
                 ->orderBy('lead_mains.id', 'desc');
   
             if ($request->filled('search_name')) {
@@ -297,7 +274,7 @@ class CrmLeadListController extends Controller
                                             </svg>
                                         </span>
                                     </a>
-                                    <a href="'.url('admin/crm_lead_list_view/'.$row->id_q).'" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                    <a href="'.url('admin/crm_lead_list_view_he/'.$row->id_q).'" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
 										<span class="svg-icon svg-icon-3">
 											<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 												<path opacity="0.3" d="M21.4 8.35303L19.241 10.511L13.485 4.755L15.643 2.59595C16.0248 2.21423 16.5426 1.99988 17.0825 1.99988C17.6224 1.99988 18.1402 2.21423 18.522 2.59595L21.4 5.474C21.7817 5.85581 21.9962 6.37355 21.9962 6.91345C21.9962 7.45335 21.7817 7.97122 21.4 8.35303ZM3.68699 21.932L9.88699 19.865L4.13099 14.109L2.06399 20.309C1.98815 20.5354 1.97703 20.7787 2.03189 21.0111C2.08674 21.2436 2.2054 21.4561 2.37449 21.6248C2.54359 21.7934 2.75641 21.9115 2.989 21.9658C3.22158 22.0201 3.4647 22.0084 3.69099 21.932H3.68699Z" fill="currentColor"></path>
@@ -373,32 +350,22 @@ class CrmLeadListController extends Controller
 
         }
 
-        return view('admin.crm_lead_list.view');
+        return view('admin.head.crm_lead_list.view');
 
     }
 
 
     public function waiting_distribute_crm(){
 
-        $count = DB::table('lead_mains')->where('lead_mains.upsale_id', 5)->count();
+        $myuser = User::where('main_id', Auth::user()->id)->pluck('id')->toArray();
+            // $user = User::whereIn('id', $myuser)->get();
 
-            $pipe = pipeline::get();
+        $count = DB::table('lead_mains')->where('lead_mains.upsale_id', Auth::user()->id)->count();
+        $pipe = pipeline::get();
 
-            $user = User::select(
-                'users.*',
-                'users.id as id_q',
-                'users.name as names',
-                'users.status as status1',
-                'users.created_at as created_ats',
-                'role_user.role_id',
-                'roles.description as name1',
-                )
-                ->leftjoin('role_user', 'role_user.user_id',  'users.id')
-                ->leftjoin('roles', 'roles.id',  'role_user.role_id')
-                ->get();
-            
+        $user = User::whereIn('id', $myuser)->get(); 
         
-        return view('admin.waiting_distribute_crm.index', compact( 'count', 'pipe', 'user'));
+        return view('admin.head.waiting_distribute_crm.index', compact( 'count', 'pipe', 'user'));
 
     }
 
@@ -406,6 +373,8 @@ class CrmLeadListController extends Controller
 
         if ($request->ajax()) {
 
+            $myuser = User::where('main_id', Auth::user()->id)->pluck('id')->toArray();
+            // $user = User::whereIn('id', $myuser)->get();
 
             $data = lead_list::select(
                 'lead_lists.id as id_q',
@@ -430,6 +399,7 @@ class CrmLeadListController extends Controller
                 ->leftjoin('transports', 'transports.id',  'lead_lists.tran_id')
                 ->leftjoin('products', 'products.id',  'lead_lists.pro_id')
                 ->leftjoin('users', 'users.id',  'lead_lists.upsale_id')
+                ->whereIn('lead_lists.upsale_id', $myuser)
                 ->orderBy('lead_lists.id', 'desc');
 
             if ($request->filled('search_name')) {
@@ -453,7 +423,7 @@ class CrmLeadListController extends Controller
                         ->addColumn('action', function($row){
 
                                 $btn = '<div class="d-flex">
-                                <a href="'.url('admin/crm_order_view/'.$row->id_q).'" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                <a href="'.url('admin/crm_order_view_he/'.$row->id_q).'" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                 <span class="svg-icon svg-icon-3">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path opacity="0.3" d="M21.4 8.35303L19.241 10.511L13.485 4.755L15.643 2.59595C16.0248 2.21423 16.5426 1.99988 17.0825 1.99988C17.6224 1.99988 18.1402 2.21423 18.522 2.59595L21.4 5.474C21.7817 5.85581 21.9962 6.37355 21.9962 6.91345C21.9962 7.45335 21.7817 7.97122 21.4 8.35303ZM3.68699 21.932L9.88699 19.865L4.13099 14.109L2.06399 20.309C1.98815 20.5354 1.97703 20.7787 2.03189 21.0111C2.08674 21.2436 2.2054 21.4561 2.37449 21.6248C2.54359 21.7934 2.75641 21.9115 2.989 21.9658C3.22158 22.0201 3.4647 22.0084 3.69099 21.932H3.68699Z" fill="currentColor"></path>
@@ -506,7 +476,7 @@ class CrmLeadListController extends Controller
 
         }
 
-        return view('admin.all_orders.index');
+        return view('admin.head.all_orders.index');
 
     }
 
@@ -545,7 +515,7 @@ class CrmLeadListController extends Controller
             $pipe = pipeline::get();
             
         
-        return view('admin.all_orders.index', compact('objs', 'count', 'pipe'));
+        return view('admin.head.all_orders.index', compact('objs', 'count', 'pipe'));
 
     }
 
@@ -624,7 +594,7 @@ class CrmLeadListController extends Controller
 
                 $user = User::all();
 
-        return view('admin.crm_lead_list.edit', compact('objs', 'sup_pipeline', 'pipe', 'lead_list', 'time_line', 'timeline_check', 'follow_pipes', 'user'));
+        return view('admin.head.crm_lead_list.edit', compact('objs', 'sup_pipeline', 'pipe', 'lead_list', 'time_line', 'timeline_check', 'follow_pipes', 'user'));
 
     }
 
@@ -643,19 +613,12 @@ class CrmLeadListController extends Controller
                 lead_list::where('lead_main_id', $request->ids[$i])
                 ->update(['upsale_id' => $request->upsale]);
 
-                $obj = lead_main::where('id', $request->ids[$i])->first();
-
-                customer_manager::where('id', $obj->user_id)
-                ->update(['upsale_id' => $request->upsale]);
-
                 lead_main::where('id', $request->ids[$i])
                 ->update(['upsale_id' => $request->upsale]);
 
-               
-
             }
 
-            return redirect(url('admin/waiting_distribute_crm/'))->with('edit_success','เพิ่ม เสร็จเรียบร้อยแล้ว');
+            return redirect(url('admin/waiting_distribute_crm_he/'))->with('edit_success','เพิ่ม เสร็จเรียบร้อยแล้ว');
 
         }
         
@@ -679,7 +642,7 @@ class CrmLeadListController extends Controller
 
         
 
-        return redirect(url('admin/crm_lead_list_view/'.$id))->with('edit_success','เพิ่ม เสร็จเรียบร้อยแล้ว');
+        return redirect(url('admin/crm_lead_list_he/'))->with('edit_success','เพิ่ม เสร็จเรียบร้อยแล้ว');
     }
 
     public function crm_lead_list_view2($id){
@@ -710,7 +673,7 @@ class CrmLeadListController extends Controller
            // dd($objs);
             $data['objs'] = $objs;
 
-        return view('admin.crm_lead_list.edit', compact('objs'));
+        return view('admin.head.crm_lead_list.edit', compact('objs'));
 
     }
 
@@ -754,7 +717,7 @@ class CrmLeadListController extends Controller
             $obj->save();
            }
 
-           return redirect(url('admin/crm_lead_list_view/'.$id))->with('add_success','เพิ่ม เสร็จเรียบร้อยแล้ว');
+           return redirect(url('admin/crm_lead_list_view_he/'.$id))->with('add_success','เพิ่ม เสร็จเรียบร้อยแล้ว');
 
     }
 
@@ -764,7 +727,7 @@ class CrmLeadListController extends Controller
            $objs->pip_id = $request->pipe_id;
            $objs->save();
 
-           return redirect(url('admin/crm_lead_list_view/'.$id))->with('add_success','เพิ่ม เสร็จเรียบร้อยแล้ว');
+           return redirect(url('admin/crm_lead_list_view_he/'.$id))->with('add_success','เพิ่ม เสร็จเรียบร้อยแล้ว');
     }
 
     public function change_pipe(Request $request){

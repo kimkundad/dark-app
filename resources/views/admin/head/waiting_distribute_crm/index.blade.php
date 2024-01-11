@@ -1,4 +1,4 @@
-@extends('layouts.template')
+@extends('admin.head.layouts.template')
 
 @section('title')
     <title>รายการติดตามทั้งหมด</title>
@@ -62,7 +62,7 @@
                                             <option value="">เลือกแจกจ่ายงาน</option>
                                             @if(isset($user))
                                                 @foreach($user as $u)
-                                                    <option value="{{ $u->id }}">{{ $u->name }} ( {{ $u->name1 }} )</option>
+                                                    <option value="{{ $u->id }}">{{ $u->name }}</option>
                                                 @endforeach
                                             @endif
                                         </select>
@@ -136,7 +136,7 @@
                                     <option value="">ทั้งหมด</option>
                                     @isset($user)
                                     @foreach($user as $u)
-                                    <option value="{{ $u->id }}">{{ $u->name }} </option>
+                                    <option value="{{ $u->id }}">{{ $u->name }}</option>
                                     @endforeach
                                     @endisset
                                 </select>
@@ -467,7 +467,7 @@ $(document).on('click','#btnSendData',function (event) {
 
     if(ids.length && value){
         $.ajax({
-            url: "{{url('admin/change_upsale_id_wait')}}",
+            url: "{{url('admin/change_upsale_id_wait_he')}}",
             type:"POST",
             data:{
                 ids:ids,
@@ -503,7 +503,7 @@ $(document).on('click','#btnSendData',function (event) {
             console.log('value', value);
 
             $.ajax({
-            url: "{{url('admin/change_pipe')}}",
+            url: "{{url('admin/change_pipe_he')}}",
             type:"POST",
             data:{
                 pipe:value,
@@ -546,7 +546,7 @@ $(document).on('click','#btnSendData',function (event) {
           processing: true,
           serverSide: true,
           ajax: {
-              url: "{{ url('api/get_waiting_distribute_crm') }}",
+              url: "{{ url('api/get_waiting_distribute_crm_he') }}",
               data:function (d) {
                   d.search_name = document.getElementById("search_name").value;
                   d.search_end_day = document.getElementById("search_end_day").value;

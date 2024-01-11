@@ -1,4 +1,4 @@
-@extends('layouts.template')
+@extends('admin.employee.layouts.template')
 
 @section('title')
     <title>รายการติดตามทั้งหมด</title>
@@ -11,10 +11,6 @@
     }
     .table.gy-5 td, .table.gy-5 th {
         font-size: 12px;
-}
-.symbol.symbol-50px .symbol-label {
-    width: 30px;
-    height: 30px;
 }
 </style>
 
@@ -32,8 +28,7 @@
                 <!--begin::Page title-->
                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                     <!--begin::Title-->
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">รอแจกจ่าย CRM</h1>
-                    
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">รายการติดตามทั้งหมด</h1>
                     <!--end::Title-->
                 </div>
                 <!--end::Page title-->
@@ -42,41 +37,17 @@
                     <!--begin::Filter menu-->
                     <div class="m-0">
                         <!--begin::Menu toggle-->
-                        <a href="#" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-color-primary fw-bold" >รอจ่ายทั้งหมด {{ number_format($count,0) }}</a>
-                        <div class="modal fade" tabindex="-1" id="kt_modal_change_upsale">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h3 class="modal-title">กดแจกจ่ายงาน</h3>
-                            
-                                        <!--begin::Close-->
-                                        <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
-                                            <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
-                                        </div>
-                                        <!--end::Close-->
-                                    </div>
-                                    <div class="modal-body">
-
-                            
-                                        <select class="form-select" id="ddlViewBy" aria-label="Select example" name="upsale_id">
-                                            <option value="">เลือกแจกจ่ายงาน</option>
-                                            @if(isset($user))
-                                                @foreach($user as $u)
-                                                    <option value="{{ $u->id }}">{{ $u->name }} ( {{ $u->name1 }} )</option>
-                                                @endforeach
-                                            @endif
-                                        </select>
-                                        
-
-                                    </div>
-                            
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">ปิดหน้าต่าง</button>
-                                        <button type="submit" id="btnSendData" class="btn btn-primary">บันทึกข้อมูล</button>
-                                    </div>
-                                </div>
-                            </div>
-                            </div>
+                        <a href="{{ url('admin/create_lead') }}" class="btn btn-sm btn-success btn-flex" >
+                        <!--begin::Svg Icon | path: icons/duotune/general/gen031.svg-->
+                        <span class="svg-icon svg-icon-1">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="5" fill="currentColor"></rect>
+                                                    <rect x="10.8891" y="17.8033" width="12" height="2" rx="1" transform="rotate(-90 10.8891 17.8033)" fill="currentColor"></rect>
+                                                    <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="currentColor"></rect>
+                                                </svg>
+                                            </span>
+<!--end::Svg Icon-->
+                        ติดตามลูกค้าใหม่</a>
                         
                     </div>
                     <!--end::Filter menu-->
@@ -136,7 +107,7 @@
                                     <option value="">ทั้งหมด</option>
                                     @isset($user)
                                     @foreach($user as $u)
-                                    <option value="{{ $u->id }}">{{ $u->name }} </option>
+                                    <option value="{{ $u->id }}">{{ $u->name }}</option>
                                     @endforeach
                                     @endisset
                                 </select>
@@ -150,53 +121,22 @@
                     </div>
                     
                     <div class="card-body pt-0">
-                        <form id="assign-files">
 
-                            <div class="d-flex">
-                            <a data-bs-toggle="modal" data-bs-target="#kt_modal_change_upsale" class="assign btn btn-sm btn-success btn-flex" >
-                                <!--begin::Svg Icon | path: icons/duotune/general/gen031.svg-->
-                                <span class="svg-icon svg-icon-1">
-                                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="5" fill="currentColor"></rect>
-                                                            <rect x="10.8891" y="17.8033" width="12" height="2" rx="1" transform="rotate(-90 10.8891 17.8033)" fill="currentColor"></rect>
-                                                            <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="currentColor"></rect>
-                                                        </svg>
-                                                    </span>
-        <!--end::Svg Icon-->
-                                กดแจกจ่ายงาน</a>
-                                
-                                                </div>
-
-                              
-
-                                
                         <div class="table-responsive">
-
 
                             <table class="table align-middle table-row-dashed fs-6 gy-5 data-table" >
                                 <thead>
                                     <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
-                                        <th class="w-10px pe-2">
-                                            <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
-                                                <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_ecommerce_sales_table .form-check-input" value="1" />
-                                            </div>
-                                        </th>
-                                        <th class=" min-w-100px">เลขที่คำสั่งซื้อ</th>
-                                        <th class=" min-w-100px">ชื่อสินค้า</th>
-                                        <th class=" min-w-100px">รวมทั้งสิน</th>
-                                        <th class="min-w-175px">ชื่อลูกค้า</th>
-                                        <th class="min-w-50px">ช่องทาง</th>
-                                        <th class="min-w-100px">เบอร์ติดต่อ</th>
-                                        <th class=" min-w-100px">โน๊ต</th>
-                                        <th class=" min-w-100px">รหัสสินค้า (SKU)</th>
-                                        <th class=" min-w-100px">ขนส่ง</th>
-                                        <th class=" min-w-100px">การชำระเงิน</th>
-                                        <th class=" min-w-100px">ผู้ดูแล</th>
-                                        <th class=" min-w-100px">Pipeline</th>
-                                        <th class="min-w-100px">สถานะ</th>
-                                        <th class=" min-w-100px">วันหมดอายุ</th>
-                                        <th class="min-w-100px">วันที่สั่งซื้อ</th>
-                                        <th class="min-w-100px">Actions</th>
+                                    <th class="min-w-50px">ลำดับที่</th>
+                                    <th class="min-w-175px">ชื่อลูกค้า</th>
+                                    <th class="min-w-50px">ช่องทาง</th>
+                                    <th class=" min-w-100px">เบอร์ติดต่อ</th>
+                                    <th class=" min-w-100px">ผู้ดูแล</th>
+                                    <th class=" min-w-100px">Pipeline</th>
+                                    <th class=" min-w-100px">สถานะ</th>
+                                    <th class=" min-w-100px">วันหมดอายุ</th>
+                                    <th class=" min-w-100px">สร้างเมื่อ</th>
+                                    <th class="min-w-100px text-end" style="width:140px">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -204,8 +144,8 @@
                             </table>
 
 
-                        <!--begin::Table-->
-                        {{-- <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_sales_table">
+                        {{-- <!--begin::Table-->
+                        <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_sales_table">
                             <!--begin::Table head-->
                             <thead>
                                 <!--begin::Table row-->
@@ -237,7 +177,7 @@
                                     <!--begin::Checkbox-->
                                     <td>
                                         <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                            <input class="messageCheckbox form-check-input" name="translation_document_id[]" id="id_main_lead" type="checkbox" value="{{$u->id_q}}" />
+                                            <input class="form-check-input" type="checkbox" value="1" />
                                         </div>
                                     </td>
                                     <!--end::Checkbox-->
@@ -341,10 +281,9 @@
                                 
                             </tbody>
                             <!--end::Table body-->
-                        </table> --}}
-                        <!--end::Table-->
+                        </table>
+                        <!--end::Table--> --}}
                         </div>
-                        </form>
                         {{-- @include('admin.pagination.default', ['paginator' => $objs]) --}}
                     </div>
                         
@@ -442,47 +381,6 @@
 @section('scripts')
 
 <script >
-var ids = [];
-
-$('body').on('click', 'a.assign', function() {
-    var atLeastOneIsChecked = $('input[name="translation_document_id[]"]:checked');
-    if( atLeastOneIsChecked.length ) {
-        ids = [];
-        var Selected = $(this).parents('form').find('input[name="translation_document_id[]"]:checked');
-        Selected.each(function(pos,element) {
-            ids.push($(this).val());
-        });
-        console.log('ids-->',ids);
-    } else {
-        alert('กรุณาเลือก CRM ที่รอจ่ายด้วย');
-    }
-});
-
-
-$(document).on('click','#btnSendData',function (event) {
-      event.preventDefault();
-
-      var e = document.getElementById("ddlViewBy");
-      var value = e.value;
-
-    if(ids.length && value){
-        $.ajax({
-            url: "{{url('admin/change_upsale_id_wait')}}",
-            type:"POST",
-            data:{
-                ids:ids,
-                upsale:value,
-                _token:'{{ csrf_token() }}',
-            },
-            success:function(response){
-
-                window.location.reload();
-
-            }
-        });
-    }
-      console.log('value-->',value);
-    });
 
     $(document).on('click', '.openModal', function () {
         var id = $(this).data('id');
@@ -503,7 +401,7 @@ $(document).on('click','#btnSendData',function (event) {
             console.log('value', value);
 
             $.ajax({
-            url: "{{url('admin/change_pipe')}}",
+            url: "{{url('admin/change_pipe_em')}}",
             type:"POST",
             data:{
                 pipe:value,
@@ -539,14 +437,14 @@ $(document).on('click','#btnSendData',function (event) {
 
     });
 
-//sum_price_final2
+
     $(function () {
       
       var table = $('.data-table').DataTable({
           processing: true,
           serverSide: true,
           ajax: {
-              url: "{{ url('api/get_waiting_distribute_crm') }}",
+              url: "{{ url('api/get_crm_lead_list_em') }}",
               data:function (d) {
                   d.search_name = document.getElementById("search_name").value;
                   d.search_end_day = document.getElementById("search_end_day").value;
@@ -554,22 +452,17 @@ $(document).on('click','#btnSendData',function (event) {
               }
           },
           columns: [
-              {data: 'check', name: 'check', orderable: false, searchable: false},
-              {data: 'order_id', name: 'order_id'},
-              {data: 'product_name', name: 'product_name'},
-              {data: 'sum_price_final2', name: 'sum_price_final2'},
+            { data: 'id', "render": function(data, type, row, meta){
+            return meta.row + 1; // สร้างลำดับตั้งแต่ 1, 2, 3, …
+            }},
               {data: 'user', name: 'user', orderable: false, searchable: false},
               {data: 'ch', name: 'ch', orderable: false, searchable: false},
               {data: 'phones', name: 'phones'},
-              {data: 'notex', name: 'notex'},
-              {data: 'sku', name: 'sku'},
-              {data: 'tra_name', name: 'tra_name'},
-              {data: 'lead_lists_payment_type', name: 'lead_lists_payment_type'},
               {data: 'names', name: 'names'},
               {data: 'pipe_name', name: 'pipe_name', orderable: false, searchable: false},
               {data: 'name_sup_pipe', name: 'name_sup_pipe'}, 
               {data: 'end_dates', name: 'end_dates'}, 
-              {data: 'order_datex', name: 'order_datex'},
+              {data: 'created_ats', name: 'created_ats'},
               {data: 'action', name: 'action', orderable: false, searchable: false},
           ]
       });
@@ -580,7 +473,6 @@ $(document).on('click','#btnSendData',function (event) {
 
 
     });
-
 </script>
 
 

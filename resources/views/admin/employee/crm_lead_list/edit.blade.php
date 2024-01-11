@@ -1,4 +1,4 @@
-@extends('layouts.template')
+@extends('admin.employee.layouts.template')
 
 @section('title')
     <title>รายการติดตามทั้งหมด</title>
@@ -183,7 +183,7 @@ ol.stepper li.active::after {
                                                         </div>
                                                         <!--end::Close-->
                                                     </div>
-                                                    <form class="form" method="POST" action="{{ url('admin/add_change_upsale/'.$objs->id_q) }}" enctype="multipart/form-data">
+                                                    <form class="form" method="POST" action="{{ url('admin/add_change_upsale_em/'.$objs->id_q) }}" enctype="multipart/form-data">
                                                         {{ csrf_field() }}
                                                     <div class="modal-body">
         
@@ -271,7 +271,7 @@ ol.stepper li.active::after {
                                         <!--end::Alert-->
                                         @endif
 
-                                        <form class="form" method="POST" action="{{ url('admin/add_timeline_pipeline/'.$objs->id_q) }}" enctype="multipart/form-data">
+                                        <form class="form" method="POST" action="{{ url('admin/add_timeline_pipeline_em/'.$objs->id_q) }}" enctype="multipart/form-data">
                                             {{ csrf_field() }}
                                         <div class="d-flex align-items-center">
                                             <!--begin::Author-->
@@ -325,7 +325,7 @@ ol.stepper li.active::after {
                                             <div class="d-flex pt-6">
                                                 <!--begin::Avatar-->
                                                 <div class="symbol symbol-45px me-5">
-                                                    <img src="{{ url('admin/assets/media/avatars/300-3.jpg') }}" alt="" />
+                                                    <img src="{{ url('admin/assets/media/avatars/'.$u->avatar) }}" alt="" />
                                                 </div>
                                                 <!--end::Avatar-->
                                                 <!--begin::Wrapper-->
@@ -462,7 +462,7 @@ ol.stepper li.active::after {
                                 <!--end::Title-->
                                 <!--begin::Toolbar-->
                                 <div class="card-toolbar">
-                                    <a href="{{ url('admin/add_order_list/'.$objs->id_q) }}" class="btn btn-sm btn-light">สร้างคำสั่งซื้อใหม่</a>
+                                    <a href="{{ url('admin/add_order_list_em/'.$objs->id_q) }}" class="btn btn-sm btn-light">สร้างคำสั่งซื้อใหม่</a>
                                 </div>
                                 <!--end::Toolbar-->
                             </div>
@@ -620,7 +620,7 @@ ol.stepper li.active::after {
                                                 </div>
                                                 <!--end::Close-->
                                             </div>
-                                            <form class="form" method="POST" action="{{ url('admin/add_following_pipe/'.$objs->id_q) }}" enctype="multipart/form-data">
+                                            <form class="form" method="POST" action="{{ url('admin/add_following_pipe_em/'.$objs->id_q) }}" enctype="multipart/form-data">
                                                 {{ csrf_field() }}
                                             <div class="modal-body">
 

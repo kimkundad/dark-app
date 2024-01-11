@@ -1,4 +1,4 @@
-@extends('layouts.template')
+@extends('admin.employee.layouts.template')
 
 @section('title')
     <title>แดชบอร์ดด</title>

@@ -13,6 +13,10 @@ use App\Http\Controllers\CrmLeadListController;
 use App\Http\Controllers\crmLeadFollowController;
 use App\Http\Controllers\OrderListController;
 use App\Http\Controllers\TambonController;
+use App\Http\Controllers\PipeLineEmController;
+use App\Http\Controllers\CustomerEmController;
+use App\Http\Controllers\PipeLineHeController;
+use App\Http\Controllers\CustomerHeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,7 +58,96 @@ Route::get('/images/{file}', function ($file) {
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::group(['middleware' => ['UserRole:superadmin|admin']], function() {
+Route::group(['middleware' => ['UserRole:admin']], function() {
+
+  Route::get('/admin/head_dashboard', [App\Http\Controllers\HeDashboardController::class, 'index']);
+  Route::resource('/admin/pipeline_he', PipeLineHeController::class);
+  Route::post('/api/api_post_status_pipeline_he', [App\Http\Controllers\PipeLineHeController::class, 'api_post_status_pipeline']);
+  Route::get('api/del_pipeline_he/{id}', [App\Http\Controllers\PipeLineHeController::class, 'del_pipeline']);
+
+  Route::post('/admin/post_new_lead_he/', [App\Http\Controllers\OrderListHeController::class, 'post_new_lead']);
+  Route::get('/admin/create_lead_he/', [App\Http\Controllers\OrderListHeController::class, 'create_lead']);
+  Route::post('/admin/post_new_order_he/{id}', [App\Http\Controllers\OrderListHeController::class, 'post_new_order']);
+  Route::get('/admin/add_order_list_he/{id}', [App\Http\Controllers\OrderListHeController::class, 'add_order_list']);
+
+  Route::get('/admin/crm_lead_list_he', [App\Http\Controllers\CrmLeadListHeController::class, 'view']);
+  Route::get('/api/get_crm_lead_list_he', [App\Http\Controllers\CrmLeadListHeController::class, 'get_crm_lead_list']);
+  Route::get('/admin/crm_lead_list_view2_he/{id}', [App\Http\Controllers\CrmLeadListHeController::class, 'crm_lead_list_view2']);
+
+    Route::get('/admin/crm_lead_list_view_he/{id}', [App\Http\Controllers\CrmLeadListHeController::class, 'crm_lead_list_view']);
+
+    Route::get('/api/get_all_orders_he', [App\Http\Controllers\CrmLeadListHeController::class, 'get_all_orders']);
+    Route::get('/admin/all_orders_he', [App\Http\Controllers\CrmLeadListHeController::class, 'all_orders']);
+
+    Route::get('/admin/crm_lead_follow_he/', [App\Http\Controllers\crmLeadFollowHeController::class, 'crm_lead_follow']);
+    Route::get('/api/get_crm_lead_follow_he/', [App\Http\Controllers\crmLeadFollowHeController::class, 'get_crm_lead_follow']);
+
+    Route::post('/api/api_post_status_follow_he', [App\Http\Controllers\crmLeadFollowHeController::class, 'api_post_status_follow']);
+    Route::post('/admin/add_following_pipe_he/{id}', [App\Http\Controllers\crmLeadFollowHeController::class, 'add_following_pipe']);
+    Route::get('/admin/crm_lead_follow_he/', [App\Http\Controllers\crmLeadFollowHeController::class, 'crm_lead_follow']);
+    Route::get('/api/get_crm_lead_follow_he/', [App\Http\Controllers\crmLeadFollowHeController::class, 'get_crm_lead_follow']);
+
+    Route::post('/admin/change_pipe_he', [App\Http\Controllers\CrmLeadListHeController::class, 'change_pipe']);
+    Route::post('/admin/add_new_pipeline_edit_he/{id}', [App\Http\Controllers\CrmLeadListHeController::class, 'add_new_pipeline_edit']);
+    Route::post('/admin/add_timeline_pipeline_he/{id}', [App\Http\Controllers\CrmLeadListHeController::class, 'add_timeline_pipeline']);
+
+    Route::get('/admin/crm_order_view_he/{id}', [App\Http\Controllers\CrmLeadListHeController::class, 'crm_order_view']);
+
+    Route::post('/admin/add_change_upsale_he/{id}', [App\Http\Controllers\CrmLeadListHeController::class, 'add_change_upsale']);
+    Route::get('api/get_customer_he', [App\Http\Controllers\CustomerHeController::class, 'get_customer']);
+    Route::resource('/admin/customer_manager_he', CustomerHeController::class);
+    Route::get('admin/customer_manager_his_he/{id}', [App\Http\Controllers\CustomerHeController::class, 'customer_manager_his']);
+    Route::get('api/get_customer_manager_his_he/{id}', [App\Http\Controllers\CustomerHeController::class, 'get_customer_manager_his']);
+
+    Route::get('/admin/waiting_distribute_crm_he', [App\Http\Controllers\CrmLeadListHeController::class, 'waiting_distribute_crm']);
+    Route::get('/api/get_waiting_distribute_crm_he', [App\Http\Controllers\CrmLeadListHeController::class, 'get_waiting_distribute_crm']);
+
+});
+
+Route::group(['middleware' => ['UserRole:user']], function() {
+
+  Route::get('/admin/employee_dashboard', [App\Http\Controllers\EmDashboardController::class, 'index']);
+  Route::resource('/admin/pipeline_em', PipeLineEmController::class);
+  Route::post('/api/api_post_status_pipeline_em', [App\Http\Controllers\PipeLineEmController::class, 'api_post_status_pipeline']);
+  Route::get('api/del_pipeline_em/{id}', [App\Http\Controllers\PipeLineEmController::class, 'del_pipeline']);
+
+  Route::post('/admin/post_new_lead_em/', [App\Http\Controllers\OrderListEmController::class, 'post_new_lead']);
+  Route::get('/admin/create_lead_em/', [App\Http\Controllers\OrderListEmController::class, 'create_lead']);
+  Route::post('/admin/post_new_order_em/{id}', [App\Http\Controllers\OrderListEmController::class, 'post_new_order']);
+  Route::get('/admin/add_order_list_em/{id}', [App\Http\Controllers\OrderListEmController::class, 'add_order_list']);
+
+  Route::get('/admin/crm_lead_list_em', [App\Http\Controllers\CrmLeadListEmController::class, 'view']);
+  Route::get('/api/get_crm_lead_list_em', [App\Http\Controllers\CrmLeadListEmController::class, 'get_crm_lead_list']);
+  Route::get('/admin/crm_lead_list_view2_em/{id}', [App\Http\Controllers\CrmLeadListEmController::class, 'crm_lead_list_view2']);
+
+    Route::get('/admin/crm_lead_list_view_em/{id}', [App\Http\Controllers\CrmLeadListEmController::class, 'crm_lead_list_view']);
+
+    Route::get('/api/get_all_orders_em', [App\Http\Controllers\CrmLeadListEmController::class, 'get_all_orders']);
+    Route::get('/admin/all_orders_em', [App\Http\Controllers\CrmLeadListEmController::class, 'all_orders']);
+
+    Route::get('/admin/crm_lead_follow_em/', [App\Http\Controllers\crmLeadFollowEmController::class, 'crm_lead_follow']);
+    Route::get('/api/get_crm_lead_follow_em/', [App\Http\Controllers\crmLeadFollowEmController::class, 'get_crm_lead_follow']);
+
+    Route::post('/api/api_post_status_follow_em', [App\Http\Controllers\crmLeadFollowEmController::class, 'api_post_status_follow']);
+    Route::post('/admin/add_following_pipe_em/{id}', [App\Http\Controllers\crmLeadFollowEmController::class, 'add_following_pipe']);
+    Route::get('/admin/crm_lead_follow_em/', [App\Http\Controllers\crmLeadFollowEmController::class, 'crm_lead_follow']);
+    Route::get('/api/get_crm_lead_follow_em/', [App\Http\Controllers\crmLeadFollowEmController::class, 'get_crm_lead_follow']);
+
+    Route::post('/admin/change_pipe_em', [App\Http\Controllers\CrmLeadListEmController::class, 'change_pipe']);
+    Route::post('/admin/add_new_pipeline_edit_em/{id}', [App\Http\Controllers\CrmLeadListEmController::class, 'add_new_pipeline_edit']);
+    Route::post('/admin/add_timeline_pipeline_em/{id}', [App\Http\Controllers\CrmLeadListEmController::class, 'add_timeline_pipeline']);
+
+    Route::get('/admin/crm_order_view_em/{id}', [App\Http\Controllers\CrmLeadListEmController::class, 'crm_order_view']);
+
+    Route::post('/admin/add_change_upsale_em/{id}', [App\Http\Controllers\CrmLeadListEmController::class, 'add_change_upsale']);
+    Route::get('api/get_customer_em', [App\Http\Controllers\CustomerEmController::class, 'get_customer']);
+    Route::resource('/admin/customer_manager_em', CustomerEmController::class);
+    Route::get('admin/customer_manager_his_em/{id}', [App\Http\Controllers\CustomerEmController::class, 'customer_manager_his']);
+    Route::get('api/get_customer_manager_his_em/{id}', [App\Http\Controllers\CustomerEmController::class, 'get_customer_manager_his']);
+
+});
+
+Route::group(['middleware' => ['UserRole:superadmin']], function() {
 
     Route::get('/admin/dashboard', [App\Http\Controllers\DashboardController::class, 'index']);
 

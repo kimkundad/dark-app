@@ -21,7 +21,7 @@ use App\Models\customer_manager;
 use Response;
 use Auth;
 
-class OrderListController extends Controller
+class OrderListEmController extends Controller
 {
     //
 
@@ -34,7 +34,7 @@ class OrderListController extends Controller
         $amphoes = Tambon::select('amphoe')->distinct()->get();
         $tambons = Tambon::select('tambon')->distinct()->get();
 
-        return view('admin.create_lead.index', compact('sale_contact', 'pipeline', 'User', 'provinces', 'amphoes', 'tambons'));
+        return view('admin.employee.create_lead.index', compact('sale_contact', 'pipeline', 'User', 'provinces', 'amphoes', 'tambons'));
     }
 
     public function add_order_list($id){
@@ -43,7 +43,7 @@ class OrderListController extends Controller
         $transport = transport::all();
         $lead_main = lead_main::where('id', $id)->first();
 
-        return view('admin.crm_lead_list.order', compact('objs', 'id', 'lead_main', 'transport'));
+        return view('admin.employee.crm_lead_list.order', compact('objs', 'id', 'lead_main', 'transport'));
     }
 
     public function post_new_lead(Request $request){    
@@ -99,7 +99,26 @@ class OrderListController extends Controller
                         $lead_main->end_date = $request['end_date'];
                         $lead_main->save();
 
-                        return redirect(url('admin/crm_lead_list_view/'.$lead_main->id))->with('add_success','เพิ่ม เสร็จเรียบร้อยแล้ว');
+                        $sup_pipeline = sup_pipeline::where('pipe_id', $request['pip_id'])->where('sort', 0)->first();
+
+                        $date_xx = strtotime("+".$sup_pipeline->day." day");
+
+                                            $follow_pipe = new follow_pipe();
+                                            $follow_pipe->read_id = $lead_main->id;
+                                            $follow_pipe->upsale_idx = $request['upsale_id'];
+                                            $follow_pipe->sub_pipe_id = $sup_pipeline->id;
+                                            $follow_pipe->user_id_add = 1;
+                                            $follow_pipe->cus_id = $user_id;
+                                            $follow_pipe->date_follow = date('Y-m-d' ,$date_xx);
+                                            $follow_pipe->note = $sup_pipeline->name;
+                                            $follow_pipe->save();
+
+                                            lead_main::where('id', $lead_main->id)
+                                            ->update([
+                                                'last_sup_pipeline' => $sup_pipeline->id
+                                                ]);
+
+                        return redirect(url('admin/crm_lead_list_view_em/'.$lead_main->id))->with('add_success','เพิ่ม เสร็จเรียบร้อยแล้ว');
 
            }
 
@@ -166,6 +185,6 @@ class OrderListController extends Controller
 
        }
 
-        return redirect(url('admin/crm_lead_list_view/'.$id))->with('add_success','เพิ่ม เสร็จเรียบร้อยแล้ว');
+        return redirect(url('admin/crm_lead_list_view_em/'.$id))->with('add_success','เพิ่ม เสร็จเรียบร้อยแล้ว');
     }
 }
