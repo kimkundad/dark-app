@@ -8,6 +8,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Models\category;
+use App\Models\lead_list;
 use Auth;
 
 class ProductController extends Controller
@@ -36,6 +37,17 @@ class ProductController extends Controller
         return view('admin.product_manager.index', compact('objs'));
     }
 
+    public function add_same_product($name, $price){
+
+        $cat = category::where('status', 1)->get();
+        $data['rand'] = rand(0000000000,9999999999);
+        $data['cat'] = $cat;
+        $data['name'] = $name;
+        $data['price'] = $price;
+        return view('admin.product_manager.add_same_product', $data);
+
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -58,6 +70,58 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function post_same_product(Request $request){
+
+        $this->validate($request, [
+            'pro_name' => 'required',
+            'pro_img' => 'required',
+            'price' => 'required',
+            'tax' => 'required',
+            'total' => 'required',
+            'weight' => 'required'
+        ]);
+
+          $image = $request->file('pro_img');
+          $img = Image::make($image->getRealPath());
+          $img->resize(800, 800, function ($constraint) {
+          $constraint->aspectRatio();
+          });
+        $img->stream();
+        Storage::disk('do_spaces')->put('dark-app/product/'.$image->hashName(), $img, 'public');
+
+           $objs = new product();
+           $objs->pro_name = $request['pro_name'];
+           $objs->pro_img = $image->hashName();
+           $objs->pro_code = $request['pro_code'];
+           $objs->bar_code = $request['bar_code'];
+           $objs->price = $request->filled('price') ? $request->input('price') : 0.0;
+           $objs->cost = $request->filled('cost') ? $request->input('cost') : 0.0;
+           $objs->tax = $request['tax'];
+           $objs->type_product = $request->filled('type_product') ? $request->input('type_product') : 0;
+           $objs->total = $request->filled('total') ? $request->input('total') : 0;
+           $objs->detail = $request['detail'];
+           $objs->cat_id = $request['cat_id'];
+           $objs->weight = $request->filled('weight') ? $request->input('weight') : 0.0;
+           $objs->width = $request->filled('width') ? $request->input('width') : 0.0;
+           $objs->status = $request['status'];
+           $objs->height = $request->filled('height') ? $request->input('height') : 0.0; $request['height'];
+           $objs->pro_length = $request->filled('pro_length') ? $request->input('pro_length') : 0.0;
+           $objs->user_create = Auth::user()->id;
+           $objs->save();
+
+           lead_list::where('product_name', $request['pro_name'])->where('pro_id', 0)
+           ->update(
+               [
+                   'pro_id' => $objs->id,
+               ]
+           );
+
+
+           return redirect(url('admin/product_manager'))->with('add_success','เพิ่ม เสร็จเรียบร้อยแล้ว');
+
+    }
+
+
     public function store(Request $request)
     {
         //

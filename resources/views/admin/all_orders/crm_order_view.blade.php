@@ -91,6 +91,20 @@
 							</div>
 						</div>
 
+						<div class="row mb-7">
+						    <label class="col-lg-4 fw-semibold text-muted">ชื่อสินค้า</label>
+							<div class="col-lg-8">
+								<span class="fw-bold fs-6 text-gray-800">{{ $objs->product_name }}</span>
+							</div>
+						</div>
+
+						<div class="row mb-7">
+						    <label class="col-lg-4 fw-semibold text-muted">สถานะอัพเซล</label>
+							<div class="col-lg-8">
+								<span class="fw-bold fs-6 text-gray-800">{{ $objs->status_upsale }}</span>
+							</div>
+						</div>
+
                         <div class="row mb-7">
 						    <label class="col-lg-4 fw-semibold text-muted">ประเภทคำสั่งซื้อ</label>
 							<div class="col-lg-8">

@@ -422,6 +422,8 @@ class CrmLeadListController extends Controller
                 'transports.transportname',
                 'users.name as names',
                 'products.pro_name',
+                'lead_lists.product_name',
+                'lead_lists.price_pro',
                 )
                 ->leftjoin('customer_managers', 'customer_managers.id',  'lead_lists.user_id')
                 ->leftjoin('sale_contacts', 'sale_contacts.id',  'lead_lists.lead_lists_channels')
@@ -489,7 +491,7 @@ class CrmLeadListController extends Controller
                 })
                 ->addColumn('pro_name', function($row){
                     if($row->pro_idx == 0){
-                        $btn = '<div class="badge badge-light-warning">(ยังไม่มีสินค้าในระบบ)</div>';
+                        $btn = '<div class="badge badge-light-warning"><a href="'.url('admin/add_same_product/'.$row->product_name.'/create/'.$row->price_pro).'">(ยังไม่มีสินค้าในระบบ)</a></div>';
                     }else{
                         $btn = '<div class="badge badge-light-danger">'.$row->pro_name.'</div>';
                     }

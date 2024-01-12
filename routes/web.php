@@ -221,6 +221,9 @@ Route::group(['middleware' => ['UserRole:superadmin']], function() {
     Route::resource('/admin/product_manager', ProductController::class);
     Route::post('/api/api_post_status_product_manager', [App\Http\Controllers\ProductController::class, 'api_post_status_product_manager']);
     Route::get('api/del_product_manager/{id}', [App\Http\Controllers\ProductController::class, 'del_product_manager']);
+    Route::get('admin/add_same_product/{name}/create/{price}', [App\Http\Controllers\ProductController::class, 'add_same_product']);
+    Route::post('/admin/post_same_product', [App\Http\Controllers\ProductController::class, 'post_same_product']);
+    
 
     Route::resource('/admin/category', CategoryController::class);
     Route::post('/api/api_post_status_category', [App\Http\Controllers\CategoryController::class, 'api_post_status_category']);

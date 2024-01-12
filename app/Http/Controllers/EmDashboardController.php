@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\lead_list;
+use Auth;
 
 class EmDashboardController extends Controller
 {
     //
     public function index(){
+
+       // dd(Auth::user()->roles[0]['name']);
       
         $sum_price_final2 = lead_list::sum('sum_price_final2');
         $data['sum_price_final2'] = $sum_price_final2;

@@ -249,6 +249,7 @@ public function cleanData($a) {
                                     $lead->pip_id = $pipeline_id;
                                     $lead->name_customer = $sale[4];
                                     $lead->phone_customer = '0'.$sale[5];
+                                    $lead->status_upsale = $sale[8];
                                     $lead->lead_lists_channels = $name_ch;
                                     $lead->type_sale_lead_lists = $sale[23];
                                     $lead->type_pro_lead_lists = $sale[28]; 
@@ -333,6 +334,7 @@ public function cleanData($a) {
                             'lead_lists_status_sale' => $sale[10],
                             'lead_lists_payment_type' => $sale[11],
                             'lead_lists_payment_status' => $sale[12],
+                            'status_upsale' => $sale[8],
                             'tracking_no' => $sale[21],
                             'tran_id' => $tran_idx,
                             'invoid_no' => $sale[13],

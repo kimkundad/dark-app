@@ -27,7 +27,17 @@ class HomeController extends Controller
     {
 
         if (Auth::check()) {
-            return Redirect::to('admin/dashboard');
+
+            if(Auth::user()->roles[0]['name'] == 'user'){
+                return Redirect::to('admin/employee_dashboard');
+            }
+            if(Auth::user()->roles[0]['name'] == 'admin'){
+                return Redirect::to('admin/head_dashboard');
+            }
+            if(Auth::user()->roles[0]['name'] == 'superadmin'){
+                return Redirect::to('admin/dashboard');
+            }
+            
        } else {
             return view('home');
        }
