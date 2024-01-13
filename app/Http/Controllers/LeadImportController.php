@@ -155,11 +155,11 @@ public function cleanData($a) {
                                     $sup_pipeline = sup_pipeline::where('pipe_id', $pipeline_id)->where('sort', 0)->first();
                                     $sup_pipeline_ch = 1;
                                 // dd($sup_pipeline);
-                                $date_xx = strtotime("+".$sup_pipeline->day." day");
+                                $date_xx = $sup_pipeline->day;
 
                                 }else{
                                     $pipeline_id = 4;
-                                    $date_xx = strtotime("+1 day");
+                                    $date_xx = 1;
                                 }
 
                                 if($sale[9] == '-'){
@@ -306,14 +306,14 @@ public function cleanData($a) {
                                             $follow_pipe->sub_pipe_id = $sup_pipeline->id;
                                             $follow_pipe->user_id_add = 1;
                                             $follow_pipe->cus_id = $user_id;
-                                            $follow_pipe->date_follow = date($lead_main_end_date ,$date_xx);
+                                            $follow_pipe->date_follow = date('Y-m-d' ,strtotime($lead_main_end_date. ' + '.$date_xx.' days'));
                                             $follow_pipe->note = $sup_pipeline->name;
                                             $follow_pipe->save();
 
                                             lead_main::where('id', $lead_main_id)
                                             ->update([
                                                 'last_sup_pipeline' => $sup_pipeline->id,
-                                                'end_date' => date($lead_main_end_date ,$date_xx)
+                                                'end_date' => date('Y-m-d' ,strtotime($lead_main_end_date. ' + '.$date_xx.' days'))
                                                 ]);
 
                                         }
