@@ -84,8 +84,7 @@ Route::group(['middleware' => ['UserRole:admin']], function() {
 
     Route::post('/api/api_post_status_follow_he', [App\Http\Controllers\crmLeadFollowHeController::class, 'api_post_status_follow']);
     Route::post('/admin/add_following_pipe_he/{id}', [App\Http\Controllers\crmLeadFollowHeController::class, 'add_following_pipe']);
-    Route::get('/admin/crm_lead_follow_he/', [App\Http\Controllers\crmLeadFollowHeController::class, 'crm_lead_follow']);
-    Route::get('/api/get_crm_lead_follow_he/', [App\Http\Controllers\crmLeadFollowHeController::class, 'get_crm_lead_follow']);
+    
 
     Route::post('/admin/change_pipe_he', [App\Http\Controllers\CrmLeadListHeController::class, 'change_pipe']);
     Route::post('/admin/add_new_pipeline_edit_he/{id}', [App\Http\Controllers\CrmLeadListHeController::class, 'add_new_pipeline_edit']);

@@ -178,8 +178,8 @@ class crmLeadFollowEmController extends Controller
     {
 
         //
-        $count = follow_pipe::where('follow_pipes_status', 0)->where('follow_pipes.night_set', 0)->count();
-        $count2 = follow_pipe::where('follow_pipes_status', 1)->where('follow_pipes.night_set', 0)->count();
+        $count = follow_pipe::where('follow_pipes_status', 0)->where('follow_pipes.night_set', 0)->where('follow_pipes.upsale_idx', Auth::user()->id)->count();
+        $count2 = follow_pipe::where('follow_pipes_status', 1)->where('follow_pipes.night_set', 0)->where('follow_pipes.upsale_idx', Auth::user()->id)->count();
         $objs = DB::table('follow_pipes')->select(
             'follow_pipes.*',
             'follow_pipes.id as id_f',
