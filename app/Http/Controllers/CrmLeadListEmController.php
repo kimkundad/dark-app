@@ -709,6 +709,8 @@ class CrmLeadListEmController extends Controller
         //dd($data_sup_pipeline);
         //follow_pipe
 
+        $date = strtotime("+".$sup_pipeline->day." day");
+
         follow_pipe::where('read_id', $id)
         ->update(['follow_pipes_status' => 1]);
 
@@ -720,12 +722,15 @@ class CrmLeadListEmController extends Controller
            $objs->note = $request->note;
            $objs->save();
 
+           $lead_main = lead_main::where('id', $id)->first();
+
            lead_main::where('id', $id)
-           ->update(['last_sup_pipeline' => $request->sub_pipe_id]);
+           ->update([
+            'last_sup_pipeline' => $request->sub_pipe_id,
+            'end_date' => date($lead_main->end_date ,$date)
+            ]);
 
            if($data_sup_pipeline){
-
-            $date = strtotime("+".$sup_pipeline->day." day");
 
             $obj = new follow_pipe();
             $obj->user_id_add = Auth::user()->id;
@@ -734,11 +739,11 @@ class CrmLeadListEmController extends Controller
             $obj->sub_pipe_id = $data_sup_pipeline->id;
             $obj->note = $request->note;
             $obj->cus_id = $request->cus_id;
-            $obj->date_follow = date('Y-m-d' ,$date);
+            $obj->date_follow = date($lead_main->end_date ,$date);
             $obj->save();
            }
 
-           return redirect(url('admin/crm_lead_list_view_em/'.$id))->with('add_success','เพิ่ม เสร็จเรียบร้อยแล้ว');
+           return redirect(url('admin/crm_lead_list_view/'.$id))->with('add_success','เพิ่ม เสร็จเรียบร้อยแล้ว');
 
     }
 

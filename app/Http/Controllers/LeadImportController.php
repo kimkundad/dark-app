@@ -159,7 +159,7 @@ public function cleanData($a) {
 
                                 }else{
                                     $pipeline_id = 4;
-                                    $date_xx = strtotime("+3 day");
+                                    $date_xx = strtotime("+1 day");
                                 }
 
                                 if($sale[9] == '-'){
@@ -192,6 +192,7 @@ public function cleanData($a) {
 
                                     if($check_lead_main){
                                         $lead_main_id = $check_lead_main->id;
+                                        $lead_main_end_date = $check_lead_main->end_date;
                                     }else{
 
                                         $lead_main2 = new lead_main();
@@ -200,9 +201,11 @@ public function cleanData($a) {
                                         $lead_main2->pip_id = $pipeline_id;
                                         $lead_main2->lead_lists_channels = $name_ch;
                                         $lead_main2->upsale_id = $upsale_id;
-                                        $lead_main2->end_date = date('Y-m-d' ,$date_xx);
+                                        $lead_main2->end_date = date('Y-m-d', strtotime($sale[47]));
                                         $lead_main2->save();
                                         $lead_main_id = $lead_main2->id;
+
+                                        $lead_main_end_date = $lead_main2->end_date;
 
                                     }
 
@@ -238,9 +241,11 @@ public function cleanData($a) {
                                     $lead_main->pip_id = $pipeline_id;
                                     $lead_main->lead_lists_channels = $name_ch;
                                     $lead_main->upsale_id = $upsale_id;
-                                    $lead_main->end_date = date('Y-m-d' ,$date_xx);
+                                    $lead_main->end_date = date('Y-m-d', strtotime($sale[47]));
                                     $lead_main->save();
                                     $lead_main_id = $lead_main->id;
+
+                                    $lead_main_end_date = $lead_main->end_date;
 
                                 }
 
@@ -307,7 +312,8 @@ public function cleanData($a) {
 
                                             lead_main::where('id', $lead_main_id)
                                             ->update([
-                                                'last_sup_pipeline' => $sup_pipeline->id
+                                                'last_sup_pipeline' => $sup_pipeline->id,
+                                                'end_date' => date($lead_main_end_date ,$date_xx)
                                                 ]);
 
                                         }
