@@ -179,13 +179,17 @@ class PipeLineController extends Controller
     public function del_pipeline($id)
     {
         //
+            if($id !== 4){
 
-            $objs = DB::table('sup_pipelines')
-            ->where('pipe_id', $id)
-            ->delete();
+                $objs = DB::table('sup_pipelines')
+                ->where('pipe_id', $id)
+                ->delete();
+    
+                $obj = pipeline::find($id);
+                $obj->delete();
 
-            $obj = pipeline::find($id);
-            $obj->delete();
+            }
+           
 
             return redirect(url('admin/pipeline/'))->with('del_success','คุณทำการลบอสังหา สำเร็จ');
     }

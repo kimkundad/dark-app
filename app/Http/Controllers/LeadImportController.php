@@ -306,7 +306,7 @@ public function cleanData($a) {
                                             $follow_pipe->sub_pipe_id = $sup_pipeline->id;
                                             $follow_pipe->user_id_add = 1;
                                             $follow_pipe->cus_id = $user_id;
-                                            $follow_pipe->date_follow = date('Y-m-d' ,$date_xx);
+                                            $follow_pipe->date_follow = date($lead_main_end_date ,$date_xx);
                                             $follow_pipe->note = $sup_pipeline->name;
                                             $follow_pipe->save();
 

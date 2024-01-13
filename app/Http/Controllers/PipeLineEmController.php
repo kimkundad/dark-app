@@ -180,12 +180,16 @@ class PipeLineEmController extends Controller
     {
         //
 
+        if($id !== 4){
+
             $objs = DB::table('sup_pipelines')
             ->where('pipe_id', $id)
             ->delete();
 
             $obj = pipeline::find($id);
             $obj->delete();
+
+        }
 
             return redirect(url('admin/pipeline_em/'))->with('del_success','คุณทำการลบอสังหา สำเร็จ');
     }
