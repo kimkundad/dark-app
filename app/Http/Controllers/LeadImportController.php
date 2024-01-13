@@ -295,11 +295,8 @@ public function cleanData($a) {
 
                         
                                     if($sup_pipeline_ch == 1){
-
                                         $check_lead_2 = follow_pipe::where('read_id', $lead_main_id)->count();
-
                                         if($check_lead_2 == 0){
-
                                             $follow_pipe = new follow_pipe();
                                             $follow_pipe->read_id = $lead_main_id;
                                             $follow_pipe->upsale_idx = $upsale_id;
@@ -309,16 +306,15 @@ public function cleanData($a) {
                                             $follow_pipe->date_follow = date('Y-m-d' ,strtotime($lead_main_end_date. ' + '.$date_xx.' days'));
                                             $follow_pipe->note = $sup_pipeline->name;
                                             $follow_pipe->save();
+                                        }
+                                    }
 
-                                            lead_main::where('id', $lead_main_id)
+                                    lead_main::where('id', $lead_main_id)
                                             ->update([
                                                 'last_sup_pipeline' => $sup_pipeline->id,
-                                                'end_date' => date('Y-m-d' ,strtotime($lead_main_end_date. ' + '.$date_xx.' days'))
+                                                'end_date' => date('Y-m-d' ,strtotime($lead_main_end_date. ' + '.$date_xx.' days')),
+                                                'id_lead_list' => $lead->id
                                                 ]);
-
-                                        }
-                                        
-                                    }
 
                 }else{
 

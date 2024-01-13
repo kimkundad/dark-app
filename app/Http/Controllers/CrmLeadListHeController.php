@@ -688,8 +688,6 @@ class CrmLeadListHeController extends Controller
         //dd($data_sup_pipeline);
         //follow_pipe
 
-        $date = strtotime("+".$sup_pipeline->day." day");
-
         follow_pipe::where('read_id', $id)
         ->update(['follow_pipes_status' => 1]);
 
@@ -703,13 +701,14 @@ class CrmLeadListHeController extends Controller
 
            $lead_main = lead_main::where('id', $id)->first();
 
-           lead_main::where('id', $id)
-           ->update([
-            'last_sup_pipeline' => $request->sub_pipe_id,
-            'end_date' => date($lead_main->end_date ,$date)
-            ]);
 
            if($data_sup_pipeline){
+
+            lead_main::where('id', $id)
+           ->update([
+            'last_sup_pipeline' => $request->sub_pipe_id,
+            'end_date' => date('Y-m-d' ,strtotime($lead_main->end_date. ' + '.$data_sup_pipeline->day.' days'))
+            ]);
 
             $obj = new follow_pipe();
             $obj->user_id_add = Auth::user()->id;
@@ -718,7 +717,7 @@ class CrmLeadListHeController extends Controller
             $obj->sub_pipe_id = $data_sup_pipeline->id;
             $obj->note = $request->note;
             $obj->cus_id = $request->cus_id;
-            $obj->date_follow = date($lead_main->end_date ,$date);
+            $obj->date_follow = date('Y-m-d' ,strtotime($lead_main->end_date. ' + '.$data_sup_pipeline->day.' days'));
             $obj->save();
            }
 
