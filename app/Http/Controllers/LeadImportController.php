@@ -306,21 +306,29 @@ public function cleanData($a) {
                                             $follow_pipe->date_follow = date('Y-m-d' ,strtotime($lead_main_end_date. ' + '.$date_xx.' days'));
                                             $follow_pipe->note = $sup_pipeline->name;
                                             $follow_pipe->save();
-
-                                            lead_main::where('id', $lead_main_id)
-                                            ->update([
-                                                'last_sup_pipeline' => $sup_pipeline->id,
-                                                'end_date' => date('Y-m-d' ,strtotime($lead_main_end_date. ' + '.$date_xx.' days')),
-                                                'id_lead_list' => $lead->id
-                                                ]);
                                         }
                                     }
 
-                                    lead_main::where('id', $lead_main_id)
+                                    if($sup_pipeline){
+
+                                        lead_main::where('id', $lead_main_id)
+                                        ->update([
+                                            'last_sup_pipeline' => $sup_pipeline->id,
+                                            'end_date' => date('Y-m-d' ,strtotime($lead_main_end_date. ' + '.$date_xx.' days')),
+                                            'id_lead_list' => $lead->id
+                                            ]);
+
+                                    }else{
+
+                                        lead_main::where('id', $lead_main_id)
                                             ->update([
                                                 'end_date' => date('Y-m-d' ,strtotime($lead_main_end_date. ' + '.$date_xx.' days')),
                                                 'id_lead_list' => $lead->id
                                                 ]);
+
+                                    }
+
+                                    
 
                                     
 
