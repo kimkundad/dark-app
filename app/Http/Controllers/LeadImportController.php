@@ -234,7 +234,7 @@ public function cleanData($a) {
 
                                     $user_id = $objs->id;
 
-                                    
+                                
                                     $lead_main = new lead_main();
                                     $lead_main->lead_name = $sale[4];
                                     $lead_main->user_id = $user_id;
