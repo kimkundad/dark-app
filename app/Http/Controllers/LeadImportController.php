@@ -321,8 +321,7 @@ public function cleanData($a) {
                                                 'end_date' => date('Y-m-d' ,strtotime($lead_main_end_date. ' + '.$date_xx.' days')),
                                                 'id_lead_list' => $lead->id
                                                 ]);
-
-                                    
+     
 
                 }else{
 
