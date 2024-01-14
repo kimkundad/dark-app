@@ -223,14 +223,14 @@ class CrmLeadListEmController extends Controller
                 'pipelines.pipe_name',
                 'sup_pipelines.name as name_sup_pipe',
                 'users.name as names',
-                DB::raw('(select code_lead_lists from lead_lists where lead_main_id = lead_mains.id order by id desc limit 1) as order_id'),
-                DB::raw('(select product_name from lead_lists where lead_main_id = lead_mains.id order by id desc limit 1) as product_name'),
-                DB::raw('(select sum_price_final2 from lead_lists where lead_main_id = lead_mains.id order by id desc limit 1) as sum_price_final2'),
-                DB::raw('(select note from lead_lists where lead_main_id = lead_mains.id order by id desc limit 1) as notex'),
-                DB::raw('(select sku from lead_lists where lead_main_id = lead_mains.id order by id desc limit 1) as sku'),
-                DB::raw('(select tra_name from lead_lists where lead_main_id = lead_mains.id order by id desc limit 1) as tra_name'),
-                DB::raw('(select lead_lists_payment_type from lead_lists where lead_main_id = lead_mains.id order by id desc limit 1) as lead_lists_payment_type'),
-                DB::raw('(select order_datex from lead_lists where lead_main_id = lead_mains.id order by id desc limit 1) as order_datex'),
+                DB::raw('(select code_lead_lists from lead_lists where id = lead_mains.id_lead_list order by id desc limit 1) as order_id'),
+                DB::raw('(select product_name from lead_lists where id = lead_mains.id_lead_list order by id desc limit 1) as product_name'),
+                DB::raw('(select sum_price_final2 from lead_lists where id = lead_mains.id_lead_list order by id desc limit 1) as sum_price_final2'),
+                DB::raw('(select note from lead_lists where id = lead_mains.id_lead_list order by id desc limit 1) as notex'),
+                DB::raw('(select sku from lead_lists where id = lead_mains.id_lead_list order by id desc limit 1) as sku'),
+                DB::raw('(select tra_name from lead_lists where id = lead_mains.id_lead_list order by id desc limit 1) as tra_name'),
+                DB::raw('(select lead_lists_payment_type from lead_lists where id = lead_mains.id_lead_list order by id desc limit 1) as lead_lists_payment_type'),
+                DB::raw('(select order_datex from lead_lists where id = lead_mains.id_lead_list order by id desc limit 1) as order_datex'),
                 )
                 ->leftjoin('customer_managers', 'customer_managers.id',  'lead_mains.user_id')
                 ->leftjoin('sale_contacts', 'sale_contacts.id',  'lead_mains.lead_lists_channels')
@@ -579,7 +579,7 @@ class CrmLeadListEmController extends Controller
                 ->orderBy('lead_lists.id', 'desc')
                 ->get();
 
-            $timeline_check = timeline_pipe::where('lead_main_id', $objs->id_q)->orderBy('id', 'desc')->first();
+            $timeline_check = timeline_pipe::where('lead_main_id', $objs->id_lead_list)->orderBy('id', 'desc')->first();
          
 
             $sup_pipeline = sup_pipeline::where('pipe_id', $objs->id_p)->get();
@@ -597,7 +597,7 @@ class CrmLeadListEmController extends Controller
                 )
                 ->leftjoin('users', 'users.id',  'timeline_pipes.user_id')
                 ->leftjoin('sup_pipelines', 'sup_pipelines.id',  'timeline_pipes.sub_pipe_id')
-                ->where('timeline_pipes.lead_main_id', $objs->id_q)
+                ->where('timeline_pipes.lead_main_id', $objs->id_lead_list)
                 ->orderBy('timeline_pipes.id', 'desc')
                 ->get();
 
@@ -609,7 +609,7 @@ class CrmLeadListEmController extends Controller
                 'users.*',
                 )
                 ->leftjoin('users', 'users.id',  'follow_pipes.user_id_add')
-                ->where('follow_pipes.read_id', $objs->id_q)
+                ->where('follow_pipes.read_id', $objs->id_lead_list)
                 ->orderBy('follow_pipes.id', 'desc')
                 ->get();
 
@@ -618,6 +618,8 @@ class CrmLeadListEmController extends Controller
         return view('admin.employee.crm_lead_list.edit', compact('objs', 'sup_pipeline', 'pipe', 'lead_list', 'time_line', 'timeline_check', 'follow_pipes', 'user'));
 
     }
+
+   
 
     public function change_upsale_id_wait(Request $request){
 
@@ -706,22 +708,19 @@ class CrmLeadListEmController extends Controller
 
         $sup_pipeline = sup_pipeline::where('id', $request->sub_pipe_id)->first();
         $data_sup_pipeline = sup_pipeline::where('id', $sup_pipeline->id+1)->where('sort', $sup_pipeline->sort+1)->first();
-        //dd($data_sup_pipeline);
-        //follow_pipe
+        
+        $lead_main = lead_main::where('id', $id)->first();
 
-        follow_pipe::where('read_id', $id)
+        follow_pipe::where('read_id', $lead_main->id_lead_list)
         ->update(['follow_pipes_status' => 1]);
 
 
            $objs = new timeline_pipe();
            $objs->user_id = Auth::user()->id;
-           $objs->lead_main_id = $id;
+           $objs->lead_main_id = $lead_main->id_lead_list;
            $objs->sub_pipe_id = $request->sub_pipe_id;
            $objs->note = $request->note;
            $objs->save();
-
-           $lead_main = lead_main::where('id', $id)->first();
-
 
            if($data_sup_pipeline){
 
@@ -734,7 +733,7 @@ class CrmLeadListEmController extends Controller
             $obj = new follow_pipe();
             $obj->user_id_add = Auth::user()->id;
             $obj->upsale_idx = $request->upsale_idx;
-            $obj->read_id = $id;
+            $obj->read_id = $lead_main->id_lead_list;
             $obj->sub_pipe_id = $data_sup_pipeline->id;
             $obj->note = $request->note;
             $obj->cus_id = $request->cus_id;
@@ -742,7 +741,7 @@ class CrmLeadListEmController extends Controller
             $obj->save();
            }
 
-           return redirect(url('admin/crm_lead_list_view/'.$id))->with('add_success','เพิ่ม เสร็จเรียบร้อยแล้ว');
+           return redirect(url('admin/crm_lead_list_view_em/'.$id))->with('add_success','เพิ่ม เสร็จเรียบร้อยแล้ว');
 
     }
 

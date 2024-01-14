@@ -285,10 +285,12 @@ class crmLeadFollowController extends Controller
             'sub_pipe_id' => 'required',
         ]);
 
+        $lead_main = lead_main::where('id', $id)->first();
+
             $obj = new follow_pipe();
             $obj->user_id_add = Auth::user()->id;
             $obj->upsale_idx = $request->upsale_idx;
-            $obj->read_id = $id;
+            $obj->read_id = $lead_main->id_lead_list;
             $obj->sub_pipe_id = $request->sub_pipe_id;
             $obj->note = $request->note;
             $obj->cus_id = $request->cus_id;

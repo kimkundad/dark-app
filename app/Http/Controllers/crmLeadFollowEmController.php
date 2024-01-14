@@ -287,19 +287,21 @@ class crmLeadFollowEmController extends Controller
             'sub_pipe_id' => 'required',
         ]);
 
-            $obj = new follow_pipe();
-            $obj->user_id_add = Auth::user()->id;
-            $obj->upsale_idx = Auth::user()->id;
-            $obj->read_id = $id;
-            $obj->sub_pipe_id = $request->sub_pipe_id;
-            $obj->note = $request->note;
-            $obj->cus_id = $request->cus_id;
-            $obj->date_follow = $request->date_follow;
-            $obj->save();
+        $lead_main = lead_main::where('id', $id)->first();
 
-            $objs = lead_main::find($id);
-           $objs->end_date = $request->date_follow;
-           $objs->save();
+        $obj = new follow_pipe();
+        $obj->user_id_add = Auth::user()->id;
+        $obj->upsale_idx = $request->upsale_idx;
+        $obj->read_id = $lead_main->id_lead_list;
+        $obj->sub_pipe_id = $request->sub_pipe_id;
+        $obj->note = $request->note;
+        $obj->cus_id = $request->cus_id;
+        $obj->date_follow = $request->date_follow;
+        $obj->save();
+
+        $objs = lead_main::find($id);
+       $objs->end_date = $request->date_follow;
+       $objs->save();
 
         //
         return redirect(url('admin/crm_lead_list_view_em/'.$id))->with('add_success','เพิ่ม เสร็จเรียบร้อยแล้ว');

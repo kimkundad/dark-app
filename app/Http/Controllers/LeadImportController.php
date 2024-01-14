@@ -295,10 +295,10 @@ public function cleanData($a) {
 
                         
                                     if($sup_pipeline_ch == 1){
-                                        $check_lead_2 = follow_pipe::where('read_id', $lead_main_id)->count();
+                                        $check_lead_2 = follow_pipe::where('read_id', $lead->id)->count();
                                         if($check_lead_2 == 0){
                                             $follow_pipe = new follow_pipe();
-                                            $follow_pipe->read_id = $lead_main_id;
+                                            $follow_pipe->read_id = $lead->id;
                                             $follow_pipe->upsale_idx = $upsale_id;
                                             $follow_pipe->sub_pipe_id = $sup_pipeline->id;
                                             $follow_pipe->user_id_add = 1;
