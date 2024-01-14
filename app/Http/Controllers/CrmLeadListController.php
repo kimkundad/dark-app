@@ -636,23 +636,24 @@ class CrmLeadListController extends Controller
         if(count($request->ids) > 0){
 
             for ($i = 0; $i < count($request->ids); $i++) {
+
+                $objs = lead_main::where('id', $request->ids[$i])->first();
                 
                // dd($request->ids[$i]);
-                follow_pipe::where('read_id', $request->ids[$i])
+                follow_pipe::where('read_id', $objs->id_lead_list)
                 ->update(['upsale_idx' => $request->upsale]);
 
-                lead_list::where('lead_main_id', $request->ids[$i])
+                lead_list::where('id', $objs->id_lead_list)
                 ->update(['upsale_id' => $request->upsale]);
 
-                $obj = lead_main::where('id', $request->ids[$i])->first();
-
-                customer_manager::where('id', $obj->user_id)
+                customer_manager::where('id', $objs->user_id)
                 ->update(['upsale_id' => $request->upsale]);
+
+                timeline_pipe::where('lead_main_id', $objs->id_lead_list)
+                ->update(['user_id' => $request->upsale]);
 
                 lead_main::where('id', $request->ids[$i])
                 ->update(['upsale_id' => $request->upsale]);
-
-               
 
             }
 
@@ -664,15 +665,18 @@ class CrmLeadListController extends Controller
 
     public function add_change_upsale(Request $request, $id){
 
-        follow_pipe::where('read_id', $id)
+        $objs = lead_main::where('id', $id)->first();
+
+        follow_pipe::where('read_id', $objs->id_lead_list)
         ->update(['upsale_idx' => $request->upsale_id]);
 
-        lead_list::where('lead_main_id', $id)
+        timeline_pipe::where('lead_main_id', $objs->id_lead_list)
+                ->update(['user_id' => $request->upsale_id]);
+
+        lead_list::where('id', $objs->id_lead_list)
         ->update(['upsale_id' => $request->upsale_id]);
 
-        $obj = lead_main::where('id', $id)->first();
-
-        customer_manager::where('id', $obj->user_id)
+        customer_manager::where('id', $objs->user_id)
                 ->update(['upsale_id' => $request->upsale_id]);
 
         lead_main::where('id', $id)
@@ -762,18 +766,28 @@ class CrmLeadListController extends Controller
 
     public function add_new_pipeline_edit(Request $request, $id){
 
+        $objs = lead_main::where('id', $id)->first();
+
            $objs = lead_main::find($id);
            $objs->pip_id = $request->pipe_id;
            $objs->save();
+
+           lead_list::where('id', $objs->id_lead_list)
+            ->update(['pip_id' => $request->pipe_id]);
 
            return redirect(url('admin/crm_lead_list_view/'.$id))->with('add_success','เพิ่ม เสร็จเรียบร้อยแล้ว');
     }
 
     public function change_pipe(Request $request){
 
+        $objs = lead_main::where('id', $request->id)->first();
+
            $objs = lead_main::find($request->id);
            $objs->pip_id = $request->pipe;
            $objs->save();
+
+           lead_list::where('id', $objs->id_lead_list)
+            ->update(['pip_id' => $request->pipe_id]);
 
         return response()->json([
             'data' => 'success'

@@ -165,6 +165,9 @@ class OrderListHeController extends Controller
             $obj->phone_customer = $user->phone;
             $obj->save();
 
+            lead_main::where('id', $id)
+                ->update(['id_lead_list' => $obj->id]);
+
 
             // $obj = new lead_list();
             // $obj->user_id = $objs->user_id;

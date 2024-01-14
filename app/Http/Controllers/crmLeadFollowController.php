@@ -35,13 +35,16 @@ class crmLeadFollowController extends Controller
                 'follow_pipes.date_follow',
                 'follow_pipes.night_set',
                 'users.name',
+                'lead_lists.id',
                 'lead_mains.lead_name',
                 'lead_mains.id as id_q',
+                'lead_mains.id_lead_list',
                 'pipelines.pipe_name',
                 'sup_pipelines.name as sub_namex'
                 )
                 ->leftjoin('users', 'users.id',  'follow_pipes.upsale_idx')
-                ->leftjoin('lead_mains', 'lead_mains.id',  'follow_pipes.read_id')
+                ->leftjoin('lead_lists', 'lead_lists.id',  'follow_pipes.read_id')
+                ->leftjoin('lead_mains', 'lead_mains.id_lead_list',  'lead_lists.id')
                 ->leftjoin('sup_pipelines', 'sup_pipelines.id',  'follow_pipes.sub_pipe_id')
                 ->leftjoin('pipelines', 'pipelines.id',  'sup_pipelines.pipe_id')
                 ->where('follow_pipes.night_set', 0)

@@ -314,13 +314,17 @@ public function cleanData($a) {
                                                 'id_lead_list' => $lead->id
                                                 ]);
                                         }
-                                    }
+                                    }else{
 
-                                    lead_main::where('id', $lead_main_id)
+                                        lead_main::where('id', $lead_main_id)
                                             ->update([
                                                 'end_date' => date('Y-m-d' ,strtotime($lead_main_end_date. ' + '.$date_xx.' days')),
                                                 'id_lead_list' => $lead->id
                                                 ]);
+
+                                    }
+
+                                    
      
 
                 }else{
