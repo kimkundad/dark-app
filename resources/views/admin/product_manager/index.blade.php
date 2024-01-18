@@ -183,6 +183,7 @@
                                 <!--end::Table body-->
                             </table>
                             <!--end::Table-->
+                            @include('admin.pagination.default', ['paginator' => $objs])
                         </div>
                     </div>
                 </div>

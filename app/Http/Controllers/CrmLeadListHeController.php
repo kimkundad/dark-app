@@ -758,7 +758,7 @@ class CrmLeadListHeController extends Controller
         $objs->save();
 
         lead_list::where('id', $objs->id_lead_list)
-         ->update(['pip_id' => $request->pipe_id]);
+            ->update(['pip_id' => $request->pipe]);
 
         return response()->json([
             'data' => 'success'
