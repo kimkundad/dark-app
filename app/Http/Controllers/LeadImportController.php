@@ -105,6 +105,8 @@ public function cleanData($a) {
 
                 foreach ($data as $sale) {
 
+                    if($sale[10] !== 'ยกเลิก'){
+
                     if(!empty(trim($sale[0]))){
 
                     $sup_pipeline_ch = 0;
@@ -183,12 +185,7 @@ public function cleanData($a) {
                                     $upsale_id = 5;
                                 }
 
-                                
-
-                                if($user){
-                                    $user_id = $user->id;
-
-                                    $check_lead_main = lead_main::where('user_id', $user->id)->first();
+                                $check_lead_main = lead_main::where('user_id', $user->id)->where('pro_id', $pro_id)->first();
 
                                     if($check_lead_main){
                                         $lead_main_id = $check_lead_main->id;
@@ -201,6 +198,7 @@ public function cleanData($a) {
                                         $lead_main2->pip_id = $pipeline_id;
                                         $lead_main2->lead_lists_channels = $name_ch;
                                         $lead_main2->upsale_id = $upsale_id;
+                                        $lead_main2->pro_id = $pro_id;
                                         $lead_main2->end_date = date('Y-m-d', strtotime($sale[47]));
                                         $lead_main2->save();
                                         $lead_main_id = $lead_main2->id;
@@ -208,6 +206,11 @@ public function cleanData($a) {
                                         $lead_main_end_date = $lead_main2->end_date;
 
                                     }
+
+                                
+
+                                if($user){
+                                    $user_id = $user->id;
 
                                 }else{
 
@@ -235,17 +238,17 @@ public function cleanData($a) {
                                     $user_id = $objs->id;
 
                                 
-                                    $lead_main = new lead_main();
-                                    $lead_main->lead_name = $sale[4];
-                                    $lead_main->user_id = $user_id;
-                                    $lead_main->pip_id = $pipeline_id;
-                                    $lead_main->lead_lists_channels = $name_ch;
-                                    $lead_main->upsale_id = $upsale_id;
-                                    $lead_main->end_date = date('Y-m-d', strtotime($sale[47]));
-                                    $lead_main->save();
-                                    $lead_main_id = $lead_main->id;
+                                    // $lead_main = new lead_main();
+                                    // $lead_main->lead_name = $sale[4];
+                                    // $lead_main->user_id = $user_id;
+                                    // $lead_main->pip_id = $pipeline_id;
+                                    // $lead_main->lead_lists_channels = $name_ch;
+                                    // $lead_main->upsale_id = $upsale_id;
+                                    // $lead_main->end_date = date('Y-m-d', strtotime($sale[47]));
+                                    // $lead_main->save();
+                                    // $lead_main_id = $lead_main->id;
 
-                                    $lead_main_end_date = $lead_main->end_date;
+                                    // $lead_main_end_date = $lead_main->end_date;
 
                                 }
 
@@ -379,6 +382,8 @@ public function cleanData($a) {
                 // end check_lead
             }
                 }
+
+            }
 
                 unlink($file);
             }
