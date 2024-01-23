@@ -185,27 +185,7 @@ public function cleanData($a) {
                                     $upsale_id = 5;
                                 }
 
-                                $check_lead_main = lead_main::where('user_id', $user->id)->where('pro_id', $pro_id)->first();
-
-                                    if($check_lead_main){
-                                        $lead_main_id = $check_lead_main->id;
-                                        $lead_main_end_date = $check_lead_main->end_date;
-                                    }else{
-
-                                        $lead_main2 = new lead_main();
-                                        $lead_main2->lead_name = $sale[4];
-                                        $lead_main2->user_id = $user_id;
-                                        $lead_main2->pip_id = $pipeline_id;
-                                        $lead_main2->lead_lists_channels = $name_ch;
-                                        $lead_main2->upsale_id = $upsale_id;
-                                        $lead_main2->pro_id = $pro_id;
-                                        $lead_main2->end_date = date('Y-m-d', strtotime($sale[47]));
-                                        $lead_main2->save();
-                                        $lead_main_id = $lead_main2->id;
-
-                                        $lead_main_end_date = $lead_main2->end_date;
-
-                                    }
+                                
 
                                 
 
@@ -251,6 +231,29 @@ public function cleanData($a) {
                                     // $lead_main_end_date = $lead_main->end_date;
 
                                 }
+
+
+                                $check_lead_main = lead_main::where('user_id', $user->id)->where('pro_id', $pro_id)->first();
+
+                                    if($check_lead_main){
+                                        $lead_main_id = $check_lead_main->id;
+                                        $lead_main_end_date = $check_lead_main->end_date;
+                                    }else{
+
+                                        $lead_main2 = new lead_main();
+                                        $lead_main2->lead_name = $sale[4];
+                                        $lead_main2->user_id = $user_id;
+                                        $lead_main2->pip_id = $pipeline_id;
+                                        $lead_main2->lead_lists_channels = $name_ch;
+                                        $lead_main2->upsale_id = $upsale_id;
+                                        $lead_main2->pro_id = $pro_id;
+                                        $lead_main2->end_date = date('Y-m-d', strtotime($sale[47]));
+                                        $lead_main2->save();
+                                        $lead_main_id = $lead_main2->id;
+
+                                        $lead_main_end_date = $lead_main2->end_date;
+
+                                    }
 
                                     $lead = new lead_list();
                                     $lead->user_id = $user_id;
