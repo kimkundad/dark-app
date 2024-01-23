@@ -208,6 +208,7 @@ class crmLeadFollowController extends Controller
 
         return view('admin.crm_lead_follow.index', compact('objs', 'count', 'count2', 'user'));
     }
+    
 
     public function api_post_status_follow(Request $request){
 
@@ -221,10 +222,15 @@ class crmLeadFollowController extends Controller
 
               $user->save();
 
+              $count = follow_pipe::where('follow_pipes_status', 0)->where('follow_pipes.night_set', 0)->count();
+            $count2 = follow_pipe::where('follow_pipes_status', 1)->where('follow_pipes.night_set', 0)->count();
+
       return response()->json([
       'data' => [
         'success' => 200,
         'stat' => $user->follow_pipes_status,
+        'count' => $count,
+        'count2' => $count2
       ]
     ]);
 

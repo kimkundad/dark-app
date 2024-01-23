@@ -203,10 +203,18 @@ class crmLeadFollowHeController extends Controller
 
               $user->save();
 
+              $myuser = User::where('main_id', Auth::user()->id)->pluck('id')->toArray();
+            // $user = User::whereIn('id', $myuser)->get();
+
+        $count = follow_pipe::where('follow_pipes_status', 0)->whereIn('upsale_idx', $myuser)->where('follow_pipes.night_set', 0)->count();
+        $count2 = follow_pipe::where('follow_pipes_status', 1)->whereIn('upsale_idx', $myuser)->where('follow_pipes.night_set', 0)->count();
+
       return response()->json([
       'data' => [
         'success' => 200,
         'stat' => $user->follow_pipes_status,
+        'count' => $count,
+        'count2' => $count2
       ]
     ]);
 

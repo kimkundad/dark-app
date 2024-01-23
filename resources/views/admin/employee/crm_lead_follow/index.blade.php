@@ -58,8 +58,8 @@
                     <!--begin::Filter menu-->
                     <div class="m-0">
                         <!--begin::Menu toggle-->
-                        <a href="#" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-color-primary fw-bold" >รอติดตาม {{$count }}</a>
-                        <a href="#" class="btn btn-sm fw-bold btn-primary">ติดตามแล้ว {{ $count2 }}</a>
+                        <a href="#" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-color-primary fw-bold" id="count">รอติดตาม {{$count }}</a>
+                        <a href="#" class="btn btn-sm fw-bold btn-primary" id="count2">ติดตามแล้ว {{ $count2 }}</a>
                     </div>
                 </div>
             </div>
@@ -319,6 +319,9 @@ $("#kt_ecommerce_sales_flatpickr").flatpickr();
                   if(data.data.success === 200){
     
                     console.log('data.success', data.data.stat)
+
+                    $("#count").html('รอติดตาม ' + data.data.count);
+                    $("#count2").html('ติดตามแล้ว ' + data.data.count2);
 
                     Swal.fire({
                         text: "ระบบได้ทำการอัพเดทข้อมูลสำเร็จ!",

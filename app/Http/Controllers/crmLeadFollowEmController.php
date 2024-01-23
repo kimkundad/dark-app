@@ -220,10 +220,15 @@ class crmLeadFollowEmController extends Controller
 
               $user->save();
 
+              $count = follow_pipe::where('follow_pipes_status', 0)->where('follow_pipes.night_set', 0)->where('follow_pipes.upsale_idx', Auth::user()->id)->count();
+              $count2 = follow_pipe::where('follow_pipes_status', 1)->where('follow_pipes.night_set', 0)->where('follow_pipes.upsale_idx', Auth::user()->id)->count();
+
       return response()->json([
       'data' => [
         'success' => 200,
         'stat' => $user->follow_pipes_status,
+        'count' => $count,
+        'count2' => $count2
       ]
     ]);
 
