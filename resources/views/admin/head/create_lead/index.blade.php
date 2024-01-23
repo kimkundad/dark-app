@@ -346,6 +346,23 @@
                             <div class="col-6 mb-10">
                                 <!--begin::Label-->
                             <label class="d-flex align-items-center fs-5 fw-semibold mb-2">
+                                <span class="required">กำหนดสินค้า</span>
+                            </label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <select class="form-select" aria-label="Select example" name="pro_id">
+                                <option>เลือก สินค้า</option>
+                                @if(isset($product))
+                                    @foreach($product as $u)
+                                        <option value="{{ $u->id }}">{{ $u->pro_name }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                            <!--end::Input-->
+                            </div>
+                            <div class="col-6 mb-10">
+                                <!--begin::Label-->
+                            <label class="d-flex align-items-center fs-5 fw-semibold mb-2">
                                 <span class="required">วันที่หมดอายุ</span>
                             </label>
                             <!--end::Label-->

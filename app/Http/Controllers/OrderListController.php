@@ -30,11 +30,12 @@ class OrderListController extends Controller
         $sale_contact = sale_contact::all();
         $pipeline = pipeline::all();
         $User = User::all();
+        $product = product::all();
         $provinces = Tambon::select('province')->distinct()->get();
         $amphoes = Tambon::select('amphoe')->distinct()->get();
         $tambons = Tambon::select('tambon')->distinct()->get();
 
-        return view('admin.create_lead.index', compact('sale_contact', 'pipeline', 'User', 'provinces', 'amphoes', 'tambons'));
+        return view('admin.create_lead.index', compact('sale_contact', 'pipeline', 'User', 'provinces', 'amphoes', 'tambons', 'product'));
     }
 
     public function add_order_list($id){
@@ -54,6 +55,7 @@ class OrderListController extends Controller
             'phone' => 'required',
             'lead_lists_channels' => 'required',
             'pip_id' => 'required',
+            'pro_id' => 'required',
             'upsale_id' => 'required',
             'end_date' => 'required',
             'province' => 'required',
@@ -97,6 +99,7 @@ class OrderListController extends Controller
                         $lead_main->lead_lists_channels =$request['lead_lists_channels'];
                         $lead_main->upsale_id = $request['upsale_id'];
                         $lead_main->end_date = $request['end_date'];
+                        $lead_main->pro_id = $request['pro_id'];
                         $lead_main->save();
 
                         return redirect(url('admin/crm_lead_list_view/'.$lead_main->id))->with('add_success','เพิ่ม เสร็จเรียบร้อยแล้ว');
@@ -120,7 +123,6 @@ class OrderListController extends Controller
         // ]);
 
         $this->validate($request, [
-            'pro_id' => 'required',
             'order_date' => 'required',
         ]);
 
@@ -137,7 +139,7 @@ class OrderListController extends Controller
             $obj->order_datex = $request->order_date;
             $obj->order_date = $request->order_date;
             $obj->lead_lists_channels = $objs->lead_lists_channels;
-            $obj->pro_id = $request->pro_id;
+            $obj->pro_id = $objs->pro_id;
             $obj->lead_main_id = $id;
             $obj->name_customer = $user->fullname;
             $obj->phone_customer = $user->phone;

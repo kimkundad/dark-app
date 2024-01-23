@@ -242,7 +242,6 @@ class CrmLeadListHeController extends Controller
                 ->leftjoin('pipelines', 'pipelines.id',  'lead_mains.pip_id')
                 ->leftjoin('users', 'users.id',  'lead_mains.upsale_id')
                 ->leftjoin('sup_pipelines', 'sup_pipelines.id',  'lead_mains.last_sup_pipeline')
-                ->where('lead_mains.upsale_id', Auth::user()->id)
                 ->orderBy('lead_mains.id', 'desc');
   
             if ($request->filled('search_name')) {
@@ -355,12 +354,14 @@ class CrmLeadListHeController extends Controller
     }
 
 
+
     public function waiting_distribute_crm(){
 
         $myuser = User::where('main_id', Auth::user()->id)->pluck('id')->toArray();
             // $user = User::whereIn('id', $myuser)->get();
 
-        $count = DB::table('lead_mains')->where('lead_mains.upsale_id', Auth::user()->id)->count();
+        // $count = DB::table('lead_mains')->where('lead_mains.upsale_id', Auth::user()->id)->count();
+        $count = DB::table('lead_mains')->where('lead_mains.upsale_id', 5)->count();
         $pipe = pipeline::get();
 
         $user = User::whereIn('id', $myuser)->get(); 

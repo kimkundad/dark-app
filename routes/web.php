@@ -101,6 +101,8 @@ Route::group(['middleware' => ['UserRole:admin']], function() {
     Route::get('/admin/waiting_distribute_crm_he', [App\Http\Controllers\CrmLeadListHeController::class, 'waiting_distribute_crm']);
     Route::get('/api/get_waiting_distribute_crm_he', [App\Http\Controllers\CrmLeadListHeController::class, 'get_waiting_distribute_crm']);
 
+    Route::post('/admin/change_upsale_id_wait_he', [App\Http\Controllers\CrmLeadListHeController::class, 'change_upsale_id_wait']);
+
 });
 
 Route::group(['middleware' => ['UserRole:user']], function() {

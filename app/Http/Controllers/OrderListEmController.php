@@ -30,11 +30,12 @@ class OrderListEmController extends Controller
         $sale_contact = sale_contact::all();
         $pipeline = pipeline::all();
         $User = User::all();
+        $product = product::all();
         $provinces = Tambon::select('province')->distinct()->get();
         $amphoes = Tambon::select('amphoe')->distinct()->get();
         $tambons = Tambon::select('tambon')->distinct()->get();
 
-        return view('admin.employee.create_lead.index', compact('sale_contact', 'pipeline', 'User', 'provinces', 'amphoes', 'tambons'));
+        return view('admin.employee.create_lead.index', compact('sale_contact', 'pipeline', 'User', 'provinces', 'amphoes', 'tambons', 'product'));
     }
 
     public function add_order_list($id){
@@ -139,7 +140,6 @@ class OrderListEmController extends Controller
         // ]);
 
         $this->validate($request, [
-            'pro_id' => 'required',
             'order_date' => 'required',
         ]);
 
@@ -156,7 +156,7 @@ class OrderListEmController extends Controller
             $obj->order_datex = $request->order_date;
             $obj->order_date = $request->order_date;
             $obj->lead_lists_channels = $objs->lead_lists_channels;
-            $obj->pro_id = $request->pro_id;
+            $obj->pro_id = $objs->pro_id;
             $obj->lead_main_id = $id;
             $obj->name_customer = $user->fullname;
             $obj->phone_customer = $user->phone;
