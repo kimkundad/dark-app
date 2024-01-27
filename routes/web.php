@@ -190,6 +190,7 @@ Route::group(['middleware' => ['UserRole:superadmin']], function() {
     // Route::get('/admin/crm_lead_follow', function () {
     //     return view('admin.crm_lead_follow.index');
     // });
+    
       
     Route::post('/admin/post_new_lead/', [App\Http\Controllers\OrderListController::class, 'post_new_lead']);
     Route::get('/admin/create_lead/', [App\Http\Controllers\OrderListController::class, 'create_lead']);
